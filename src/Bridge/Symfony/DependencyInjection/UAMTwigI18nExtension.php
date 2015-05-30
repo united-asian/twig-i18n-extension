@@ -1,6 +1,6 @@
 <?php
 
-namespace UAM\TWig\Extension\I18n\DependencyInjection;
+namespace UAM\Twig\Extension\I18n\Bridge\Symfony\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

@@ -1,0 +1,26 @@
+{
+    "name": "uam/twig-i18n-extension",
+    "description": "Twig i18n extension",
+    "keywords": ["twig", "i18n"],
+    "homepage": "http://gitlab.united-asian.com/uam-private/UAMUserBundle",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Olivier Pichon",
+            "email": "op@united-asian.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "@stable",
+        "symfony/intl": "~2.3"
+    },
+    "autoload": {
+        "psr-4": { "UAM\\Twig\\Extension\\I18n\\": "src/" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}

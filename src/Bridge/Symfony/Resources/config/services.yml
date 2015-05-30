@@ -1,0 +1,5 @@
+services:
+    uam_i18n.twig:
+        class: UAM\Twig\Extension\I18n\I18nExtension
+        tags:
+            - { name: twig.extension }

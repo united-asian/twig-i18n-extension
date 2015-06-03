@@ -6,9 +6,7 @@ The uam/twig-i18n-extension package provides a Twig extension for internationali
 Installation
 ------------
 
-Add the package to your app's `composer.json`:
-
-Add the bundle to your project's `composer.json`:
+Add the package to your project's `composer.json`:
 
 ```json
 {
@@ -19,12 +17,14 @@ Add the bundle to your project's `composer.json`:
 }
 ```
 
-Run `composer install` or `composer update` to install the bundle:
+Run `composer install` or `composer update` to install the package:
 
 ``` bash
 $ php composer.phar update
 ```
 
+Usage
+-----
 Add the extension to the Twig_Environment:
 
 ``` php
@@ -35,9 +35,6 @@ $twig = new Twig_Environment(...);
 $twig->addExtension(new I18nExtension());
 ```
 
-Usage
------
-
 
 Symfony2
 --------
@@ -46,6 +43,7 @@ To use the extension in a symfony2 app, use the built-in `UAMTwigI18nBundle`:
 
 Enable the bundle in your app's Appkernel:
 
+``` php
 # app/AppKernel.php
 class AppKernel extends Kernel
 {

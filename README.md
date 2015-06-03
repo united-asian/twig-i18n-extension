@@ -1,7 +1,7 @@
 UAM Twig I18n Extension
 =======================
 
-The uam/twig-i18n-extension package provides a Twig extension for internationalizing dates, numbers, etc.
+The `uam/twig-i18n-extension` package provides a Twig extension for internationalizing dates, numbers, etc.
 
 Installation
 ------------

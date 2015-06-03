@@ -55,3 +55,5 @@ class AppKernel extends Kernel
             ...
         );
 ```
+
+The bundle will automaticallty register the `UAM\Twig\Extension\I18nExtension` as a twig extension.

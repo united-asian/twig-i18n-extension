@@ -1,6 +1,6 @@
 <?php
 
-use UAM\Bundle\I18nBundle\Formatter\NumberFormatter;
+use UAM\Twig\Extension\I18n\Formatter\NumberFormatter;
 use Symfony\Component\Intl\NumberFormatter\NumberFormatter as IntlNumberFormatter;
 
 class NumberFormatTest extends PHPUnit_Framework_TestCase
@@ -39,7 +39,7 @@ class NumberFormatTest extends PHPUnit_Framework_TestCase
         return $data;
     }
     /**
-     *@dataProvider percentProvider
+     *@dataProvider percentNumberProvider
      */
     public function testFormatPercent($number, $format, $expected)
     {

@@ -1,6 +1,6 @@
 <?php
 
-use UAM\Bundle\I18nBundle\Formatter\DateTimeFormatter as Formatter;
+use UAM\Twig\Extension\I18n\Formatter\DateTimeFormatter as Formatter;
 
 class DateTimeTest extends PHPUnit_Framework_TestCase
 {

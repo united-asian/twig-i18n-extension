@@ -10,13 +10,9 @@ abstract class AbstractFormatterTestCase extends PHPUnit_Framework_TestCase
     protected $locale = 'en';
     protected $formatter;
     protected $intlFormatter;
-    protected $format;
 
     public function setup()
     {
         $this->formatter = new NumberFormatter();
-      
     }
-    
 }
-    

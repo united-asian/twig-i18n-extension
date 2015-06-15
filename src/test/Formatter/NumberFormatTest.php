@@ -1,6 +1,6 @@
 <?php
 
-use UAM\Twig\Extension\I18n\Tests\Formatter\AbstractFormatterTestCase;
+use UAM\Twig\Extension\I18n\test\Formatter\AbstractFormatterTestCase;
 use Symfony\Component\Intl\NumberFormatter\NumberFormatter as IntlNumberFormatter;
 
 class NumberFormatTest extends AbstractFormatterTestCase

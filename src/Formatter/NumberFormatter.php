@@ -7,7 +7,7 @@ use NumberFormatter as BaseNumberFormatter;
 /**
  * Formats numeric values to localized number string.
  */
-class NumberFormatter extends Formatter
+class NumberFormatter extends AbstractFormatter
 {
     public function formatNumber($number, $locale = null)
     {

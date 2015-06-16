@@ -7,6 +7,7 @@ use PHPUnit_Framework_TestCase;
 abstract class AbstractFormatterTestCase extends PHPUnit_Framework_TestCase
 {
     protected $locale;
+    protected $style;
     protected $formatter;
     protected $intlFormatter;
 
@@ -14,8 +15,8 @@ abstract class AbstractFormatterTestCase extends PHPUnit_Framework_TestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->intlFormatter = $this->getIntlFormatter();
         $this->locale = $this->getLocale();
+        $this->intlFormatter = $this->getIntlFormatter();
     }
 
     public function setup()

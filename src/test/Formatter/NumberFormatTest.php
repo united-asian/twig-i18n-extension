@@ -1,7 +1,8 @@
 <?php
 
-use UAM\Twig\Extension\I18n\test\Formatter\AbstractFormatterTestCase;
 use Symfony\Component\Intl\NumberFormatter\NumberFormatter as IntlNumberFormatter;
+use UAM\Twig\Extension\I18n\Formatter\NumberFormatter;
+use UAM\Twig\Extension\I18n\test\Formatter\AbstractFormatterTestCase;
 
 class NumberFormatTest extends AbstractFormatterTestCase
 {
@@ -16,8 +17,6 @@ class NumberFormatTest extends AbstractFormatterTestCase
 
     public function numberProvider()
     {
-        $this->intlFormatter = new IntlNumberFormatter($this->locale, IntlNumberFormatter::DECIMAL);
-
         $data = array();
 
         for ($i = 1; $i <= 10; $i++) {
@@ -30,6 +29,7 @@ class NumberFormatTest extends AbstractFormatterTestCase
 
         return $data;
     }
+
     /**
      *@dataProvider percentNumberProvider
      */
@@ -41,8 +41,6 @@ class NumberFormatTest extends AbstractFormatterTestCase
 
     public function percentNumberProvider()
     {
-        $this->intlFormatter = new IntlNumberFormatter($this->locale, IntlNumberFormatter::DECIMAL);
-
         $data = array();
 
         for ($i = 0; $i <= 10; $i++) {
@@ -51,9 +49,24 @@ class NumberFormatTest extends AbstractFormatterTestCase
             $number = $exponent * $random_number;
             $percent_value = $number * 100;
             $expected = $this->intlFormatter->format($percent_value).'%';
-            $data[] = array($number, $this->locale, $expected);
+            $data[] = array($number,$this->locale, $expected);
         }
 
         return $data;
+    }
+
+    protected function getFormatter()
+    {
+        return new NumberFormatter();
+    }
+
+    protected function getIntlFormatter()
+    {
+        return new IntlNumberFormatter('en', IntlNumberFormatter::DECIMAL);
+    }
+
+    protected function getLocale()
+    {
+        return ('en');
     }
 }

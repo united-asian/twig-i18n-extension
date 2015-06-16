@@ -28,7 +28,7 @@ abstract class AbstractFormatterTestCase extends PHPUnit_Framework_TestCase
     public function testgetLocale()
     {
         $this->assertEquals('en', $this->formatter->getLocale('en'));
-        $this->assertEquals(Locale::getDefault(), $this->formatter->getLocale('en'));
+        $this->assertEquals(Locale::getDefault(), $this->formatter->getLocale());
     }
 
     abstract protected function getFormatter();

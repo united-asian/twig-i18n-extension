@@ -3,6 +3,7 @@
 namespace UAM\Twig\Extension\I18n\test\Formatter;
 
 use PHPUnit_Framework_TestCase;
+use Symfony\Component\Intl\Locale\Locale;
 
 abstract class AbstractFormatterTestCase extends PHPUnit_Framework_TestCase
 {
@@ -22,6 +23,12 @@ abstract class AbstractFormatterTestCase extends PHPUnit_Framework_TestCase
     public function setup()
     {
         $this->formatter = $this->getFormatter();
+    }
+
+    public function testgetLocale()
+    {
+        $this->assertEquals('en', $this->formatter->getLocale('en'));
+        $this->assertEquals(Locale::getDefault(), $this->formatter->getLocale('en'));
     }
 
     abstract protected function getFormatter();

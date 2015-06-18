@@ -2,37 +2,49 @@
 
 namespace UAM\Twig\Extension\I18n\test\Formatter;
 
+use UAM\Twig\Extension\I18n\Formatter\CountryFormatter;
 use UAM\Twig\Extension\I18n\test\Formatter\AbstractFormatterTestCase;
+use Symfony\Component\Intl\Intl;
 
 class CountryFormatterTest extends AbstractFormatterTestCase
 {
+    /**
+     *@dataProvider CountryProvider
+     */
+    public function testFormatCountry($country, $expected) {
 
-    public function testFormatCountry($country, $format, $expected) {
-
-         $formatted = $this->formatter->formatCountry($country, $format);
+         $formatted = $this->formatter->formatCountry($country, $this->locale);
          $this->assertEquals($expected, $formatted);
     }
 
     public function countryProvider()
     {
-        $data = array();
+        $countries = $this->intlFormatter->getCountryNames($this->locale);
 
-        for ($i = 1; $i <= 10; $i++) {
+        foreach($countries as $id => $name) {
+            $country =  $id;
 
+            $expected = $name;
+
+            $data[] = array($country, $expected);
+            $data[] = array(strtolower($country), $expected);
         }
 
         return $data;
     }
 
-    protected function getFormatter() {
-
+    protected function getFormatter()
+    {
+        return new CountryFormatter();
     }
 
-    protected function getIntlFormatter() {
-
+    protected function getIntlFormatter()
+    {
+        return Intl::getRegionBundle();
     }
 
-    protected function getLocale() {
-
+    protected function getLocale()
+    {
+        return ('en');
     }
 }

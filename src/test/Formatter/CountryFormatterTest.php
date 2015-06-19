@@ -26,7 +26,6 @@ class CountryFormatterTest extends AbstractFormatterTestCase
 
             $expected = $name;
 
-            $data[] = array($country, $expected);
             $data[] = array(strtolower($country), $expected);
         }
 
@@ -43,8 +42,18 @@ class CountryFormatterTest extends AbstractFormatterTestCase
         return Intl::getRegionBundle();
     }
 
-    protected function getLocale()
+    protected function getEnLocale()
     {
         return ('en');
+    }
+
+    protected function getFrLocale()
+    {
+        return ('fr');
+    }
+
+    protected function getLocale()
+    {
+        return ('');
     }
 }

@@ -16,7 +16,7 @@ abstract class AbstractFormatterTestCase extends PHPUnit_Framework_TestCase
     {
         parent::__construct($name, $data, $dataName);
 
-        $this->locale = $this->getLocale();
+        $this->locale = $this->getEnLocale();
         $this->intlFormatter = $this->getIntlFormatter();
     }
 
@@ -33,5 +33,7 @@ abstract class AbstractFormatterTestCase extends PHPUnit_Framework_TestCase
 
     abstract protected function getFormatter();
     abstract protected function getIntlFormatter();
+    abstract protected function getEnLocale();
+    abstract protected function getFrLocale();
     abstract protected function getLocale();
 }

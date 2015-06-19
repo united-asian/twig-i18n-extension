@@ -42,18 +42,8 @@ class CountryFormatterTest extends AbstractFormatterTestCase
         return Intl::getRegionBundle();
     }
 
-    protected function getEnLocale()
-    {
-        return ('en');
-    }
-
-    protected function getFrLocale()
-    {
-        return ('fr');
-    }
-
     protected function getLocale()
     {
-        return ('');
+        return ('en');
     }
 }

@@ -65,18 +65,8 @@ class NumberFormatTest extends AbstractFormatterTestCase
         return new IntlNumberFormatter($this->locale, IntlNumberFormatter::DECIMAL);
     }
 
-    protected function getEnLocale()
-    {
-        return ('en');
-    }
-
-    protected function getFrLocale()
-    {
-        return ('fr');
-    }
-
     protected function getLocale()
     {
-        return ('');
+        return ('en');
     }
 }

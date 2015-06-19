@@ -2,7 +2,7 @@
 
 namespace UAM\Twig\Extension\I18n\Formatter;
 
-use Symfony\Component\Locale\Locale;
+use Symfony\Component\Intl\Intl;
 
 /**
  * Formats country code to localized country name.
@@ -11,12 +11,10 @@ class CountryFormatter extends AbstractFormatter
 {
     public function formatCountry($country, $locale = null)
     {
-        $locale = $this->getLocale($locale);
-        $locale = Locale::getPrimaryLanguage($locale);
-        $countries = Locale::getDisplayCountries($locale);
+        $countries = Intl::getRegionBundle()->getCountryNames($this->getLocale($locale));
 
-        if (isset($countries[$country])) {
-            return $countries[$country];
+        if (isset($countries[strtoupper($country)])) {
+            return $countries[strtoupper($country)];
         }
 
         return $country;

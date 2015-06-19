@@ -10,7 +10,7 @@ use IntlDateFormatter;
  * Formats DateTime objects or datetime-formated strings to localized
  * datetime string.
  */
-class DateTimeFormatter extends Formatter
+class DateTimeFormatter extends AbstractFormatter
 {
     private $datetimeFormats = array(
         'NONE'   => IntlDateFormatter::NONE,

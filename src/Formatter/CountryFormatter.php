@@ -7,7 +7,7 @@ use Symfony\Component\Locale\Locale;
 /**
  * Formats country code to localized country name.
  */
-class CountryFormatter extends Formatter
+class CountryFormatter extends AbstractFormatter
 {
     public function formatCountry($country, $locale = null)
     {

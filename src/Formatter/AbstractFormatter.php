@@ -6,14 +6,13 @@ use Symfony\Component\Intl\Locale\Locale;
 
 /**
  * Abstract class for formatter.
- *
  */
-class Formatter
+abstract class AbstractFormatter
 {
     public function getLocale($locale = null)
     {
-        if (empty($locale)) {
-            Locale::getDefault();
+        if (!($locale)) {
+            $locale = Locale::getDefault();
         }
 
         return $locale;

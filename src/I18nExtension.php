@@ -41,13 +41,13 @@ class I18nExtension extends Twig_Extension
     public function formatDatetime($datetime, $formatDate = null, $formatTime = null, $timezone = null, $locale = null)
     {
         return $this->getDateFormatter()
-            ->formatDatetime($datetime, $locale, $formatDate, $formatTime, $timezone);
+            ->formatDatetime($datetime, $formatDate, $formatTime, $timezone, $locale);
     }
 
     public function formatDate($date, $format = null, $timezone = null, $locale = null)
     {
         return $this->getDateFormatter()
-            ->formatDate($date, $format, $locale, $timezone);
+            ->formatDate($date, $format, $timezone, $locale);
     }
 
     public function formatTime($time, $format = null, $timezone = null, $locale = null)

@@ -3,7 +3,6 @@
 namespace UAM\Twig\Extension\I18n\test\Formatter;
 
 use UAM\Twig\Extension\I18n\Formatter\CountryFormatter;
-use UAM\Twig\Extension\I18n\test\Formatter\AbstractFormatterTestCase;
 use Symfony\Component\Intl\Intl;
 
 abstract class AbstractCountryFormatterTestCase extends AbstractFormatterTestCase
@@ -11,17 +10,17 @@ abstract class AbstractCountryFormatterTestCase extends AbstractFormatterTestCas
     /**
      *@dataProvider CountryProvider
      */
-    public function testFormatCountry($country, $expected) {
-
-         $formatted = $this->formatter->formatCountry($country, $this->locale);
-         $this->assertEquals($expected, $formatted);
+    public function testFormatCountry($country, $expected)
+    {
+        $formatted = $this->formatter->formatCountry($country, $this->locale);
+        $this->assertEquals($expected, $formatted);
     }
 
     public function countryProvider()
     {
         $countries = $this->intlFormatter->getCountryNames($this->locale);
 
-        foreach($countries as $id => $name) {
+        foreach ($countries as $id => $name) {
             $country =  $id;
 
             $expected = $name;

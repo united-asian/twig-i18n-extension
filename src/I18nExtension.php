@@ -3,18 +3,13 @@
 namespace UAM\Twig\Extension\I18n;
 
 use Twig_Extension;
-use Twig_Filter_Method;
 use Twig_SimpleFilter;
-
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 use UAM\Twig\Extension\I18n\Formatter\DateTimeFormatter;
 use UAM\Twig\Extension\I18n\Formatter\NumberFormatter;
 use UAM\Twig\Extension\I18n\Formatter\CountryFormatter;
 
 /**
- * Twig extension as helper to localize data
- *
+ * Twig extension as helper to localize data.
  */
 class I18nExtension extends Twig_Extension
 {
@@ -34,7 +29,7 @@ class I18nExtension extends Twig_Extension
             new Twig_SimpleFilter('decimal', array($this, 'formatDecimal'), array('is_safe' => array('html'))),
             new Twig_SimpleFilter('percent', array($this, 'formatPercent'), array('is_safe' => array('html'))),
             new Twig_SimpleFilter('currency', array($this, 'formatCurrency'), array('is_safe' => array('html'))),
-            new Twig_SimpleFilter('country', array($this, 'formatCountry'), array('is_safe' => array('html')))
+            new Twig_SimpleFilter('country', array($this, 'formatCountry'), array('is_safe' => array('html'))),
         );
     }
 

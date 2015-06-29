@@ -4,10 +4,11 @@ services:
         tags:
             - { name: twig.extension }
 
-    twig.period_extension:
+    twig.extension.period:
         class: UAM\Twig\Extension\I18n\Bridge\Symfony\Twig\Extension\PeriodExtension
+        arguments: [@translator]
         tags:
-            - { name: twig.extension}
+            - { name: twig.extension }
 
     twig.duration.extension:
         class: UAM\Twig\Extension\I18n\Bridge\Symfony\Twig\Extension\DurationExtension

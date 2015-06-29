@@ -3,3 +3,13 @@ services:
         class: UAM\Twig\Extension\I18n\I18nExtension
         tags:
             - { name: twig.extension }
+
+    twig.period_extension:
+        class: UAM\Twig\Extension\I18n\Bridge\Symfony\Twig\Extension\PeriodExtension
+        tags:
+            - { name: twig.extension}
+
+    twig.duration.extension:
+        class: UAM\Twig\Extension\I18n\Bridge\Symfony\Twig\Extension\DurationExtension
+        tags:
+            - { name: twig.extension}

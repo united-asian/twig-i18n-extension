@@ -17,6 +17,7 @@ class DurationExtension extends Twig_Extension
         'dh' => 24,
         'hi' => 60,
         'is' => 60,
+        'yd' => 365,
     );
 
     private $translator;
@@ -111,7 +112,7 @@ class DurationExtension extends Twig_Extension
                     continue;
                 }
 
-                $result .= ' '.$days;
+                 $result .= ' '.$this->convertToLowerUnit($duration, ($i - 1) < 0 ? null: $formats[$i - 1] , $value);
 
                 switch(strlen($value)) {
                     case 1:
@@ -132,7 +133,7 @@ class DurationExtension extends Twig_Extension
                     continue;
                 }
 
-                $result .= ' '.$hours;
+                 $result .= ' '.$this->convertToLowerUnit($duration, ($i - 1) < 0 ? null: $formats[$i - 1] , $value);
 
                 switch(strlen($value)) {
                     case 1:
@@ -152,7 +153,7 @@ class DurationExtension extends Twig_Extension
                     continue;
                 }
 
-                $result .= ' '.$minutes;
+                $result .= ' '.$this->convertToLowerUnit($duration, ($i - 1) < 0 ? null: $formats[$i - 1] , $value);
 
                 switch(strlen($value)) {
                     case 1:

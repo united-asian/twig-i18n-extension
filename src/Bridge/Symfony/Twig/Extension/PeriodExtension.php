@@ -11,7 +11,6 @@ use Twig_SimpleFilter;
 
 class PeriodExtension extends Twig_Extension
 {
-
     private $translator;
 
     const DATE = 'period.date';
@@ -48,7 +47,7 @@ class PeriodExtension extends Twig_Extension
             $to_formatter->setPattern(implode(' ', array($day_format, $month_format, $year_format)));
             $to = $to_formatter->format($to_date);
 
-            return $this->translator->trans(self::DATE, array($to), 'uam-i18n', $locale);
+            return $this->translator->trans(self::DATE, array('%to%' => $to), 'uam-i18n', $locale);
         }
 
         if ($from_date->format('Y-m') == $to_date->format('Y-m')) {
@@ -78,6 +77,6 @@ class PeriodExtension extends Twig_Extension
         $to_formatter->setPattern(implode(' ', array($day_format, $month_format, $year_format)));
         $to = $to_formatter->format($to_date);
 
-        return $this->translator->trans(self::RANGE, array($from, $to), 'uam-i18n', $locale);
+        return $this->translator->trans(self::RANGE, array('%from%' => $from, '%to%' =>  $to), 'uam-i18n', $locale);
     }
 }

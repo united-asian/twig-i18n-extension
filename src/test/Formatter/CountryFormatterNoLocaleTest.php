@@ -6,6 +6,6 @@ class CountryFormatterNoLocaleTest extends AbstractCountryFormatterTestCase
 {
     protected function getLocale()
     {
-        return null;
+        return;
     }
 }

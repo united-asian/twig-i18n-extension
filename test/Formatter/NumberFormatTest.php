@@ -1,8 +1,10 @@
 <?php
 
+namespace UAM\Twig\Extension\I18n\Test\Formatter;
+
 use Symfony\Component\Intl\NumberFormatter\NumberFormatter as IntlNumberFormatter;
 use UAM\Twig\Extension\I18n\Formatter\NumberFormatter;
-use UAM\Twig\Extension\I18n\test\Formatter\AbstractFormatterTestCase;
+use UAM\Twig\Extension\I18n\Test\Formatter\AbstractFormatterTestCase;
 
 class NumberFormatTest extends AbstractFormatterTestCase
 {

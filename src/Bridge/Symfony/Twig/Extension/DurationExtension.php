@@ -192,7 +192,7 @@ class DurationExtension extends Twig_Extension
     }
 
     //TODO convert Month to days.
-    protected function convertToLowerUnit($duration, $higher_format, $lower_format)
+    protected function convertToLowerUnit($formats, $duration, $higher_format, $lower_format)
     {
         $upper_unit = $higher_format == null ? '' : strtolower(substr($higher_format, 0, 1));
         $lower_unit = strtolower(substr($lower_format, 0, 1));
@@ -213,14 +213,14 @@ class DurationExtension extends Twig_Extension
         }
 
         for ($i = $u_index; $i <= $l_index; $i++) {
-            $duration->{$lower_unit} += $duration->{$this->sequence[$i]} * $this->getFactor($duration, $this->sequence[$i], $lower_unit);
+            $duration->{$lower_unit} += $duration->{$this->sequence[$i]} * $this->getFactor($duration, $formats, $this->sequence[$i], $lower_unit);
             $duration->{$this->sequence[$i]} = 0;
         }
 
         return $duration;
     }
 
-    protected function getFactor($duration, $higher_unit, $lower_unit)
+    protected function getFactor($duration, $formats, $higher_unit, $lower_unit)
     {
         $factor = 1;
 
@@ -230,4 +230,5 @@ class DurationExtension extends Twig_Extension
 
         return $factor;
     }
+
 }

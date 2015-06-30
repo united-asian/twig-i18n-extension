@@ -121,7 +121,7 @@ class I18nExtension extends Twig_Extension
 
     protected function getCountryFormatter()
     {
-        if (!$this->country_formatter()) {
+        if (!$this->country_formatter) {
             $this->country_formatter = new CountryFormatter();
         }
 

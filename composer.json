@@ -20,7 +20,10 @@
         "phpunit/phpunit": "4.6.*"
     },
     "autoload": {
-        "psr-4": { "UAM\\Twig\\Extension\\I18n\\": "src/" }
+        "psr-4": {
+            "UAM\\Twig\\Extension\\I18n\\": "src/",
+            "UAM\\Twig\\Extension\\I18n\\Test\\": "test/"
+        }
     },
     "extra": {
         "branch-alias": {

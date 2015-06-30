@@ -2,7 +2,7 @@
     "name": "uam/twig-i18n-extension",
     "description": "Twig i18n extension",
     "keywords": ["twig", "i18n"],
-    "homepage": "http://gitlab.united-asian.com/uam-private/UAMUserBundle",
+    "homepage": "http://gitlab.united-asian.com/twig/i18n-extension",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -16,9 +16,9 @@
         "symfony/intl": "~2.3",
         "symfony/translation": "~2.3"
     },
-	"require-dev": {
-		"phpunit/phpunit": "4.6.*"
-	},
+    "require-dev": {
+        "phpunit/phpunit": "4.6.*"
+    },
     "autoload": {
         "psr-4": { "UAM\\Twig\\Extension\\I18n\\": "src/" }
     },

@@ -1,13 +1,13 @@
 <?php
 
-namespace UAM\Twig\Extension\I18n\Bridge\Symfony\Twig\Extension;
+namespace UAM\Twig\Extension\I18n;
 
 use DateTime;
 use IntlDateFormatter;
 use Locale;
-use Symfony\Component\Translation\TranslatorInterface;
 use Twig_Extension;
 use Twig_SimpleFilter;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class PeriodExtension extends Twig_Extension
 {

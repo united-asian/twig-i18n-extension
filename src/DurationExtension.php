@@ -1,11 +1,11 @@
 <?php
 
-namespace UAM\Twig\Extension\I18n\Bridge\Symfony\Twig\Extension;
+namespace UAM\Twig\Extension\I18n;
 
 use DateTime;
-use Symfony\Component\Translation\TranslatorInterface;
 use Twig_Extension;
 use Twig_SimpleFilter;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class DurationExtension extends Twig_Extension
 {
@@ -69,20 +69,20 @@ class DurationExtension extends Twig_Extension
 
                 $result .= $duration->format('%y');
 
-                switch(strlen($value)) {
-                    case 1:
+                switch (strlen($value)) {
+                    case 1 :
                         $result .= 'y';
                         break;
-                    case 2:
+                    case 2 :
                         $result .= ' yrs';
                         break;
-                    case 3:
+                    case 3 :
                         $result .= ' years';
                         break;
                 }
             }
 
-            if (preg_match('/[mM]{1,3}/',$value,$matches) ) {
+            if (preg_match('/[mM]{1,3}/', $value, $matches) ) {
 
                 if(ctype_lower($value) && $duration->format('%m') == 0) {
                     continue;
@@ -90,77 +90,77 @@ class DurationExtension extends Twig_Extension
 
                 $result .= ' '.$duration->format('%m');
 
-                switch(strlen($value)) {
-                    case 1:
+                switch (strlen($value)) {
+                    case 1 :
                         $result .= 'm';
                         break;
-                    case 2:
+                    case 2 :
                         $result .= ' mos';
                         break;
-                    case 3:
+                    case 3 :
                         $result .= ' months';
                         break;
                 }
             }
 
-            if (preg_match('/[dD]{1,3}/',$value,$matches) ) {
+            if (preg_match('/[dD]{1,3}/', $value, $matches) ) {
 
-                if(ctype_lower($value) && $duration->format('%d') == 0) {
+                if (ctype_lower($value) && $duration->format('%d') == 0) {
                     continue;
                 }
 
                 $result .= ' '.$duration->format('%d');
 
-                switch(strlen($value)) {
-                    case 1:
+                switch (strlen($value)) {
+                    case 1 :
                         $result .= 'd';
                         break;
-                    case 2:
+                    case 2 :
                         $result .= ' ds';
                         break;
-                    case 3:
+                    case 3 :
                         $result .= ' days';
                         break;
                 }
             }
 
-            if (preg_match('/[hH]{1,3}/',$value,$matches) ) {
+            if (preg_match('/[hH]{1,3}/', $value, $matches) ) {
 
-                if(ctype_lower($value) && $duration->format('%h') == 0) {
+                if (ctype_lower($value) && $duration->format('%h') == 0) {
                     continue;
                 }
 
                 $result .= ' '.$duration->format('%h');
 
-                switch(strlen($value)) {
-                    case 1:
+                switch (strlen($value)) {
+                    case 1 :
                         $result .= 'h';
                         break;
-                    case 2:
+                    case 2 :
                         $result .= ' hrs';
                         break;
-                    case 3:
+                    case 3 :
                         $result .= ' hours';
                         break;
                 }
             }
 
-            if (preg_match('/[iI]{1,3}/',$value,$matches) ) {
+            if (preg_match('/[iI]{1,3}/', $value, $matches) ) {
 
-                if(ctype_lower($value) && $duration->format('%i') == 0) {
+                if (ctype_lower($value) && $duration->format('%i') == 0) {
                     continue;
                 }
 
                 $result .= ' '.$duration->format('%i');
 
-                switch(strlen($value)) {
-                    case 1:
+                switch (strlen($value)) {
+                    case 1 :
                         $result .= 'i';
                         break;
-                    case 2:
+                    case 2 :
                         $result .= ' mins';
                         break;
-                    case 3:
+                    case 3 :
                         $result .= ' minutes';
                         break;
                 }
@@ -168,20 +168,20 @@ class DurationExtension extends Twig_Extension
 
             if (preg_match('/[sS]{1,3}/',$value,$matches)) {
 
-                if(ctype_lower($value) && $duration->format('%s') == 0) {
+                if (ctype_lower($value) && $duration->format('%s') == 0) {
                     continue;
                 }
 
                 $result .= ' '.$duration->format('%s');
 
-                switch(strlen($value)) {
-                    case 1:
+                switch (strlen($value)) {
+                    case 1 :
                         $result .= 's';
                         break;
-                    case 2:
+                    case 2 :
                         $result .= ' secs';
                         break;
-                    case 3:
+                    case 3 :
                         $result .= ' seconds';
                         break;
                 }
@@ -230,5 +230,4 @@ class DurationExtension extends Twig_Extension
 
         return $factor;
     }
-
 }

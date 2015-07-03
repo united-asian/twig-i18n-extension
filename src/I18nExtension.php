@@ -4,9 +4,10 @@ namespace UAM\Twig\Extension\I18n;
 
 use Twig_Extension;
 use Twig_SimpleFilter;
-use UAM\Twig\Extension\I18n\Formatter\DateTimeFormatter;
-use UAM\Twig\Extension\I18n\Formatter\NumberFormatter;
 use UAM\Twig\Extension\I18n\Formatter\CountryFormatter;
+use UAM\Twig\Extension\I18n\Formatter\DateTimeFormatter;
+use UAM\Twig\Extension\I18n\Formatter\LanguageFormatter;
+use UAM\Twig\Extension\I18n\Formatter\NumberFormatter;
 
 /**
  * Twig extension as helper to localize data.
@@ -16,6 +17,7 @@ class I18nExtension extends Twig_Extension
     protected $date_formatter;
     protected $number_formatter;
     protected $country_formatter;
+    protected $language_formatter;
 
     public function getFilters()
     {
@@ -30,6 +32,7 @@ class I18nExtension extends Twig_Extension
             new Twig_SimpleFilter('percent', array($this, 'formatPercent'), array('is_safe' => array('html'))),
             new Twig_SimpleFilter('currency', array($this, 'formatCurrency'), array('is_safe' => array('html'))),
             new Twig_SimpleFilter('country', array($this, 'formatCountry'), array('is_safe' => array('html'))),
+            new Twig_SimpleFilter('language', array($this, 'formatLanguage'), array('is_safe' => array('html'))),
         );
     }
 
@@ -55,12 +58,6 @@ class I18nExtension extends Twig_Extension
     {
         return $this->getDateFormatter()
             ->formatDateRange($dates, $formatDay, $formatMonth, $formatYear, $timezone, $locale);
-    }
-
-    public function formatCountry($country, $locale = null)
-    {
-        return $this->getCountryFormatter()
-            ->formatCountry($country, $locale);
     }
 
     public function formatNumber($integer, $locale = null)
@@ -91,6 +88,18 @@ class I18nExtension extends Twig_Extension
     {
         return $this->getNumberFormatter()
             ->formatPercent($percent, $round, $locale);
+    }
+
+    public function formatCountry($country, $locale = null)
+    {
+        return $this->getCountryFormatter()
+            ->formatCountry($country, $locale);
+    }
+
+    public function formatLanguage($language, $locale = null)
+    {
+        return $this->getLanguageFormatter()
+            ->formatLanguage($language, $locale);
     }
 
     /**
@@ -126,5 +135,14 @@ class I18nExtension extends Twig_Extension
         }
 
         return $this->country_formatter;
+    }
+
+    protected function getLanguageFormatter()
+    {
+        if (!$this->language_formatter) {
+            $this->language_formatter = new LanguageFormatter();
+        }
+
+        return $this->language_formatter;
     }
 }

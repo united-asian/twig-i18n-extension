@@ -11,12 +11,8 @@ class CountryFormatter extends AbstractFormatter
 {
     public function formatCountry($country, $locale = null)
     {
-        $countries = Intl::getRegionBundle()->getCountryNames($this->getLocale($locale));
+    	$translated = Intl::getRegionBundle()->getCountryName(strtoupper($country), $locale);
 
-        if (isset($countries[strtoupper($country)])) {
-            return $countries[strtoupper($country)];
-        }
-
-        return $country;
+		return $translated ? $translated : $country;
     }
 }

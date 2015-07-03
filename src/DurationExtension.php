@@ -43,7 +43,7 @@ class DurationExtension extends Twig_Extension
         return 'duration';
     }
 
-    public function durationFilter( $from, $to, $format='YYY-MMM-DDD-HHH-III-SSS')
+    public function durationFilter($from, $to, $format='YYY-MMM-DDD-HHH-III-SSS')
     {
         $from_date = new DateTime($from);
 
@@ -53,17 +53,15 @@ class DurationExtension extends Twig_Extension
 
         $result = '';
 
-        $formats = explode('-',$format);
+        $formats = explode('-', $format);
 
         for ($i = 0; $i < count($formats); $i++) {
-
             $value = $formats[$i];
 
-            $duration = $this->convertToLowerUnit($formats, $duration, ($i - 1) < 0 ? null: $formats[$i - 1] , $value);
+            $duration = $this->convertToLowerUnit($formats, $duration, ($i - 1) < 0 ? null: $formats[$i - 1], $value);
 
-            if (preg_match('/[yY]{1,3}/',$value,$matches) ) {
-
-                if(ctype_lower($value) && $duration->format('%y') == 0) {
+            if (preg_match('/[yY]{1,3}/', $value, $matches)) {
+                if (ctype_lower($value) && $duration->format('%y') == 0) {
                     continue;
                 }
 
@@ -82,9 +80,8 @@ class DurationExtension extends Twig_Extension
                 }
             }
 
-            if (preg_match('/[mM]{1,3}/', $value, $matches) ) {
-
-                if(ctype_lower($value) && $duration->format('%m') == 0) {
+            if (preg_match('/[mM]{1,3}/', $value, $matches)) {
+                if (ctype_lower($value) && $duration->format('%m') == 0) {
                     continue;
                 }
 
@@ -103,8 +100,7 @@ class DurationExtension extends Twig_Extension
                 }
             }
 
-            if (preg_match('/[dD]{1,3}/', $value, $matches) ) {
-
+            if (preg_match('/[dD]{1,3}/', $value, $matches)) {
                 if (ctype_lower($value) && $duration->format('%d') == 0) {
                     continue;
                 }
@@ -124,8 +120,7 @@ class DurationExtension extends Twig_Extension
                 }
             }
 
-            if (preg_match('/[hH]{1,3}/', $value, $matches) ) {
-
+            if (preg_match('/[hH]{1,3}/', $value, $matches)) {
                 if (ctype_lower($value) && $duration->format('%h') == 0) {
                     continue;
                 }
@@ -145,8 +140,7 @@ class DurationExtension extends Twig_Extension
                 }
             }
 
-            if (preg_match('/[iI]{1,3}/', $value, $matches) ) {
-
+            if (preg_match('/[iI]{1,3}/', $value, $matches)) {
                 if (ctype_lower($value) && $duration->format('%i') == 0) {
                     continue;
                 }
@@ -166,8 +160,7 @@ class DurationExtension extends Twig_Extension
                 }
             }
 
-            if (preg_match('/[sS]{1,3}/',$value,$matches)) {
-
+            if (preg_match('/[sS]{1,3}/', $value, $matches)) {
                 if (ctype_lower($value) && $duration->format('%s') == 0) {
                     continue;
                 }

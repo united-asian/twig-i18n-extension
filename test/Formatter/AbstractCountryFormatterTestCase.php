@@ -1,6 +1,6 @@
 <?php
 
-namespace  UAM\Twig\Extension\I18n\Test\Formatter;
+namespace  UAM\Twig\Extension\I18n\test\Formatter;
 
 use UAM\Twig\Extension\I18n\Formatter\CountryFormatter;
 use Symfony\Component\Intl\Intl;

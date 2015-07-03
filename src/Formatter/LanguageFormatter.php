@@ -12,10 +12,10 @@ class LanguageFormatter extends AbstractFormatter
 {
     public function formatLanguage($language, $locale = null)
     {
-    	try {
-    		return Intl::getLanguageBundle()->getName($language, $locale);
-    	} catch (Exception $e) {
-    		return $language;
-    	}
+        try {
+            return Intl::getLanguageBundle()->getName($language, $locale);
+        } catch (Exception $e) {
+            return $language;
+        }
     }
 }

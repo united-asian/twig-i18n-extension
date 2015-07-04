@@ -72,10 +72,10 @@ class I18nExtension extends Twig_Extension
             ->formatInteger($number, $locale);
     }
 
-    public function formatDecimal($decimal, $round = null, $locale = null)
+    public function formatDecimal($decimal, $decimals = null, $locale = null)
     {
         return $this->getNumberFormatter()
-            ->formatDecimal($decimal, $round, $locale);
+            ->formatDecimal($decimal, $decimals, $locale);
     }
 
     public function formatCurrency($currency, $type = null, $locale = null)
@@ -84,10 +84,10 @@ class I18nExtension extends Twig_Extension
             ->formatCurrency($currency, $type, $locale);
     }
 
-    public function formatPercent($percent, $round = 2, $locale = null)
+    public function formatPercent($percent, $decimals = 2, $locale = null)
     {
         return $this->getNumberFormatter()
-            ->formatPercent($percent, $round, $locale);
+            ->formatPercent($percent, $decimals, $locale);
     }
 
     public function formatCountry($country, $locale = null)

@@ -12,7 +12,7 @@ use IntlDateFormatter;
  */
 class DateTimeFormatter extends AbstractFormatter
 {
-    private $datetimeFormats = array(
+    protected $datetimeFormats = array(
         'NONE'   => IntlDateFormatter::NONE,
         'SHORT'  => IntlDateFormatter::SHORT,
         'MEDIUM' => IntlDateFormatter::MEDIUM,
@@ -20,7 +20,7 @@ class DateTimeFormatter extends AbstractFormatter
         'FULL'   => IntlDateFormatter::FULL,
     );
 
-    private $constants = array(
+    protected $constants = array(
         'ATOM'    => DateTime::ATOM,
         'COOKIE'  => DateTime::COOKIE,
         'ISO8601' => DateTime::ISO8601,
@@ -36,70 +36,6 @@ class DateTimeFormatter extends AbstractFormatter
         'C'       => DateTime::ISO8601, // date() => C
         'U'       => 'U', // date() => U
     );
-
-    public function getDateTime($date, $timezone = null)
-    {
-        if (!$date instanceof DateTime) {
-            if (ctype_digit((string) $date)) {
-                $date = new DateTime('@'.$date);
-            } else {
-                $date = new DateTime($date);
-            }
-        }
-
-        if ($timezone !== null) {
-            if (!$timezone instanceof DateTimeZone) {
-                $timezone = new DateTimeZone($timezone);
-            }
-
-            $date->setTimezone($timezone);
-        } else {
-            $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
-        }
-
-        return $date;
-    }
-
-    public function getDateTimeFormat($format, $default = null)
-    {
-        if (isset($this->datetimeFormats[strtoupper($format)])) {
-            return $this->datetimeFormats[strtoupper($format)];
-        }
-
-        if (empty($format) && !empty($default)) {
-            return $this->datetimeFormats[strtoupper($default)];
-        }
-
-        return IntlDateFormatter::SHORT;
-    }
-
-    public function isPattern($format)
-    {
-        return !empty($format) && !isset($this->datetimeFormats[strtoupper($format)]);
-    }
-
-    public function isConstant($format)
-    {
-        return isset($this->constants[strtoupper($format)]);
-    }
-
-    public function getConstant($constant)
-    {
-        if ($this->isConstant($constant)) {
-            return $this->constants[strtoupper($constant)];
-        }
-
-        return;
-    }
-
-    public function getFormat($format)
-    {
-        if (isset($this->dateToDatetimeFormat[strtoupper($format)])) {
-            return $this->dateToDatetimeFormat[strtoupper($format)];
-        }
-
-        return $format;
-    }
 
     public function formatDatetime($datetime, $formatDate = null, $formatTime = null, $timezone = null, $locale = null)
     {
@@ -195,6 +131,70 @@ class DateTimeFormatter extends AbstractFormatter
             $formatter->format($start),
             $formatter->format($end)
         );
+    }
+
+    protected function getDateTime($date, $timezone = null)
+    {
+        if (!$date instanceof DateTime) {
+            if (ctype_digit((string) $date)) {
+                $date = new DateTime('@'.$date);
+            } else {
+                $date = new DateTime($date);
+            }
+        }
+
+        if ($timezone !== null) {
+            if (!$timezone instanceof DateTimeZone) {
+                $timezone = new DateTimeZone($timezone);
+            }
+
+            $date->setTimezone($timezone);
+        } else {
+            $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
+        }
+
+        return $date;
+    }
+
+    protected function getDateTimeFormat($format, $default = null)
+    {
+        if (isset($this->datetimeFormats[strtoupper($format)])) {
+            return $this->datetimeFormats[strtoupper($format)];
+        }
+
+        if (empty($format) && !empty($default)) {
+            return $this->datetimeFormats[strtoupper($default)];
+        }
+
+        return IntlDateFormatter::SHORT;
+    }
+
+    protected function isPattern($format)
+    {
+        return !empty($format) && !isset($this->datetimeFormats[strtoupper($format)]);
+    }
+
+    protected function isConstant($format)
+    {
+        return isset($this->constants[strtoupper($format)]);
+    }
+
+    protected function getConstant($constant)
+    {
+        if ($this->isConstant($constant)) {
+            return $this->constants[strtoupper($constant)];
+        }
+
+        return;
+    }
+
+    protected function getFormat($format)
+    {
+        if (isset($this->dateToDatetimeFormat[strtoupper($format)])) {
+            return $this->dateToDatetimeFormat[strtoupper($format)];
+        }
+
+        return $format;
     }
 
     /**

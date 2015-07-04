@@ -2,7 +2,7 @@
 
 namespace UAM\Twig\Extension\I18n\Formatter;
 
-use NumberFormatter as BaseNumberFormatter;
+use NumberFormatter as IntlNumberFormatter;
 
 /**
  * Formats numeric values to localized number string.
@@ -12,52 +12,57 @@ class NumberFormatter extends AbstractFormatter
     public function formatNumber($number, $locale = null)
     {
         $locale = $this->getLocale($locale);
-        $formatter = new BaseNumberFormatter($locale, BaseNumberFormatter::DECIMAL);
-        $formatter->setAttribute(BaseNumberFormatter::MIN_FRACTION_DIGITS, 0);
-        $formatter->setAttribute(BaseNumberFormatter::MAX_FRACTION_DIGITS, 100);
+
+        $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::DECIMAL);
+        $formatter->setAttribute(IntlNumberFormatter::MIN_FRACTION_DIGITS, 0);
+        $formatter->setAttribute(IntlNumberFormatter::MAX_FRACTION_DIGITS, 100);
 
         return $formatter->format($number);
     }
 
-    public function formatInteger($integer, $locale = null)
+    public function formatInteger($number, $locale = null)
     {
         $locale = $this->getLocale($locale);
-        $formatter = new BaseNumberFormatter($locale, BaseNumberFormatter::DECIMAL);
-        $formatter->setAttribute(BaseNumberFormatter::MIN_FRACTION_DIGITS, 0);
-        $formatter->setAttribute(BaseNumberFormatter::MAX_FRACTION_DIGITS, 0);
 
-        return $formatter->format($integer);
+        $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::DECIMAL);
+        $formatter->setAttribute(IntlNumberFormatter::MIN_FRACTION_DIGITS, 0);
+        $formatter->setAttribute(IntlNumberFormatter::MAX_FRACTION_DIGITS, 0);
+
+        return $formatter->format($number);
     }
 
-    public function formatDecimal($decimal, $round = null, $locale = null)
+    public function formatDecimal($number, $decimals = 2, $locale = null)
     {
-        // TODO: if ($decimal < -1) $decimal = '<span class="decimal-negative">'.$decimal.'</span>';
-        $round = $round ?: 2;
-        $locale = $this->getLocale($locale);
-        $formatter = new BaseNumberFormatter($locale, BaseNumberFormatter::DECIMAL);
-        $formatter->setAttribute(BaseNumberFormatter::MIN_FRACTION_DIGITS, $round);
-        $formatter->setAttribute(BaseNumberFormatter::MAX_FRACTION_DIGITS, $round);
+        $decimals = max(0, $decimals);
 
-        return $formatter->format($decimal);
+        $locale = $this->getLocale($locale);
+
+        $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::DECIMAL);
+        $formatter->setAttribute(IntlNumberFormatter::MIN_FRACTION_DIGITS, $decimals);
+        $formatter->setAttribute(IntlNumberFormatter::MAX_FRACTION_DIGITS, $decimals);
+
+        return $formatter->format($number);
     }
 
     public function formatCurrency($currency, $type = null, $locale = null)
     {
         $type = $type ?: 'EUR';
         $locale = $this->getLocale($locale);
-        $formatter = new BaseNumberFormatter($locale, BaseNumberFormatter::CURRENCY);
+        $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::CURRENCY);
 
         return $formatter->formatCurrency(round($currency, 2), $type);
     }
 
-    public function formatPercent($percent, $round = 2, $base = null, $locale = null)
+    public function formatPercent($number, $decimals = 2, $locale = null)
     {
-        $round = $round ?: 2;
-        $locale = $this->getLocale($locale);
-        $formatter = new BaseNumberFormatter($locale, BaseNumberFormatter::PERCENT);
-        $formatter->setAttribute(BaseNumberFormatter::MIN_FRACTION_DIGITS, $round);
-        $formatter->setAttribute(BaseNumberFormatter::MAX_FRACTION_DIGITS, $round);
+        $decimals = max(0, $decimals);
 
-        return $formatter->format($percent);
+        $locale = $this->getLocale($locale);
+
+        $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::PERCENT);
+        $formatter->setAttribute(IntlNumberFormatter::MIN_FRACTION_DIGITS, $decimals);
+        $formatter->setAttribute(IntlNumberFormatter::MAX_FRACTION_DIGITS, $decimals);
+
+        return $formatter->format($number);
     }
 }

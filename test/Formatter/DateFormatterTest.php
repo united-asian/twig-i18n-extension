@@ -1,6 +1,6 @@
 <?php
 
-namespace  UAM\Twig\Extension\I18n\Test\Formatter;
+namespace  UAM\Twig\Extension\I18n\test\Formatter;
 
 use DateTime;
 use DateTimeZone;
@@ -67,25 +67,25 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testConstant($date, $timezone, $locale)
     {
-    	foreach ($this->getConstants() as $constant => $format) {
-	        $this->assertEquals(
-    	        $this->getFormatter()->formatDate($date, $constant, $timezone, $locale),
-        	    $this->getDateTime($date, $timezone)->format($format)
-        	);
+        foreach ($this->getConstants() as $constant => $format) {
+            $this->assertEquals(
+                $this->getFormatter()->formatDate($date, $constant, $timezone, $locale),
+                $this->getDateTime($date, $timezone)->format($format)
+            );
         }
     }
 
     public function dateProvider()
     {
-		$faker = Factory::create();
+        $faker = Factory::create();
 
-		$dates = array();
+        $dates = array();
 
-		for ($i = 0; $i < 10; $i++) {
-        	$dates[] = array(
-            	$faker->date('Y-m-d'),
-            	$faker->timezone(),
-            	$faker->locale()
+        for ($i = 0; $i < 10; $i++) {
+            $dates[] = array(
+                $faker->date('Y-m-d'),
+                $faker->timezone(),
+                $faker->locale()
             );
         }
 
@@ -99,30 +99,30 @@ class DateFormatterTest extends AbstractFormatterTestCase
 
     protected function getConstants()
     {
-    	return array(
-	        'ATOM'    => DateTime::ATOM,
-	        'COOKIE'  => DateTime::COOKIE,
-	        'ISO8601' => DateTime::ISO8601,
-	        'RFC822'  => DateTime::RFC822,
-	        'RFC850'  => DateTime::RFC850,
-	        'RFC1036' => DateTime::RFC1036,
-	        'RFC1123' => DateTime::RFC1123,
-	        'RFC2822' => DateTime::RFC2822,
-	        'RFC3339' => DateTime::RFC3339,
-	        'RSS'     => DateTime::RSS,
-	        'W3C'     => DateTime::W3C,
-	        'R'       => DateTime::RFC2822, // date() => r
-	        'C'       => DateTime::ISO8601, // date() => C
-	        'U'       => 'U', // date() => U
-	    );
+        return array(
+            'ATOM'    => DateTime::ATOM,
+            'COOKIE'  => DateTime::COOKIE,
+            'ISO8601' => DateTime::ISO8601,
+            'RFC822'  => DateTime::RFC822,
+            'RFC850'  => DateTime::RFC850,
+            'RFC1036' => DateTime::RFC1036,
+            'RFC1123' => DateTime::RFC1123,
+            'RFC2822' => DateTime::RFC2822,
+            'RFC3339' => DateTime::RFC3339,
+            'RSS'     => DateTime::RSS,
+            'W3C'     => DateTime::W3C,
+            'R'       => DateTime::RFC2822, // date() => r
+            'C'       => DateTime::ISO8601, // date() => C
+            'U'       => 'U', // date() => U
+        );
     }
 
     protected function getDateTime($date, $timezone)
     {
-    	$datetime = new DateTime($date);
+        $datetime = new DateTime($date);
 
-    	$datetime->setTimezone(new DateTimeZone($timezone));
+        $datetime->setTimezone(new DateTimeZone($timezone));
 
-    	return $datetime;
+        return $datetime;
     }
 }

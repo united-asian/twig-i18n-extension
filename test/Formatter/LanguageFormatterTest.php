@@ -1,6 +1,6 @@
 <?php
 
-namespace  UAM\Twig\Extension\I18n\Test\Formatter;
+namespace  UAM\Twig\Extension\I18n\test\Formatter;
 
 use Exception;
 use Locale;

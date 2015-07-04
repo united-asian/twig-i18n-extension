@@ -1,6 +1,6 @@
 <?php
 
-namespace  UAM\Twig\Extension\I18n\Test\Formatter;
+namespace  UAM\Twig\Extension\I18n\test\Formatter;
 
 use DateTime;
 use DateTimeZone;
@@ -67,11 +67,11 @@ class DateTimeFormatterTest extends DateFormatterTest
      */
     public function testConstant($date, $timezone, $locale)
     {
-    	foreach ($this->getConstants() as $constant => $format) {
-	        $this->assertEquals(
-    	        $this->getFormatter()->formatDateTime($date, $constant, '  ', $timezone, $locale),
-        	    $this->getDateTime($date, $timezone)->format($format)
-        	);
+        foreach ($this->getConstants() as $constant => $format) {
+            $this->assertEquals(
+                $this->getFormatter()->formatDateTime($date, $constant, '  ', $timezone, $locale),
+                $this->getDateTime($date, $timezone)->format($format)
+            );
         }
     }
 }

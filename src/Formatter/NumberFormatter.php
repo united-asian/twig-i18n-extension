@@ -14,7 +14,9 @@ class NumberFormatter extends AbstractFormatter
         $locale = $this->getLocale($locale);
 
         $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::DECIMAL);
+
         $formatter->setAttribute(IntlNumberFormatter::MIN_FRACTION_DIGITS, 0);
+
         $formatter->setAttribute(IntlNumberFormatter::MAX_FRACTION_DIGITS, 100);
 
         return $formatter->format($number);
@@ -25,7 +27,9 @@ class NumberFormatter extends AbstractFormatter
         $locale = $this->getLocale($locale);
 
         $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::DECIMAL);
+
         $formatter->setAttribute(IntlNumberFormatter::MIN_FRACTION_DIGITS, 0);
+
         $formatter->setAttribute(IntlNumberFormatter::MAX_FRACTION_DIGITS, 0);
 
         return $formatter->format($number);
@@ -38,19 +42,23 @@ class NumberFormatter extends AbstractFormatter
         $locale = $this->getLocale($locale);
 
         $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::DECIMAL);
+
         $formatter->setAttribute(IntlNumberFormatter::MIN_FRACTION_DIGITS, $decimals);
+
         $formatter->setAttribute(IntlNumberFormatter::MAX_FRACTION_DIGITS, $decimals);
 
         return $formatter->format($number);
     }
 
-    public function formatCurrency($currency, $type = null, $locale = null)
+    public function formatCurrency($amount, $currency = null, $locale = null)
     {
-        $type = $type ?: 'EUR';
+        $currency = $currency ?: IntlNumberFormatter::CURRENCY_CODE;
+
         $locale = $this->getLocale($locale);
+
         $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::CURRENCY);
 
-        return $formatter->formatCurrency(round($currency, 2), $type);
+        return $formatter->formatCurrency($amount, $currency);
     }
 
     public function formatPercent($number, $decimals = 2, $locale = null)

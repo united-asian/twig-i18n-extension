@@ -78,10 +78,10 @@ class I18nExtension extends Twig_Extension
             ->formatDecimal($decimal, $decimals, $locale);
     }
 
-    public function formatCurrency($currency, $type = null, $locale = null)
+    public function formatCurrency($amount, $currency = null, $locale = null)
     {
         return $this->getNumberFormatter()
-            ->formatCurrency($currency, $type, $locale);
+            ->formatCurrency($amount, $currency, $locale);
     }
 
     public function formatPercent($percent, $decimals = 2, $locale = null)

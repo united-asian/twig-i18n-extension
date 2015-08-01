@@ -2,8 +2,8 @@
 
 namespace UAM\Twig\Extension\I18n\test\Formatter;
 
-use NumberFormatter as IntlNumberFormatter;
 use Faker\Factory;
+use NumberFormatter as IntlNumberFormatter;
 use UAM\Twig\Extension\I18n\Formatter\NumberFormatter;
 use UAM\Twig\Extension\I18n\Test\Formatter\AbstractFormatterTestCase;
 

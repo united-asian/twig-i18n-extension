@@ -12,13 +12,26 @@ class CurrencyFormatterTest extends AbstractFormatterTestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testFormatInteger($number, $locale, $currency)
+    public function testFormatCurrency($number, $locale, $currency)
     {
         $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::CURRENCY);
 
         $this->assertEquals(
             $this->getFormatter()->formatCurrency($number, $currency, $locale),
             $formatter->formatCurrency($number, $currency)
+        );
+    }
+
+    /**
+     * @dataProvider dataProvider
+     */
+    public function testFormatDefaultCurrency($number, $locale, $currency)
+    {
+        $formatter = new IntlNumberFormatter($locale, IntlNumberFormatter::CURRENCY);
+
+        $this->assertEquals(
+            $this->getFormatter()->formatCurrency($number, null, $locale),
+            $formatter->formatCurrency($number, IntlNumberFormatter::CURRENCY_CODE)
         );
     }
 

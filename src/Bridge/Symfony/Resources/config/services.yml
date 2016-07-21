@@ -6,7 +6,7 @@ services:
 
     twig.extension.period:
         class: UAM\Twig\Extension\I18n\PeriodExtension
-        arguments: [@translator]
+        arguments: ["@translator"]
         tags:
             - { name: twig.extension }
 

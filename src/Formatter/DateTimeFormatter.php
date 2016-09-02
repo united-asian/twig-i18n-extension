@@ -5,6 +5,7 @@ namespace UAM\Twig\Extension\I18n\Formatter;
 use DateTime;
 use DateTimeZone;
 use IntlDateFormatter;
+use Exception;
 
 /**
  * Formats DateTime objects or datetime-formated strings to localized
@@ -55,8 +56,11 @@ class DateTimeFormatter extends AbstractFormatter
             $formatTime = $this->getDateTimeFormat($formatTime, 'SHORT');
             $formatter  = new IntlDateFormatter($locale, $formatDate, $formatTime, $datetime->getTimezone()->getName());
         }
-
-        return $formatter->format($this->sanitizeDateForIntl($datetime));
+        if(!$formatter == null) {
+            return $formatter->format($this->sanitizeDateForIntl($datetime));
+        } else {
+            throw new Exception('Err');
+        }
     }
 
     public function formatDate($date, $format = null, $timezone = null, $locale = null)

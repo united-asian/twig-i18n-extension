@@ -56,11 +56,8 @@ class DateTimeFormatter extends AbstractFormatter
             $formatTime = $this->getDateTimeFormat($formatTime, 'SHORT');
             $formatter  = new IntlDateFormatter($locale, $formatDate, $formatTime, $datetime->getTimezone()->getName());
         }
-        if(!$formatter == null) {
-            return $formatter->format($this->sanitizeDateForIntl($datetime));
-        } else {
-            throw new Exception('Err');
-        }
+
+        return $formatter != null ? $formatter->format($this->sanitizeDateForIntl($datetime)) : 'ERR';
     }
 
     public function formatDate($date, $format = null, $timezone = null, $locale = null)

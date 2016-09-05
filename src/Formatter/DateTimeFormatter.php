@@ -5,6 +5,7 @@ namespace UAM\Twig\Extension\I18n\Formatter;
 use DateTime;
 use DateTimeZone;
 use IntlDateFormatter;
+use UAM\Twig\Extension\I18n\Formatter\AbstractFormatter;
 
 /**
  * Formats DateTime objects or datetime-formated strings to localized

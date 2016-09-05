@@ -15,6 +15,38 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('8-12-2015', '6-5-2011', 'YYY-MMM-DDD', '4 years 7 months 2 days'),
             array('8-12-2015', '6-5-2011', 'YY-MM-DD', '4 yrs 7 mos 2 ds'),
             array('8-12-2015', '6-5-2011', 'Y-M-D', '4y 7m 2d'),
+
+            // 1.using different rounding cases
+
+            //rounding at seconds
+            array('10-2-2015 12:10:00', '10-2-2015 12:10:00', 'YYY-MMM-DDD-HHH-III-SSS', '0 years 0 months 0 days 0 hours 0 minutes 0 seconds'),
+            array('10-2-2015 12:10:00', '10-2-2015 12:10:00', 'YY-MM-DD-HH-II-SS', '0 yrs 0 mos 0 ds 0 hrs 0 mins 0 secs'),
+            array('10-2-2015 12:10:00', '10-2-2015 12:10:00', 'Y-M-D-H-I-S', '0y 0m 0d 0h 0i 0s'),
+
+            //rounding at minutes
+            array('10-2-2015', '10-2-2015', 'YYY-MMM-DDD-HHH-III', '0 years 0 months 0 days 0 hours 0 minutes'),
+            array('10-2-2015', '10-2-2015', 'YY-MM-DD-HH-II', '0 yrs 0 mos 0 ds 0 hrs 0 mins'),
+            array('10-2-2015', '10-2-2015', 'Y-M-D-H-I', '0y 0m 0d 0h 0i'),
+
+            //rounding at hours
+            array('10-2-2015', '10-2-2015', 'YYY-MMM-DDD-HHH', '0 years 0 months 0 days 0 hours'),
+            array('10-2-2015', '10-2-2015', 'YY-MM-DD-HH', '0 yrs 0 mos 0 ds 0 hrs'),
+            array('10-2-2015', '10-2-2015', 'Y-M-D-H', '0y 0m 0d 0h'),
+
+            //rounding at days
+            array('10-2-2015', '15-2-2015', 'YYY-MMM-DDD', '0 years 0 months 5 days'),
+            array('10-2-2015', '15-2-2015', 'YY-MM-DD', '0 yrs 0 mos 5 ds'),
+            array('10-2-2015', '15-2-2015', 'Y-M-D', '0y 0m 5d'),
+
+            //rounding at months
+            array('10-2-2015', '10-12-2015', 'YYY-MMM', '0 years 10 months'),
+            array('10-2-2015', '10-12-2015', 'YY-MM', '0 yrs 10 mos'),
+            array('10-2-2015', '10-12-2015', 'Y-M', '0y 10m'),
+
+            //rounding at years
+            array('10-2-2015', '10-4-2017', 'YYY', '2 years'),
+            array('10-2-2015', '10-4-2017', 'YY', '2 yrs'),
+            array('10-2-2015', '10-4-2017', 'Y', '2y'),
         );
     }
 

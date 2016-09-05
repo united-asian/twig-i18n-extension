@@ -5,7 +5,6 @@ namespace UAM\Twig\Extension\I18n\Formatter;
 use DateTime;
 use DateTimeZone;
 use IntlDateFormatter;
-use Exception;
 
 /**
  * Formats DateTime objects or datetime-formated strings to localized
@@ -13,6 +12,8 @@ use Exception;
  */
 class DateTimeFormatter extends AbstractFormatter
 {
+    const ERROR = 'ERR';
+
     protected $datetimeFormats = array(
         'NONE'   => IntlDateFormatter::NONE,
         'SHORT'  => IntlDateFormatter::SHORT,
@@ -57,7 +58,11 @@ class DateTimeFormatter extends AbstractFormatter
             $formatter  = new IntlDateFormatter($locale, $formatDate, $formatTime, $datetime->getTimezone()->getName());
         }
 
-        return $formatter != null ? $formatter->format($this->sanitizeDateForIntl($datetime)) : 'ERR';
+        if ($formatter == null) {
+            return DateTimeFormatter::ERROR;
+        }
+
+        return $formatter->format($this->sanitizeDateForIntl($datetime));
     }
 
     public function formatDate($date, $format = null, $timezone = null, $locale = null)
@@ -77,7 +82,11 @@ class DateTimeFormatter extends AbstractFormatter
             $formatter  = new IntlDateFormatter($locale, $format, IntlDateFormatter::NONE, $date->getTimezone()->getName());
         }
 
-        return $formatter->format($this->sanitizeDateForIntl($date));
+        if ($formatter == null) {
+            return DateTimeFormatter::ERROR;
+        } else {
+            return $formatter->format($this->sanitizeDateForIntl($date));
+        }
     }
 
     public function formatDateRange(array $dates, $formatDay = null, $formatMonth = null, $formatYear = null, $timezone = null, $locale = null)

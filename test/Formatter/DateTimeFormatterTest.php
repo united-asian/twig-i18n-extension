@@ -4,6 +4,7 @@ namespace  UAM\Twig\Extension\I18n\Test\Formatter;
 
 use DateTime;
 use IntlDateFormatter;
+use UAM\Twig\Extension\I18n\Formatter\DateTimeFormatter;
 
 class DateTimeFormatterTest extends DateFormatterTest
 {
@@ -14,8 +15,14 @@ class DateTimeFormatterTest extends DateFormatterTest
     {
         $formatter = new IntlDateFormatter($locale, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT, $timezone);
 
+        if ($formatter == null) {
+            $formatted_value = DateTimeFormatter::ERROR;
+        } else {
+            $formatted_value = $formatter->format(new DateTime($date));
+        }
+
         $this->assertEquals(
-            $formatter != null ? $formatter->format(new DateTime($date)) : 'ERR',
+            $formatted_value,
             $this->getFormatter()->formatDateTime($date, 'SHORT', 'SHORT', $timezone, $locale)
         );
     }
@@ -26,9 +33,14 @@ class DateTimeFormatterTest extends DateFormatterTest
     public function testMediumDate($date, $timezone, $locale)
     {
         $formatter = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM, $timezone);
+        if ($formatter == null) {
+            $formatted_value = DateTimeFormatter::ERROR;
+        } else {
+            $formatted_value = $formatter->format(new DateTime($date));
+        }
 
         $this->assertEquals(
-            $formatter != null ? $formatter->format(new DateTime($date)) : 'ERR',
+            $formatted_value,
             $this->getFormatter()->formatDateTime($date, 'MEDIUM', 'MEDIUM', $timezone, $locale)
         );
     }
@@ -40,8 +52,14 @@ class DateTimeFormatterTest extends DateFormatterTest
     {
         $formatter = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG, $timezone);
 
+        if ($formatter == null) {
+            $formatted_value = DateTimeFormatter::ERROR;
+        } else {
+            $formatted_value = $formatter->format(new DateTime($date));
+        }
+
         $this->assertEquals(
-            $formatter != null ? $formatter->format(new DateTime($date)) : 'ERR',
+            $formatted_value,
             $this->getFormatter()->formatDateTime($date, 'LONG', 'LONG', $timezone, $locale)
         );
     }
@@ -53,8 +71,14 @@ class DateTimeFormatterTest extends DateFormatterTest
     {
         $formatter = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL, $timezone);
 
+        if ($formatter == null) {
+            $formatted_value = DateTimeFormatter::ERROR;
+        } else {
+            $formatted_value = $formatter->format(new DateTime($date));
+        }
+
         $this->assertEquals(
-            $formatter != null ? $formatter->format(new DateTime($date)) : 'ERR',
+            $formatted_value,
             $this->getFormatter()->formatDateTime($date, 'FULL', 'FULL', $timezone, $locale)
         );
     }

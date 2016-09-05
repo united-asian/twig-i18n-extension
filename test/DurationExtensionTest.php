@@ -2,13 +2,14 @@
 
 namespace UAM\Twig\Extension\I18n\Test;
 
+use DateTime;
 use PHPUnit_Framework_TestCase;
 use UAM\Twig\Extension\I18n\DurationExtension;
 
 class DurationExtensionTest extends PHPUnit_Framework_TestCase
 {
     //dates span across a year
-    public function differentDateDataProvider()
+    public function testDurationDataProvider()
     {
         return array(
             array('8-12-2015', '6-5-2011', 'YYY-MMM-DDD', '4 years 7 months 2 days'),
@@ -18,13 +19,13 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider differentDateDataProvider
+     * @dataProvider testDurationDataProvider
      */
-    public function testDurationDifferentDate($from, $to, $format, $expect_duration)
+    public function testDuration($from, $to, $format, $expected)
     {
-        $duration_filter = new DurationExtension();
-        $total_duration = $duration_filter->durationFilter($from, $to, $format);
+        $extension = new DurationExtension();
+        $actual = $extension->durationFilter($from, $to, $format);
 
-        $this->assertEquals($expect_duration, $total_duration);
+        $this->assertEquals($expected, $actual);
     }
 }

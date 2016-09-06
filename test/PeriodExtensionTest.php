@@ -10,7 +10,7 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testPeriodFilter($start_date, $end_date, $day_format, $month_format, $year_format, $expected_period)
+    public function testPeriodFilter($start_date, $end_date, $day_format, $month_format, $year_format, $expected)
     {
         $translator = $this->getMockBuilder('Symfony\Component\Translation\TranslatorInterface')
             ->setMethods(array(
@@ -29,9 +29,9 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
             ));
 
         $extension = new PeriodExtension($translator);
-        $actual_period = $extension->periodFilter($start_date, $end_date, 'en', $day_format, $month_format, $year_format);
+        $actual = $extension->periodFilter($start_date, $end_date, 'en', $day_format, $month_format, $year_format);
 
-        $this->assertEquals($expected_period, $actual_period);
+        $this->assertEquals($expected, $actual);
     }
 
     public function trans($id, array $parameters = array(), $domain = null, $locale = null)
@@ -46,28 +46,37 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
     public function dataProvider()
     {
         return array(
+            //start date is before end date
+            array('2016-03-05', '2016-03-10', 'dd', 'MMMM', 'yyyy', '05 - 10 March 2016'),
+            array('2016-03-05', '2016-03-10', 'd', 'MMMM', 'yyyy', '5 - 10 March 2016'),
+            array('2015-05-30', '2016-03-04', 'dd', 'MMM', 'yyyy', '30 May 2015 - 04 Mar 2016'),
+            array('2016-04-12', '2016-06-01', 'd', 'MMM', 'yyyy', '12 Apr - 1 Jun 2016'),
+            array('2015-05-30', '2016-03-04', 'dd', 'MM', 'yyyy', '30 05 2015 - 04 03 2016'),
+            array('2015-05-30', '2016-03-04', 'd', 'MM', 'yyyy', '30 05 2015 - 4 03 2016'),
+            array('2015-05-30', '2016-03-04', 'dd', 'M', 'yyyy', '30 5 2015 - 04 3 2016'),
+            array('2015-05-30', '2016-03-04', 'd', 'M', 'yy', '30 5 15 - 4 3 16'),
+            array('2015-05-30', '2016-03-04', 'dd', 'MMMM', 'yy', '30 May 15 - 04 March 16'),
+            array('2015-05-30', '2016-03-04', 'd', 'MMMM', 'yy', '30 May 15 - 4 March 16'),
+            array('2015-05-30', '2016-03-04', 'dd', 'MMM', 'yy', '30 May 15 - 04 Mar 16'),
+            array('2015-05-30', '2016-03-04', 'd', 'MMM', 'yy', '30 May 15 - 4 Mar 16'),
+            array('2015-05-30', '2016-03-04', 'dd', 'MM', 'yy', '30 05 15 - 04 03 16'),
+            array('2015-05-30', '2016-03-04', 'd', 'MM', 'yy', '30 05 15 - 4 03 16'),
+            array('2015-05-30', '2016-03-04', 'dd', 'M', 'yy', '30 5 15 - 04 3 16'),
+            array('2015-05-30', '2016-03-04', 'd', 'M', 'yy', '30 5 15 - 4 3 16'),
 
-            //when start date is same as end date
-            array('02-09-2016', '02-09-2016', 'd', 'MMMM', 'yyyy', '2 September 2016'),
-            array('02-09-2016', '02-09-2016', 'dd', 'MMMM', 'yyyy', '02 September 2016'),
-            array('02-09-2016', '02-09-2016', 'd', 'MMM', 'yyyy', '2 Sep 2016'),
-            array('02-09-2016', '02-09-2016', 'dd', 'MMM', 'yyyy', '02 Sep 2016'),
-            array('02-09-2016', '02-09-2016', 'd', 'MM', 'yyyy', '2 09 2016'),
-            array('02-09-2016', '02-09-2016', 'dd', 'M', 'yyyy', '02 9 2016'),
-            array('02-09-2016', '02-09-2016', 'dd', 'M', 'yyy', '02 9 2016'),
-            array('02-09-2016', '02-09-2016', 'd', 'M', 'yy', '2 9 16'),
-            array('02-09-2016', '02-09-2016', 'dd', 'M', 'y', '02 9 2016'),
+            //start date is same as end date
+            array('2016-09-02', '2016-09-02', 'd', 'MMMM', 'yyyy', '2 September 2016'),
+            array('2016-09-02', '2016-09-02', 'dd', 'MMMM', 'yyyy', '02 September 2016'),
+            array('2016-09-02', '2016-09-02', 'd', 'MMM', 'yyyy', '2 Sep 2016'),
+            array('2016-09-02', '2016-09-02', 'dd', 'MMM', 'yyyy', '02 Sep 2016'),
+            array('2016-09-02', '2016-09-02', 'd', 'MM', 'yyyy', '2 09 2016'),
+            array('2016-09-02', '2016-09-02', 'dd', 'M', 'yyyy', '02 9 2016'),
+            array('2016-09-02', '2016-09-02', 'd', 'M', 'yy', '2 9 16'),
 
-            //when start date is less than end date
-            array('05-03-2016', '10-03-2016', 'd', 'MMMM', 'yyyy', '5 - 10 March 2016'),
-            array('12-05-2015', '24-05-2015', 'dd', 'MMMM', 'yy','12 - 24 May 15'),
-            array('12-04-2016', '01-06-2016', 'dd', 'MM', 'yyyy', '12 04 - 01 06 2016'),
-            array('30-05-2015', '04-03-2016', 'd', 'MM', 'yyyy', '30 05 2015 - 4 03 2016'),
-
-            //when start date is greater than end date
-            array('05-02-2017', '10-03-2015', 'dd', 'MMMM', 'yyyy','05 February 2017 - 10 March 2015'),
-            array('20-04-2016', '10-04-2016', 'd', 'MMM', 'yyyy','20 - 10 Apr 2016'),
-            array('05-05-2016', '10-04-2016', 'd', 'M', 'yyyy', '5 5 - 10 4 2016'),
+            //start date is after end date
+            array('2017-05-02', '2015-03-10', 'dd', 'MMMM', 'yyyy','02 May 2017 - 10 March 2015'),
+            array('2016-04-20', '016-04-10', 'd', 'MMM', 'yyyy','20 - 10 Apr 2016'),
+            array('2016-05-05', '2016-04-10', 'd', 'M', 'yyyy', '5 5 - 10 4 2016'),
          );
     }
 }

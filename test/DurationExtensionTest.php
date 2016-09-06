@@ -112,6 +112,11 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             // order and format of start date and end date is different
             array('2016-10-2', '5/3/2014', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
             array('2016/10/2', '3-5-2014', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+
+            // 7. using different displaying formats
+            array('2015-12-8 11:10:20', '2011-5-6 12:11:30', 'YYY-MMM-DDD-HHH-III-SSS', '4 years 7 months 1 days 22 hours 58 minutes 50 seconds'),
+            array('2015-12-8 11:10:20', '2011-5-6 12:11:30', 'YY-MM-DD-HH-II-SS', '4 yrs 7 mos 1 ds 22 hrs 58 mins 50 secs'),
+            array('2015-12-8 11:10:20', '2011-5-6 12:11:30', 'Y-M-D-H-I-S', '4y 7m 1d 22h 58i 50s'),
         );
     }
 

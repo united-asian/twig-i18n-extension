@@ -17,9 +17,15 @@ class DateFormatterTest extends AbstractFormatterTestCase
     {
         $formatter = new IntlDateFormatter($locale, IntlDateFormatter::SHORT, IntlDateFormatter::NONE, $timezone);
 
+        if ($formatter == null) {
+            $formatted_value = DateTimeFormatter::ERROR;
+        } else {
+            $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
+        }
+
         $this->assertEquals(
-            $this->getFormatter()->formatDate($date, 'SHORT', $timezone, $locale),
-            $formatter->format($this->getDateTime($date, $timezone))
+            $formatted_value,
+            $this->getFormatter()->formatDate($date, 'SHORT', $timezone, $locale)
         );
     }
 
@@ -30,9 +36,15 @@ class DateFormatterTest extends AbstractFormatterTestCase
     {
         $formatter = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, $timezone);
 
+        if ($formatter == null) {
+            $formatted_value = DateTimeFormatter::ERROR;
+        } else {
+            $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
+        }
+
         $this->assertEquals(
-            $this->getFormatter()->formatDate($date, 'MEDIUM', $timezone, $locale),
-            $formatter->format($this->getDateTime($date, $timezone))
+            $formatted_value,
+            $this->getFormatter()->formatDate($date, 'MEDIUM', $timezone, $locale)
         );
     }
 
@@ -43,9 +55,15 @@ class DateFormatterTest extends AbstractFormatterTestCase
     {
         $formatter = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE, $timezone);
 
+        if ($formatter == null) {
+            $formatted_value = DateTimeFormatter::ERROR;
+        } else {
+            $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
+        }
+
         $this->assertEquals(
-            $this->getFormatter()->formatDate($date, 'LONG', $timezone, $locale),
-            $formatter->format($this->getDateTime($date, $timezone))
+            $formatted_value,
+            $this->getFormatter()->formatDate($date, 'LONG', $timezone, $locale)
         );
     }
 
@@ -56,9 +74,15 @@ class DateFormatterTest extends AbstractFormatterTestCase
     {
         $formatter = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::NONE, $timezone);
 
+        if ($formatter == null) {
+            $formatted_value = DateTimeFormatter::ERROR;
+        } else {
+            $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
+        }
+
         $this->assertEquals(
-            $this->getFormatter()->formatDate($date, 'FULL', $timezone, $locale),
-            $formatter->format($this->getDateTime($date, $timezone))
+            $formatted_value,
+            $this->getFormatter()->formatDate($date, 'FULL', $timezone, $locale)
         );
     }
 

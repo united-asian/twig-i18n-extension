@@ -85,9 +85,9 @@ class DateTimeFormatter extends AbstractFormatter
 
         if ($formatter == null) {
             return DateTimeFormatter::ERROR;
-        } else {
-            return $formatter->format($this->sanitizeDateForIntl($date));
         }
+
+        return $formatter->format($this->sanitizeDateForIntl($date));
     }
 
     public function formatDateRange(array $dates, $formatDay = null, $formatMonth = null, $formatYear = null, $timezone = null, $locale = null)

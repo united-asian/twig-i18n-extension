@@ -64,6 +64,20 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // showing months, days and seconds
             array('2011-5-6 12:15:00', '2015-12-8 02:05:30', 'MMM-DDD-SSS', ' 55 months 1 days 49830 seconds'),
+
+            // 3. start date and end date is same.
+
+            // all units of start and end date is same
+            array('2015-2-10 12:10:15', '2015-2-10 12:10:15', 'YYY-MMM-DDD-HHH-III-SSS', '0 years 0 months 0 days 0 hours 0 minutes 0 seconds'),
+
+            // month and year of start and end date is same
+            array('2015-4-6', '2015-4-27', 'YYY-MMM-DDD', '0 years 0 months 21 days'),
+
+            // day and year of start and end date is same
+            array('2014-12-10', '2014-2-10', 'YYY-MMM-DDD', '0 years 10 months 0 days'),
+
+            // month and day of start and end date is same
+            array('2014-12-10', '2015-12-10', "YYY-MMM-DDD", '1 years 0 months 0 days'),
         );
     }
 
@@ -73,6 +87,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     public function testDuration($from, $to, $format, $expected)
     {
         $extension = new DurationExtension();
+
         $actual = $extension->durationFilter($from, $to, $format);
 
         $this->assertEquals($expected, $actual);

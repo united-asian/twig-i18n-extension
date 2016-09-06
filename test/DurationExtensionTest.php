@@ -77,6 +77,41 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // month and day of start and end date is same
             array('2014-12-10', '2015-12-10', "YYY-MMM-DDD", '1 years 0 months 0 days'),
+
+            // 4. start date is greater than end date
+
+            // year of start date is less than end date
+            array('2016-10-2', '2014-5-3', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+
+            // year is same but month of end date is less than start date
+            array('2016-10-2', '2016-5-3', 'YYY-MMM-DDD', '0 years 4 months 30 days'),
+
+            // year and month is same but day of end date is less than end date
+            array('2016-9-10', '2016-9-6', 'YYY-MMM-DDD', '0 years 0 months 4 days'),
+
+            // 5. test for null values
+
+            // TODO[DA 2016-09-06] since when start date or end date is null, it assumes that start date or end date is current date.
+            //Expected need to be calculated according to current date. so it is in TODO
+            //array(null, '2016-2-30', "YYY-MMM-DDD", '0 years 6 months 5 days'),
+            //array('2016-1-30', null, "YYY-MMM-DDD", '0 years 7 months 7 days'),
+
+            // both start and end date is null
+            array(null, null, "YYY-MMM-DDD", '0 years 0 months 0 days'),
+
+            // 6. using various formats and orders
+
+            // format of start date and end date is different
+            array('2016-10-2', '2014/5/3', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+            array('2016/10/2', '2014-5-3', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+
+            // order of start date and end date is different
+            array('2016-10-2', '3-5-2014', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+            array('2016/10/2', '5/3/2014', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+
+            // order and format of start date and end date is different
+            array('2016-10-2', '5/3/2014', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+            array('2016/10/2', '3-5-2014', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
         );
     }
 

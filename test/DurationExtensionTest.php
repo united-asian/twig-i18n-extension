@@ -2,7 +2,6 @@
 
 namespace UAM\Twig\Extension\I18n\Test;
 
-use DateTime;
 use PHPUnit_Framework_TestCase;
 use UAM\Twig\Extension\I18n\DurationExtension;
 

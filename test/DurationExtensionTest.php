@@ -73,6 +73,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     public function testDuration($from, $to, $format, $expected)
     {
         $extension = new DurationExtension();
+
         $actual = $extension->durationFilter($from, $to, $format);
 
         $this->assertEquals($expected, $actual);

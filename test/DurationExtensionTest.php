@@ -2,6 +2,8 @@
 
 namespace UAM\Twig\Extension\I18n\Test;
 
+use DateInterval;
+use DateTime;
 use PHPUnit_Framework_TestCase;
 use UAM\Twig\Extension\I18n\DurationExtension;
 
@@ -91,10 +93,22 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // 5. test for null values
 
-            // TODO[DA 2016-09-06] since when start date or end date is null, it assumes that start date or end date is current date.
-            //Expected need to be calculated according to current date. so it is in TODO
-            //array(null, '2016-2-30', "YYY-MMM-DDD", '0 years 6 months 5 days'),
-            //array('2016-1-30', null, "YYY-MMM-DDD", '0 years 7 months 7 days'),
+            // when start date is null
+            array(
+                null,
+                $this->getCurrentDate()->add(new DateInterval('P2Y1M1D'))->format('Y-m-d H:i:s'),
+                'YYY-MMM-DDD',
+                '2 years 1 months 1 days',
+            ),
+
+
+            // when end date is null
+            array(
+                $this->getCurrentDate()->add(new DateInterval('P4Y1M1D'))->format('Y-m-d H:i:s'),
+                null,
+                'YYY-MMM-DDD',
+                '4 years 1 months 1 days',
+            ),
 
             // both start and end date is null
             array(null, null, "YYY-MMM-DDD", '0 years 0 months 0 days'),
@@ -130,5 +144,10 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         $actual = $extension->durationFilter($from, $to, $format);
 
         $this->assertEquals($expected, $actual);
+    }
+
+    protected function getCurrentDate()
+    {
+        return new DateTime(null);
     }
 }

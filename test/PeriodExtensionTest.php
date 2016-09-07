@@ -84,6 +84,7 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
             $this->getTestDataForNow('P1Y'),
             $this->getTestDataForNow('P1M'),
             $this->getTestDataForNow('P1D'),
+            $this->getTestDataForNow('P0Y'),
 
             //tests for incomplete values of dates
             array('2016-04', '2016-05-10', 'dd', 'MMMM', 'yyyy', '01 April - 10 May 2016'),
@@ -118,6 +119,8 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
             } else {
                 if ($from_day != $to_day) {
                     $expected = $from->format('d') . ' - ' . $to->format('d F Y');
+                } else {
+                    $expected = $to->format('d F Y');
                 }
             }
         }

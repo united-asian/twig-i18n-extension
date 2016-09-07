@@ -4,6 +4,7 @@ namespace UAM\Twig\Extension\I18n\Formatter;
 
 use DateTime;
 use DateTimeZone;
+use Exception;
 use IntlDateFormatter;
 use UAM\Twig\Extension\I18n\Formatter\AbstractFormatter;
 
@@ -56,7 +57,12 @@ class DateTimeFormatter extends AbstractFormatter
         } else {
             $formatDate = $this->getDateTimeFormat($formatDate, 'FULL');
             $formatTime = $this->getDateTimeFormat($formatTime, 'SHORT');
-            $formatter  = new IntlDateFormatter($locale, $formatDate, $formatTime, $datetime->getTimezone()->getName());
+
+            try {
+                $formatter  = new IntlDateFormatter($locale, $formatDate, $formatTime, $datetime->getTimezone()->getName());
+            } catch (Exception $e) {
+                $formatter = null;
+            }
         }
 
         if ($formatter == null) {
@@ -80,7 +86,12 @@ class DateTimeFormatter extends AbstractFormatter
             $formatter->setPattern($this->getFormat($format));
         } else {
             $format     = $this->getDateTimeFormat($format, 'FULL');
-            $formatter  = new IntlDateFormatter($locale, $format, IntlDateFormatter::NONE, $date->getTimezone()->getName());
+
+            try {
+                $formatter  = new IntlDateFormatter($locale, $format, IntlDateFormatter::NONE, $date->getTimezone()->getName());
+            } catch (Exception $e) {
+                $formatter = null;
+            }
         }
 
         if ($formatter == null) {

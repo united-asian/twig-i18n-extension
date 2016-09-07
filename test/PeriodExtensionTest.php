@@ -89,9 +89,9 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
 
     protected function getTestDataForNow($addition)
     {
-        $from = new DateTime();
+        $from = new DateTime('Now');
 
-        $to = new DateTime();
+        $to = new DateTime('Now');
         $to->add(new DateInterval($addition));
 
         $from_year = $from->format('Y');

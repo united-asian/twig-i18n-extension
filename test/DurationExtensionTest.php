@@ -2,6 +2,7 @@
 
 namespace UAM\Twig\Extension\I18n\Test;
 
+use DateInterval;
 use DateTime;
 use PHPUnit_Framework_TestCase;
 use UAM\Twig\Extension\I18n\DurationExtension;
@@ -64,6 +65,84 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // showing months, days and seconds
             array('2011-5-6 12:15:00', '2015-12-8 02:05:30', 'MMM-DDD-SSS', ' 55 months 1 days 49830 seconds'),
+
+            // 3. start date and end date is same.
+
+            // all units of start and end date is same
+            array('2015-2-10 12:10:15', '2015-2-10 12:10:15', 'YYY-MMM-DDD-HHH-III-SSS', '0 years 0 months 0 days 0 hours 0 minutes 0 seconds'),
+
+            // month and year of start and end date is same
+            array('2015-4-6', '2015-4-27', 'YYY-MMM-DDD', '0 years 0 months 21 days'),
+
+            // day and year of start and end date is same
+            array('2014-12-10', '2014-2-10', 'YYY-MMM-DDD', '0 years 10 months 0 days'),
+
+            // month and day of start and end date is same
+            array('2014-12-10', '2015-12-10', "YYY-MMM-DDD", '1 years 0 months 0 days'),
+
+            // 4. start date is greater than end date
+
+            // year of start date is less than end date
+            array('2016-10-2', '2014-5-3', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+
+            // year is same but month of end date is less than start date
+            array('2016-10-2', '2016-5-3', 'YYY-MMM-DDD', '0 years 4 months 30 days'),
+
+            // year and month is same but day of end date is less than end date
+            array('2016-9-10', '2016-9-6', 'YYY-MMM-DDD', '0 years 0 months 4 days'),
+
+            // 5. test for null values
+
+            // when start date is null
+            array(
+                null,
+                $this->getCurrentDate()->add(new DateInterval('P2Y1M1D'))->format('Y-m-d H:i:s'),
+                'YYY-MMM-DDD',
+                '2 years 1 months 1 days',
+            ),
+
+
+            // when end date is null
+            array(
+                $this->getCurrentDate()->add(new DateInterval('P4Y1M1D'))->format('Y-m-d H:i:s'),
+                null,
+                'YYY-MMM-DDD',
+                '4 years 1 months 1 days',
+            ),
+
+            // both start and end date is null
+            array(null, null, "YYY-MMM-DDD", '0 years 0 months 0 days'),
+
+            // 6. using various formats and orders
+
+            // format of start date and end date is different
+            array('2016-10-2', '2014/5/3', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+            array('2016/10/2', '2014-5-3', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+
+            // order of start date and end date is different
+            array('2016-10-2', '3-5-2014', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+            array('2016/10/2', '5/3/2014', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+
+            // order and format of start date and end date is different
+            array('2016-10-2', '5/3/2014', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+            array('2016/10/2', '3-5-2014', 'YYY-MMM-DDD', '2 years 4 months 30 days'),
+
+            // 7. using different displaying formats
+            array('2015-12-8 11:10:20', '2011-5-6 12:11:30', 'YYY-MMM-DDD-HHH-III-SSS', '4 years 7 months 1 days 22 hours 58 minutes 50 seconds'),
+            array('2015-12-8 11:10:20', '2011-5-6 12:11:30', 'YY-MM-DD-HH-II-SS', '4 yrs 7 mos 1 ds 22 hrs 58 mins 50 secs'),
+            array('2015-12-8 11:10:20', '2011-5-6 12:11:30', 'Y-M-D-H-I-S', '4y 7m 1d 22h 58i 50s'),
+
+            // 8. when start date or end date is incomplete
+
+            // only year and month is provided
+            array('2011-5', '2015-12-8', 'YYY-MMM-DDD', '4 years 7 months 7 days'),
+            array('2011-5-6', '2015-12', 'YYY-MMM-DDD', '4 years 6 months 25 days'),
+            array('2011-5', '2015-12', 'YYY-MMM-DDD', '4 years 7 months 0 days'),
+
+            // only month and day is provided
+            array('6/13', '2011-6-13', 'YYY-MMM-DDD', '5 years 0 months 0 days'),
+            array('5/13/2016', '6/13', 'YYY-MMM-DDD', '0 years 1 months 0 days'),
+            array('3/6', '5/7', 'YYY-MMM-DDD', '0 years 2 months 1 days'),
         );
     }
 
@@ -78,4 +157,10 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($expected, $actual);
     }
+
+    protected function getCurrentDate()
+    {
+        return new DateTime(null);
+    }
+
 }

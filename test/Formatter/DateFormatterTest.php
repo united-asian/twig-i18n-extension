@@ -1,9 +1,10 @@
 <?php
 
-namespace  UAM\Twig\Extension\I18n\test\Formatter;
+namespace  UAM\Twig\Extension\I18n\Test\Formatter;
 
 use DateTime;
 use DateTimeZone;
+use Exception;
 use IntlDateFormatter;
 use Faker\Factory;
 use UAM\Twig\Extension\I18n\Formatter\DateTimeFormatter;
@@ -15,7 +16,11 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testShortDate($date, $timezone, $locale)
     {
-        $formatter = new IntlDateFormatter($locale, IntlDateFormatter::SHORT, IntlDateFormatter::NONE, $timezone);
+        try {
+            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::SHORT, IntlDateFormatter::NONE, $timezone);
+        } catch (Exception $e) {
+            $formatter = null;
+        }
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;
@@ -34,7 +39,12 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testMediumDate($date, $timezone, $locale)
     {
-        $formatter = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, $timezone);
+
+        try {
+            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, $timezone);
+        } catch (Exception $e) {
+            $formatter = null;
+        }
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;
@@ -53,7 +63,11 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testLongDate($date, $timezone, $locale)
     {
-        $formatter = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE, $timezone);
+        try {
+            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE, $timezone);
+        } catch (Exception $e){
+            $formatter = null;
+        }
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;
@@ -72,7 +86,11 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testFullDate($date, $timezone, $locale)
     {
-        $formatter = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::NONE, $timezone);
+        try {
+            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::NONE, $timezone);
+        } catch (Exception $e) {
+            $formatter = null;
+        }
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;

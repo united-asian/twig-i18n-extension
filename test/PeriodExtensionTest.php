@@ -84,6 +84,13 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
             $this->getTestDataForNow('P1Y'),
             $this->getTestDataForNow('P1M'),
             $this->getTestDataForNow('P1D'),
+
+            //tests for incomplete values of dates
+            array('2016-04', '2016-05-10', 'dd', 'MMMM', 'yyyy', '01 April - 10 May 2016'),
+            array('2016-04', '2016-05', 'dd', 'MMMM', 'yyyy', '01 April - 01 May 2016'),
+            array('2017-09-10', '2016-05', 'dd', 'MMMM', 'yyyy', '10 September 2017 - 01 May 2016'),
+            array('2017-09', '2017-08', 'dd', 'MMMM', 'yyyy', '01 September - 01 August 2017'),
+            array('2017-08', '2016-09-03', 'dd', 'MMMM', 'yyyy', '01 August 2017 - 03 September 2016'),
          );
     }
 

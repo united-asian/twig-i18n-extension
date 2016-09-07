@@ -101,7 +101,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
                 '2 years 1 months 1 days',
             ),
 
-
             // when end date is null
             array(
                 $this->getCurrentDate()->add(new DateInterval('P4Y1M1D'))->format('Y-m-d H:i:s'),

@@ -131,6 +131,18 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2015-12-8 11:10:20', '2011-5-6 12:11:30', 'YYY-MMM-DDD-HHH-III-SSS', '4 years 7 months 1 days 22 hours 58 minutes 50 seconds'),
             array('2015-12-8 11:10:20', '2011-5-6 12:11:30', 'YY-MM-DD-HH-II-SS', '4 yrs 7 mos 1 ds 22 hrs 58 mins 50 secs'),
             array('2015-12-8 11:10:20', '2011-5-6 12:11:30', 'Y-M-D-H-I-S', '4y 7m 1d 22h 58i 50s'),
+
+            // 8. when start date or end date is incomplete
+
+            // only year and month is provided
+            array('2011-5', '2015-12-8', 'YYY-MMM-DDD', '4 years 7 months 7 days'),
+            array('2011-5-6', '2015-12', 'YYY-MMM-DDD', '4 years 6 months 25 days'),
+            array('2011-5', '2015-12', 'YYY-MMM-DDD', '4 years 7 months 0 days'),
+
+            // only month and day is provided
+            array('6/13', '2011-6-13', 'YYY-MMM-DDD', '5 years 0 months 0 days'),
+            array('5/13/2016', '6/13', 'YYY-MMM-DDD', '0 years 1 months 0 days'),
+            array('3/6', '5/7', 'YYY-MMM-DDD', '0 years 2 months 1 days'),
         );
     }
 
@@ -150,4 +162,5 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     {
         return new DateTime(null);
     }
+
 }

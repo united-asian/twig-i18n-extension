@@ -3,7 +3,7 @@
 namespace UAM\Twig\Extension\I18n\Test;
 
 use PHPUnit_Framework_TestCase;
-use UAM\Twig\Extension\I18n\NumberExtension;
+use UAM\Twig\Extension\I18n\Formatter\NumberFormatter;
 
 class NumberExtensionTest extends PHPUnit_Framework_TestCase
 {
@@ -12,8 +12,8 @@ class NumberExtensionTest extends PHPUnit_Framework_TestCase
      */
     public function testByteFilter($number, $unit, $expected, $locale = null)
     {
-        $extension = new NumberExtension();
-        $formatted_value = $extension->bytesFilter($number, $unit, $locale);
+        $number_formatter = new NumberFormatter();
+        $formatted_value = $number_formatter->formatBytes($number, $unit, $locale);
 
         $this->assertEquals($formatted_value, $expected);
     }

@@ -2,9 +2,9 @@
 
 namespace UAM\Twig\Extension\I18n;
 
-use NumberFormatter as IntlNumberFormatter;
 use Twig_Extension;
 use Twig_SimpleFilter;
+use NumberFormatter as IntlNumberFormatter;
 use UAM\Twig\Extension\I18n\Formatter\NumberFormatter;
 
 class NumberExtension extends Twig_Extension
@@ -26,6 +26,5 @@ class NumberExtension extends Twig_Extension
         $number_formatter = new NumberFormatter();
 
         return $number_formatter->formatBytes($bytes, $unit, $locale);
-
     }
 }

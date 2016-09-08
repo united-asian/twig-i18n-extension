@@ -9,7 +9,7 @@ use NumberFormatter as IntlNumberFormatter;
  */
 class NumberFormatter extends AbstractFormatter
 {
-    protected $units = array(
+    protected $storage_size_units = array(
         'b' => 0,
         'Kb' => 1,
         'Mb' => 2,
@@ -85,6 +85,6 @@ class NumberFormatter extends AbstractFormatter
 
     public function formatBytes($bytes, $unit, $locale)
     {
-        return  floor($bytes / pow(1024, ($this->units[$unit]))).$unit;
+        return  floor($bytes / pow(1024, ($this->storage_size_units[$unit]))) . $unit;
     }
 }

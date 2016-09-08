@@ -85,6 +85,6 @@ class NumberFormatter extends AbstractFormatter
 
     public function formatBytes($bytes, $unit, $locale)
     {
-      return  floor($bytes / pow(1024, floor($this->units[$unit]))).$unit;
+        return  floor($bytes / pow(1024, ($this->units[$unit]))).$unit;
     }
 }

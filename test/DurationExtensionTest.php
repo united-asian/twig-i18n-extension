@@ -145,14 +145,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    // dataprovider for france locale
-    public function frData()
-    {
-        return array(
-            array('2015-10-10', '2016-10-10', "YYY", '1 annees'),
-        );
-    }
-
     /**
      * @dataProvider enData
      */
@@ -166,18 +158,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    /**
-     * @dataProvider frData
-     */
-    public function testDurationFr($from, $to, $format, $expected)
-    {
-        $locale = 'fr';
-        $extension = new DurationExtension();
-
-        $actual = $extension->durationFilter($from, $to, $locale, $format);
-
-        $this->assertEquals($expected, $actual);
-    }
     protected function getCurrentDate()
     {
         return new DateTime(null);

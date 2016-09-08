@@ -21,10 +21,11 @@ class NumberExtension extends Twig_Extension
         );
     }
 
-    public function bytesFilter($bytes, $locale = null, $unit)
+    public function bytesFilter($bytes, $unit, $locale)
     {
-//        $format_bytes = new NumberFormatter();
-//
-//        return $format_bytes->formatBytes($bytes, $locale = null, $unit);
+        $number_formatter = new NumberFormatter();
+
+        return $number_formatter->formatBytes($bytes, $unit, $locale);
+
     }
 }

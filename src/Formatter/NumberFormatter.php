@@ -9,6 +9,15 @@ use NumberFormatter as IntlNumberFormatter;
  */
 class NumberFormatter extends AbstractFormatter
 {
+    protected $units = array(
+        'b' => 0,
+        'Kb' => 1,
+        'Mb' => 2,
+        'Gb' => 3,
+        'Tb' => 4,
+        'Pb' => 5,
+    );
+
     public function formatNumber($number, $locale = null)
     {
         $locale = $this->getLocale($locale);
@@ -72,5 +81,10 @@ class NumberFormatter extends AbstractFormatter
         $formatter->setAttribute(IntlNumberFormatter::MAX_FRACTION_DIGITS, $decimals);
 
         return $formatter->format($number);
+    }
+
+    public function formatBytes($bytes, $unit, $locale)
+    {
+      return  floor($bytes / pow(1024, floor($this->units[$unit]))).$unit;
     }
 }

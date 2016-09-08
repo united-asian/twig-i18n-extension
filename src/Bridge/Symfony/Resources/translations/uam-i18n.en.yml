@@ -2,3 +2,33 @@ period:
     date: %to%
     range: %from% - %to%
 
+duration:
+    year:
+        full: years
+        medium: yrs
+        short: y
+
+    month:
+        full: months
+        medium: mos
+        short: m
+
+    day:
+        full: days
+        medium: ds
+        short: d
+
+    hour:
+        full: hours
+        medium: hrs
+        short: h
+
+    minute:
+        full: minutes
+        medium: mins
+        short: i
+
+    second:
+        full: seconds
+        medium: secs
+        short: s

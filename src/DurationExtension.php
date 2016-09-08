@@ -43,7 +43,7 @@ class DurationExtension extends Twig_Extension
         return 'duration';
     }
 
-    public function durationFilter($from, $to, $locale = null, $format='YYY-MMM-DDD-HHH-III-SSS')
+    public function durationFilter($from, $to, $format='YYY-MMM-DDD-HHH-III-SSS', $locale = null)
     {
         $from_date = new DateTime($from);
 

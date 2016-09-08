@@ -9,6 +9,13 @@ use UAM\Twig\Extension\I18n\DurationExtension;
 
 class DurationExtensionTest extends PHPUnit_Framework_TestCase
 {
+    protected $extension;
+
+    protected function setUp()
+    {
+        $this->setUpDurationExtension();
+    }
+
     //dates span across a year
     public function enData()
     {
@@ -145,21 +152,64 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    // data provider for france
+    public function frData()
+    {
+        return array(
+            array('2010-1-1', '2012-1-1', 'YYY', '2 annees'),
+        );
+    }
+
     /**
      * @dataProvider enData
      */
     public function testDurationEn($from, $to, $format, $expected)
     {
         $locale = 'en';
-        $extension = new DurationExtension();
-
-        $actual = $extension->durationFilter($from, $to, $locale, $format);
+        $actual = $this->extension->durationFilter($from, $to, $format, $locale);
 
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider frData
+     */
+    public function testDurationFr($from, $to, $format, $expected)
+    {
+        $locale = 'fr';
+        $actual = $this->extension->durationFilter($from, $to, $format, $locale);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function trans($id, array $parameters = array(), $domain = null, $locale = null)
+    {
+        // TODO DEEPAK[2016-09-08]
     }
 
     protected function getCurrentDate()
     {
         return new DateTime(null);
+    }
+
+    protected function setUpDurationExtension()
+    {
+        $translator = $this->getMockBuilder('Symfony\Component\Translation\TranslatorInterface')
+            ->setMethods(array(
+                'trans',
+                'transChoice',
+                'setLocale',
+                'getLocale',
+            ))
+            ->getMock();
+
+        $translator->expects($this->any())
+            ->method('trans')
+            ->willReturnCallback(array(
+                $this,
+                'trans',
+            ));
+
+        $this->extension = new DurationExtension($translator);
     }
 }

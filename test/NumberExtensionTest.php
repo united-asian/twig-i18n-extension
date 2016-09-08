@@ -10,10 +10,10 @@ class NumberExtensionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider dataProvider()
      */
-    public function testByteFilter($number, $decimals, $unit, $expected)
+    public function testByteFilter($number, $locale = null, $unit, $expected)
     {
         $extension = new NumberExtension();
-        $formatted_value = $extension->bytesFilter($number, $decimals, $unit);
+        $formatted_value = $extension->bytesFilter($number, $locale, $unit);
 
         $this->assertEquals($formatted_value, $expected);
     }
@@ -21,9 +21,12 @@ class NumberExtensionTest extends PHPUnit_Framework_TestCase
     public function dataProvider()
     {
         return array(
-            array(12345678, '', 'B', '12345678B'),
-            array(123, '', '', '123B'),
-            array(123456789012345, '','Kb', '120563270519.87Kb')
+            array(1048576, 'b', '1048576b'),
+            array(9728, 'Kb', '9Kb'),
+            array(12897484,'Mb', '12Mb'),
+            array(16106127360, 'Gb', '15Gb'),
+            array(7916483719987.2, 'Tb', '7Tb'),
+            array(1759218604441.6, 'Pb', '1Pb'),
         );
     }
 }

@@ -10,7 +10,7 @@ use UAM\Twig\Extension\I18n\DurationExtension;
 class DurationExtensionTest extends PHPUnit_Framework_TestCase
 {
     //dates span across a year
-    public function testDurationDataProvider()
+    public function enData()
     {
         return array(
             array('2015-12-8', '2011-5-6', 'YYY-MMM-DDD', '4 years 7 months 2 days'),
@@ -145,21 +145,41 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @dataProvider testDurationDataProvider
-     */
-    public function testDuration($from, $to, $format, $expected)
+    // dataprovider for france locale
+    public function frData()
     {
+        return array(
+            array('2015-10-10', '2016-10-10', "YYY", '1 annees'),
+        );
+    }
+
+    /**
+     * @dataProvider enData
+     */
+    public function testDurationEn($from, $to, $format, $expected)
+    {
+        $locale = 'en';
         $extension = new DurationExtension();
 
-        $actual = $extension->durationFilter($from, $to, $format);
+        $actual = $extension->durationFilter($from, $to, $locale, $format);
 
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * @dataProvider frData
+     */
+    public function testDurationFr($from, $to, $format, $expected)
+    {
+        $locale = 'fr';
+        $extension = new DurationExtension();
+
+        $actual = $extension->durationFilter($from, $to, $locale, $format);
+
+        $this->assertEquals($expected, $actual);
+    }
     protected function getCurrentDate()
     {
         return new DateTime(null);
     }
-
 }

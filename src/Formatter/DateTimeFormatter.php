@@ -87,14 +87,10 @@ class DateTimeFormatter extends AbstractFormatter
         } else {
             $format     = $this->getDateTimeFormat($format, 'FULL');
 
-            try {
-                $formatter  = IntlDateFormatter::create($locale, $format, IntlDateFormatter::NONE, $date->getTimezone()->getName());
-            } catch (Exception $e) {
-                $formatter = null;
-            }
+            $formatter  = IntlDateFormatter::create($locale, $format, IntlDateFormatter::NONE, $date->getTimezone()->getName());
         }
 
-        if ($formatter == null) {
+        if (!$formatter) {
             return DateTimeFormatter::ERROR;
         }
 

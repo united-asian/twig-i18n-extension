@@ -16,7 +16,7 @@ class DateTimeFormatterTest extends DateFormatterTest
     {
         $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format(new DateTime($date));
@@ -35,7 +35,7 @@ class DateTimeFormatterTest extends DateFormatterTest
     {
         $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format(new DateTime($date));
@@ -54,7 +54,7 @@ class DateTimeFormatterTest extends DateFormatterTest
     {
         $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format(new DateTime($date));
@@ -73,7 +73,7 @@ class DateTimeFormatterTest extends DateFormatterTest
     {
         $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format(new DateTime($date));

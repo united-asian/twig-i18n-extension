@@ -18,7 +18,7 @@ class DateFormatterTest extends AbstractFormatterTestCase
     {
         $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::SHORT, IntlDateFormatter::NONE, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
@@ -37,7 +37,7 @@ class DateFormatterTest extends AbstractFormatterTestCase
     {
         $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
@@ -56,7 +56,7 @@ class DateFormatterTest extends AbstractFormatterTestCase
     {
         $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
@@ -75,7 +75,7 @@ class DateFormatterTest extends AbstractFormatterTestCase
     {
         $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::FULL, IntlDateFormatter::NONE, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format($this->getDateTime($date, $timezone));

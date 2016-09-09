@@ -39,10 +39,10 @@ class LanguageFormatterTest extends AbstractFormatterTestCase
 
         $countries = array();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $countries[] = array(
                 $faker->locale(),
-                $faker->locale()
+                $faker->locale(),
             );
         }
 

@@ -4,9 +4,7 @@ namespace UAM\Twig\Extension\I18n\Formatter;
 
 use DateTime;
 use DateTimeZone;
-use Exception;
 use IntlDateFormatter;
-use UAM\Twig\Extension\I18n\Formatter\AbstractFormatter;
 
 /**
  * Formats DateTime objects or datetime-formated strings to localized
@@ -17,56 +15,52 @@ class DateTimeFormatter extends AbstractFormatter
     const ERROR = 'ERR';
 
     protected $datetimeFormats = array(
-        'NONE'   => IntlDateFormatter::NONE,
-        'SHORT'  => IntlDateFormatter::SHORT,
+        'NONE' => IntlDateFormatter::NONE,
+        'SHORT' => IntlDateFormatter::SHORT,
         'MEDIUM' => IntlDateFormatter::MEDIUM,
-        'LONG'   => IntlDateFormatter::LONG,
-        'FULL'   => IntlDateFormatter::FULL,
+        'LONG' => IntlDateFormatter::LONG,
+        'FULL' => IntlDateFormatter::FULL,
     );
 
     protected $constants = array(
-        'ATOM'    => DateTime::ATOM,
-        'COOKIE'  => DateTime::COOKIE,
+        'ATOM' => DateTime::ATOM,
+        'COOKIE' => DateTime::COOKIE,
         'ISO8601' => DateTime::ISO8601,
-        'RFC822'  => DateTime::RFC822,
-        'RFC850'  => DateTime::RFC850,
+        'RFC822' => DateTime::RFC822,
+        'RFC850' => DateTime::RFC850,
         'RFC1036' => DateTime::RFC1036,
         'RFC1123' => DateTime::RFC1123,
         'RFC2822' => DateTime::RFC2822,
         'RFC3339' => DateTime::RFC3339,
-        'RSS'     => DateTime::RSS,
-        'W3C'     => DateTime::W3C,
-        'R'       => DateTime::RFC2822, // date() => r
-        'C'       => DateTime::ISO8601, // date() => C
-        'U'       => 'U', // date() => U
+        'RSS' => DateTime::RSS,
+        'W3C' => DateTime::W3C,
+        'R' => DateTime::RFC2822, // date() => r
+        'C' => DateTime::ISO8601, // date() => C
+        'U' => 'U', // date() => U
     );
 
     public function formatDatetime($datetime, $formatDate = null, $formatTime = null, $timezone = null, $locale = null)
     {
-        $datetime   = $this->getDateTime($datetime, $timezone);
-        $locale     = $this->getLocale($locale);
-        $format     = trim($formatDate.' '.$formatTime);
+        $datetime = $this->getDateTime($datetime, $timezone);
+        $locale = $this->getLocale($locale);
+        $format = trim($formatDate.' '.$formatTime);
 
         if ($this->isConstant($format)) {
             return $datetime->format($this->getConstant($format));
         }
 
         if ($this->isPattern($formatDate) || $this->isPattern($formatTime)) {
-            $formatter  = new IntlDateFormatter($locale, null, null, $datetime->getTimezone()->getName());
+            $formatter = IntlDateFormatter::create($locale, null, null, $datetime->getTimezone()->getName());
             $formatter->setPattern($this->getFormat($format));
         } else {
             $formatDate = $this->getDateTimeFormat($formatDate, 'FULL');
             $formatTime = $this->getDateTimeFormat($formatTime, 'SHORT');
 
-            try {
-                $formatter  = new IntlDateFormatter($locale, $formatDate, $formatTime, $datetime->getTimezone()->getName());
-            } catch (Exception $e) {
-                $formatter = null;
-            }
+            $formatter = IntlDateFormatter::create($locale, $formatDate, $formatTime, $datetime->getTimezone()->getName());
         }
 
-        if ($formatter == null) {
-            return DateTimeFormatter::ERROR;
+        if (!$formatter) {
+            return self::ERROR;
         }
 
         return $formatter->format($this->sanitizeDateForIntl($datetime));
@@ -74,28 +68,24 @@ class DateTimeFormatter extends AbstractFormatter
 
     public function formatDate($date, $format = null, $timezone = null, $locale = null)
     {
-        $date       = $this->getDateTime($date, $timezone);
-        $locale     = $this->getLocale($locale);
+        $date = $this->getDateTime($date, $timezone);
+        $locale = $this->getLocale($locale);
 
         if ($this->isConstant($format)) {
             return $date->format($this->getConstant($format));
         }
 
         if ($this->isPattern($format)) {
-            $formatter  = new IntlDateFormatter($locale, null, null, $date->getTimezone()->getName());
+            $formatter = IntlDateFormatter::create($locale, null, null, $date->getTimezone()->getName());
             $formatter->setPattern($this->getFormat($format));
         } else {
-            $format     = $this->getDateTimeFormat($format, 'FULL');
+            $format = $this->getDateTimeFormat($format, 'FULL');
 
-            try {
-                $formatter  = new IntlDateFormatter($locale, $format, IntlDateFormatter::NONE, $date->getTimezone()->getName());
-            } catch (Exception $e) {
-                $formatter = null;
-            }
+            $formatter = IntlDateFormatter::create($locale, $format, IntlDateFormatter::NONE, $date->getTimezone()->getName());
         }
 
-        if ($formatter == null) {
-            return DateTimeFormatter::ERROR;
+        if (!$formatter) {
+            return self::ERROR;
         }
 
         return $formatter->format($this->sanitizeDateForIntl($date));
@@ -108,7 +98,7 @@ class DateTimeFormatter extends AbstractFormatter
 
         $locale = $this->getLocale($locale);
 
-        $formatter  = new IntlDateFormatter($locale, null, null, $start->getTimezone()->getName());
+        $formatter = IntlDateFormatter::create($locale, null, null, $start->getTimezone()->getName());
 
         if ($start->format('Y-m-d') == $end->format('Y-m-d')) {
             $formatter->setPattern(implode(' ', array($formatDay, $formatMonth, $formatYear)));
@@ -244,19 +234,19 @@ class DateTimeFormatter extends AbstractFormatter
 
     public function formatTime($time, $format = null, $timezone = null, $locale = null)
     {
-        $time       = $this->getDateTime($time, $timezone);
-        $locale     = $this->getLocale($locale);
+        $time = $this->getDateTime($time, $timezone);
+        $locale = $this->getLocale($locale);
 
         if ($this->isConstant($format)) {
             return $time->format($this->getConstant($format));
         }
 
         if ($this->isPattern($format)) {
-            $formatter  = new IntlDateFormatter($locale, null, null, $time->getTimezone()->getName());
+            $formatter = IntlDateFormatter::create($locale, null, null, $time->getTimezone()->getName());
             $formatter->setPattern($this->getFormat($format));
         } else {
-            $format     = $this->getDateTimeFormat($format, 'SHORT');
-            $formatter  = new IntlDateFormatter($locale, IntlDateFormatter::NONE, $format, $time->getTimezone()->getName());
+            $format = $this->getDateTimeFormat($format, 'SHORT');
+            $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::NONE, $format, $time->getTimezone()->getName());
         }
 
         return $formatter->format($this->sanitizeDateForIntl($time));

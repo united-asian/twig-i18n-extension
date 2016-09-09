@@ -41,7 +41,7 @@ class CurrencyFormatterTest extends AbstractFormatterTestCase
 
         $data = array();
 
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 100; ++$i) {
             $data[] = array(
                 $faker->randomNumber(),
                 $faker->currencyCode(),

@@ -3,7 +3,6 @@
 namespace  UAM\Twig\Extension\I18n\Test\Formatter;
 
 use DateTime;
-use Exception;
 use IntlDateFormatter;
 use UAM\Twig\Extension\I18n\Formatter\DateTimeFormatter;
 

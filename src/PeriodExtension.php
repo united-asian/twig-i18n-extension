@@ -40,7 +40,7 @@ class PeriodExtension extends Twig_Extension
 
         $locale = $locale !== null ? $locale : Locale::getDefault();
 
-        $from_formatter  = IntlDateFormatter::create($locale, null, null);
+        $from_formatter = IntlDateFormatter::create($locale, null, null);
         $to_formatter = IntlDateFormatter::create($locale, null, null);
 
         if ($from_date->format('Y-m-d') == $to_date->format('Y-m-d')) {
@@ -77,6 +77,6 @@ class PeriodExtension extends Twig_Extension
         $to_formatter->setPattern(implode(' ', array($day_format, $month_format, $year_format)));
         $to = $to_formatter->format($to_date);
 
-        return $this->translator->trans(self::RANGE, array('%from%' => $from, '%to%' =>  $to), 'uam-i18n', $locale);
+        return $this->translator->trans(self::RANGE, array('%from%' => $from, '%to%' => $to), 'uam-i18n', $locale);
     }
 }

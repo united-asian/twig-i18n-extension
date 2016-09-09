@@ -4,9 +4,7 @@ namespace UAM\Twig\Extension\I18n\Formatter;
 
 use DateTime;
 use DateTimeZone;
-use Exception;
 use IntlDateFormatter;
-use UAM\Twig\Extension\I18n\Formatter\AbstractFormatter;
 
 /**
  * Formats DateTime objects or datetime-formated strings to localized
@@ -17,28 +15,28 @@ class DateTimeFormatter extends AbstractFormatter
     const ERROR = 'ERR';
 
     protected $datetimeFormats = array(
-        'NONE'   => IntlDateFormatter::NONE,
-        'SHORT'  => IntlDateFormatter::SHORT,
+        'NONE' => IntlDateFormatter::NONE,
+        'SHORT' => IntlDateFormatter::SHORT,
         'MEDIUM' => IntlDateFormatter::MEDIUM,
-        'LONG'   => IntlDateFormatter::LONG,
-        'FULL'   => IntlDateFormatter::FULL,
+        'LONG' => IntlDateFormatter::LONG,
+        'FULL' => IntlDateFormatter::FULL,
     );
 
     protected $constants = array(
-        'ATOM'    => DateTime::ATOM,
-        'COOKIE'  => DateTime::COOKIE,
+        'ATOM' => DateTime::ATOM,
+        'COOKIE' => DateTime::COOKIE,
         'ISO8601' => DateTime::ISO8601,
-        'RFC822'  => DateTime::RFC822,
-        'RFC850'  => DateTime::RFC850,
+        'RFC822' => DateTime::RFC822,
+        'RFC850' => DateTime::RFC850,
         'RFC1036' => DateTime::RFC1036,
         'RFC1123' => DateTime::RFC1123,
         'RFC2822' => DateTime::RFC2822,
         'RFC3339' => DateTime::RFC3339,
-        'RSS'     => DateTime::RSS,
-        'W3C'     => DateTime::W3C,
-        'R'       => DateTime::RFC2822, // date() => r
-        'C'       => DateTime::ISO8601, // date() => C
-        'U'       => 'U', // date() => U
+        'RSS' => DateTime::RSS,
+        'W3C' => DateTime::W3C,
+        'R' => DateTime::RFC2822, // date() => r
+        'C' => DateTime::ISO8601, // date() => C
+        'U' => 'U', // date() => U
     );
 
     public function formatDatetime($datetime, $formatDate = null, $formatTime = null, $timezone = null, $locale = null)
@@ -62,7 +60,7 @@ class DateTimeFormatter extends AbstractFormatter
         }
 
         if (!$formatter) {
-            return DateTimeFormatter::ERROR;
+            return self::ERROR;
         }
 
         return $formatter->format($this->sanitizeDateForIntl($datetime));
@@ -87,7 +85,7 @@ class DateTimeFormatter extends AbstractFormatter
         }
 
         if (!$formatter) {
-            return DateTimeFormatter::ERROR;
+            return self::ERROR;
         }
 
         return $formatter->format($this->sanitizeDateForIntl($date));

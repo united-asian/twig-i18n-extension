@@ -33,7 +33,7 @@ abstract class AbstractFormatterTestCase extends PHPUnit_Framework_TestCase
         return array(
             array('en'),
             array('fr'),
-            array('de')
+            array('de'),
         );
     }
 

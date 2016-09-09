@@ -15,9 +15,11 @@ class CountryFormatterTest extends AbstractFormatterTestCase
      */
     public function testFormatCountry($country, $locale)
     {
+        $expected = Intl::getRegionBundle()->getCountryName(strtoupper($country), $locale);
+
         $this->assertEquals(
             $this->getFormatter()->formatCountry($country, $locale),
-            Intl::getRegionBundle()->getCountryName(strtoupper($country), $locale)
+            $expected ? $expected : $country
         );
     }
 
@@ -26,9 +28,11 @@ class CountryFormatterTest extends AbstractFormatterTestCase
      */
     public function testFormatCountryWithDefaultLocale($country, $locale)
     {
+        $expected = Intl::getRegionBundle()->getCountryName(strtoupper($country), Locale::getDefault());
+
         $this->assertEquals(
             $this->getFormatter()->formatCountry($country),
-            Intl::getRegionBundle()->getCountryName(strtoupper($country), Locale::getDefault())
+            $expected ? $expected : $country
         );
     }
 

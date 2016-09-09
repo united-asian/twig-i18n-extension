@@ -58,14 +58,11 @@ class DateTimeFormatter extends AbstractFormatter
             $formatDate = $this->getDateTimeFormat($formatDate, 'FULL');
             $formatTime = $this->getDateTimeFormat($formatTime, 'SHORT');
 
-            try {
-                $formatter  = IntlDateFormatter::create($locale, $formatDate, $formatTime, $datetime->getTimezone()->getName());
-            } catch (Exception $e) {
-                $formatter = null;
-            }
+            $formatter  = IntlDateFormatter::create($locale, $formatDate, $formatTime, $datetime->getTimezone()->getName());
+
         }
 
-        if ($formatter == null) {
+        if (!$formatter) {
             return DateTimeFormatter::ERROR;
         }
 

@@ -3,6 +3,7 @@
 namespace UAM\Twig\Extension\I18n;
 
 use DateTime;
+use Locale;
 use Twig_Extension;
 use Twig_SimpleFilter;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -25,8 +26,14 @@ class DurationExtension extends Twig_Extension
 
     const DATE = 'duration.date';
     const RANGE = 'duration.range';
+    const FULL_YEAR = 'duration.year.full';
+    const MEDIUM_YEAR = 'duration.year.medium';
+    const SHORT_YEAR = 'duration.year.short';
+    const FULL_MONTH= 'duration.month.full';
+    const MEDIUM_MONTH = 'duration.month.medium';
+    const SHORT_MONTH = 'duration.month.short';
 
-    public function __construct(TranslatorInterface $translator = null)
+    public function __construct(TranslatorInterface $translator)
     {
         $this->translator = $translator;
     }
@@ -49,6 +56,8 @@ class DurationExtension extends Twig_Extension
 
         $to_date = new DateTime($to);
 
+        $locale = $locale !== null ? $locale : Locale::getDefault();
+
         $duration = $from_date->diff($to_date);
 
         $result = '';
@@ -69,15 +78,23 @@ class DurationExtension extends Twig_Extension
 
                 switch (strlen($value)) {
                     case 1 :
-                        $result .= 'y';
+                        $unit = 'duration.year.short';
+
                         break;
                     case 2 :
-                        $result .= ' yrs';
+                        $unit = ' duration.year.medium';
+
                         break;
-                    case 3 :
-                        $result .= ' years';
-                        break;
+                    default :
+                        $unit = ' duration.year.full';
                 }
+
+                $result .= $this->getTranslator()->trans(
+                     $unit,
+                    array(),
+                    'uam-i18n',
+                    $locale
+                );
             }
 
             if (preg_match('/[mM]{1,3}/', $value, $matches)) {
@@ -89,15 +106,23 @@ class DurationExtension extends Twig_Extension
 
                 switch (strlen($value)) {
                     case 1 :
-                        $result .= 'm';
+                        $unit = 'duration.month.short';
+
                         break;
                     case 2 :
-                        $result .= ' mos';
+                        $unit = ' duration.month.medium';
+
                         break;
-                    case 3 :
-                        $result .= ' months';
-                        break;
+                    default :
+                        $unit = ' duration.month.full';
                 }
+
+                $result .= $this->getTranslator()->trans(
+                    $unit,
+                    array(),
+                    'uam-i18n',
+                    $locale
+                );
             }
 
             if (preg_match('/[dD]{1,3}/', $value, $matches)) {
@@ -109,15 +134,23 @@ class DurationExtension extends Twig_Extension
 
                 switch (strlen($value)) {
                     case 1 :
-                        $result .= 'd';
+                        $unit = 'duration.day.short';
+
                         break;
                     case 2 :
-                        $result .= ' ds';
+                        $unit = ' duration.day.medium';
+
                         break;
-                    case 3 :
-                        $result .= ' days';
-                        break;
+                    default :
+                        $unit = ' duration.day.full';
                 }
+
+                $result .= $this->getTranslator()->trans(
+                    $unit,
+                    array(),
+                    'uam-i18n',
+                    $locale
+                );
             }
 
             if (preg_match('/[hH]{1,3}/', $value, $matches)) {
@@ -129,15 +162,23 @@ class DurationExtension extends Twig_Extension
 
                 switch (strlen($value)) {
                     case 1 :
-                        $result .= 'h';
+                        $unit = ' duration.hour.short';
+
                         break;
                     case 2 :
-                        $result .= ' hrs';
+                        $unit = ' duration.hour.medium';
+
                         break;
-                    case 3 :
-                        $result .= ' hours';
-                        break;
+                    default :
+                        $unit = ' duration.hour.full';
                 }
+
+                $result .= $this->getTranslator()->trans(
+                    $unit,
+                    array(),
+                    'uam-i18n',
+                    $locale
+                );
             }
 
             if (preg_match('/[iI]{1,3}/', $value, $matches)) {
@@ -149,15 +190,22 @@ class DurationExtension extends Twig_Extension
 
                 switch (strlen($value)) {
                     case 1 :
-                        $result .= 'i';
+                        $unit = 'duration.minute.short';
                         break;
                     case 2 :
-                        $result .= ' mins';
+                        $unit = ' duration.minute.medium';
+
                         break;
-                    case 3 :
-                        $result .= ' minutes';
-                        break;
+                    default :
+                        $unit = ' duration.minute.full';
                 }
+
+                $result .= $this->getTranslator()->trans(
+                    $unit,
+                    array(),
+                    'uam-i18n',
+                    $locale
+                );
             }
 
             if (preg_match('/[sS]{1,3}/', $value, $matches)) {
@@ -169,15 +217,23 @@ class DurationExtension extends Twig_Extension
 
                 switch (strlen($value)) {
                     case 1 :
-                        $result .= 's';
+                        $unit = 'duration.second.short';
+
                         break;
                     case 2 :
-                        $result .= ' secs';
+                        $unit = ' duration.second.medium';
+
                         break;
-                    case 3 :
-                        $result .= ' seconds';
-                        break;
+                    default :
+                        $unit = ' duration.second.full';
                 }
+
+                $result .= $this->getTranslator()->trans(
+                    $unit,
+                    array(),
+                    'uam-i18n',
+                    $locale
+                );
             }
         }
 
@@ -222,5 +278,10 @@ class DurationExtension extends Twig_Extension
         }
 
         return $factor;
+    }
+
+    protected function getTranslator()
+    {
+        return $this->translator;
     }
 }

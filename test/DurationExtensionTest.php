@@ -5,6 +5,8 @@ namespace UAM\Twig\Extension\I18n\Test;
 use DateInterval;
 use DateTime;
 use PHPUnit_Framework_TestCase;
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Yaml\Yaml;
 use UAM\Twig\Extension\I18n\DurationExtension;
 
 class DurationExtensionTest extends PHPUnit_Framework_TestCase
@@ -167,7 +169,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     {
         $locale = 'en';
         $actual = $this->extension->durationFilter($from, $to, $format, $locale);
-
         $this->assertEquals($expected, $actual);
     }
 
@@ -184,7 +185,14 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
     public function trans($id, array $parameters = array(), $domain = null, $locale = null)
     {
-        // TODO DEEPAK[2016-09-08]
+        $message = explode('.', $id);
+        $value = Yaml::parse(file_get_contents('/home/deepak/projects/i18n-extension/src/Bridge/Symfony/Resources/translations/uam-i18n.en.yml'));
+
+        foreach ($message as $key) {
+            if ()
+        }
+
+
     }
 
     protected function getCurrentDate()

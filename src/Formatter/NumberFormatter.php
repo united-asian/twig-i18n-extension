@@ -2,6 +2,7 @@
 
 namespace UAM\Twig\Extension\I18n\Formatter;
 
+use Exception;
 use NumberFormatter as IntlNumberFormatter;
 
 /**
@@ -83,8 +84,33 @@ class NumberFormatter extends AbstractFormatter
         return $formatter->format($number);
     }
 
-    public function formatBytes($bytes, $unit, $locale)
+    public function formatBytes($bytes, $format, $locale)
     {
-        return  floor($bytes / pow(1024, ($this->storage_size_units[$unit]))) . $unit;
+        $readable = 'h';
+        $this->storage_size_units[$readable] = 'readable';
+        $formats = array_keys($this->storage_size_units);
+
+        if (!array_key_exists($format, $this->storage_size_units)) {
+            throw new Exception(" you have to specify a legal Byte value or 'h' for automatic. Legal options are: h, ".implode(', ', $formats));
+        }
+
+        if ($bytes == null) {
+            return '0'.$formats[0];
+        }
+
+        if ($format === null || $format == $readable) {
+            $pow = floor(log($bytes) / log(1024));
+            $format = array_search($pow, $this->storage_size_units);
+        }
+
+        $formatted_value = floor($bytes / pow(1024, ($this->storage_size_units[$format])));
+
+        if ($formatted_value < 1) {
+            $pow = floor(log($bytes) / log(1024));
+            $format = array_search($pow, $this->storage_size_units);
+            $formatted_value = floor($bytes / pow(1024, ($this->storage_size_units[$format])));
+        }
+
+        return $formatted_value.$format;
     }
 }

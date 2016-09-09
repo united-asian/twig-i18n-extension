@@ -12,5 +12,6 @@ services:
 
     twig.duration.extension:
         class: UAM\Twig\Extension\I18n\DurationExtension
+        arguments: ["@translator"]
         tags:
-            - { name: twig.extension}
+            - { name: twig.extension }

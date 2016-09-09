@@ -4,7 +4,6 @@ namespace  UAM\Twig\Extension\I18n\Test\Formatter;
 
 use DateTime;
 use DateTimeZone;
-use Exception;
 use IntlDateFormatter;
 use Faker\Factory;
 use UAM\Twig\Extension\I18n\Formatter\DateTimeFormatter;
@@ -16,13 +15,9 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testShortDate($date, $timezone, $locale)
     {
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::SHORT, IntlDateFormatter::NONE, $timezone);
-        } catch (Exception $e) {
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::SHORT, IntlDateFormatter::NONE, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
@@ -39,14 +34,9 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testMediumDate($date, $timezone, $locale)
     {
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, $timezone);
 
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, $timezone);
-        } catch (Exception $e) {
-            $formatter = null;
-        }
-
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
@@ -63,13 +53,9 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testLongDate($date, $timezone, $locale)
     {
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE, $timezone);
-        } catch (Exception $e){
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
@@ -86,13 +72,9 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testFullDate($date, $timezone, $locale)
     {
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::NONE, $timezone);
-        } catch (Exception $e) {
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::FULL, IntlDateFormatter::NONE, $timezone);
 
-        if ($formatter == null) {
+        if (!$formatter) {
             $formatted_value = DateTimeFormatter::ERROR;
         } else {
             $formatted_value = $formatter->format($this->getDateTime($date, $timezone));
@@ -123,11 +105,11 @@ class DateFormatterTest extends AbstractFormatterTestCase
 
         $dates = array();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $dates[] = array(
                 $faker->date('Y-m-d'),
                 $faker->timezone(),
-                $faker->locale()
+                $faker->locale(),
             );
         }
 
@@ -142,20 +124,20 @@ class DateFormatterTest extends AbstractFormatterTestCase
     protected function getConstants()
     {
         return array(
-            'ATOM'    => DateTime::ATOM,
-            'COOKIE'  => DateTime::COOKIE,
+            'ATOM' => DateTime::ATOM,
+            'COOKIE' => DateTime::COOKIE,
             'ISO8601' => DateTime::ISO8601,
-            'RFC822'  => DateTime::RFC822,
-            'RFC850'  => DateTime::RFC850,
+            'RFC822' => DateTime::RFC822,
+            'RFC850' => DateTime::RFC850,
             'RFC1036' => DateTime::RFC1036,
             'RFC1123' => DateTime::RFC1123,
             'RFC2822' => DateTime::RFC2822,
             'RFC3339' => DateTime::RFC3339,
-            'RSS'     => DateTime::RSS,
-            'W3C'     => DateTime::W3C,
-            'R'       => DateTime::RFC2822, // date() => r
-            'C'       => DateTime::ISO8601, // date() => C
-            'U'       => 'U', // date() => U
+            'RSS' => DateTime::RSS,
+            'W3C' => DateTime::W3C,
+            'R' => DateTime::RFC2822, // date() => r
+            'C' => DateTime::ISO8601, // date() => C
+            'U' => 'U', // date() => U
         );
     }
 

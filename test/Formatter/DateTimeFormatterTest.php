@@ -14,11 +14,7 @@ class DateTimeFormatterTest extends DateFormatterTest
      */
     public function testShortDate($date, $timezone, $locale)
     {
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT, $timezone);
-        } catch (Exception $e) {
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::SHORT, IntlDateFormatter::SHORT, $timezone);
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;
@@ -37,11 +33,7 @@ class DateTimeFormatterTest extends DateFormatterTest
      */
     public function testMediumDate($date, $timezone, $locale)
     {
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM, $timezone);
-        } catch (Exception $e) {
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM, $timezone);
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;
@@ -60,11 +52,7 @@ class DateTimeFormatterTest extends DateFormatterTest
      */
     public function testLongDate($date, $timezone, $locale)
     {
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG, $timezone);
-        } catch (Exception $e) {
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::LONG, IntlDateFormatter::LONG, $timezone);
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;
@@ -83,11 +71,7 @@ class DateTimeFormatterTest extends DateFormatterTest
      */
     public function testFullDate($date, $timezone, $locale)
     {
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL, $timezone);
-        } catch (Exception $e) {
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::FULL, IntlDateFormatter::FULL, $timezone);
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;

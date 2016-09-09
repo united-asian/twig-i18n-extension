@@ -16,11 +16,7 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testShortDate($date, $timezone, $locale)
     {
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::SHORT, IntlDateFormatter::NONE, $timezone);
-        } catch (Exception $e) {
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::SHORT, IntlDateFormatter::NONE, $timezone);
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;
@@ -39,12 +35,7 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testMediumDate($date, $timezone, $locale)
     {
-
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, $timezone);
-        } catch (Exception $e) {
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, $timezone);
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;
@@ -63,11 +54,7 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testLongDate($date, $timezone, $locale)
     {
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE, $timezone);
-        } catch (Exception $e){
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::LONG, IntlDateFormatter::NONE, $timezone);
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;
@@ -86,11 +73,7 @@ class DateFormatterTest extends AbstractFormatterTestCase
      */
     public function testFullDate($date, $timezone, $locale)
     {
-        try {
-            $formatter = new IntlDateFormatter($locale, IntlDateFormatter::FULL, IntlDateFormatter::NONE, $timezone);
-        } catch (Exception $e) {
-            $formatter = null;
-        }
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::FULL, IntlDateFormatter::NONE, $timezone);
 
         if ($formatter == null) {
             $formatted_value = DateTimeFormatter::ERROR;

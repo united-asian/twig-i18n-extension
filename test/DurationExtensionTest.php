@@ -18,7 +18,31 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         $this->setUpDurationExtension();
     }
 
-    //dates span across a year
+    /**
+     * @dataProvider enData
+     */
+    public function testDurationEn($from, $to, $format, $expected)
+    {
+        $locale = 'en';
+
+        $actual = $this->extension->durationFilter($from, $to, $format, $locale);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider frData
+     */
+    public function testDurationFr($from, $to, $format, $expected)
+    {
+        $locale = 'fr';
+
+        $actual = $this->extension->durationFilter($from, $to, $format, $locale);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    // data provider for 'en' locale
     public function enData()
     {
         return array(
@@ -154,33 +178,12 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    // data provider for france
+    // data provider for 'fr' locale
     public function frData()
     {
         return array(
             array('2010-1-1', '2012-1-1', 'YYY', '2 annees'),
         );
-    }
-
-    /**
-     * @dataProvider enData
-     */
-    public function testDurationEn($from, $to, $format, $expected)
-    {
-        $locale = 'en';
-        $actual = $this->extension->durationFilter($from, $to, $format, $locale);
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider frData
-     */
-    public function testDurationFr($from, $to, $format, $expected)
-    {
-        $locale = 'fr';
-        $actual = $this->extension->durationFilter($from, $to, $format, $locale);
-
-        $this->assertEquals($expected, $actual);
     }
 
     public function trans($id, array $parameters = array(), $domain = null, $locale = null)

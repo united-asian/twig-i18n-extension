@@ -246,15 +246,15 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2010-01-01', '2010-02-01', 'M', '1m'),
 
             // FIXME [OP 2016-09-11] This fails
-            // array('2010-01-01', '2010-03-01', 'M', '2m'),
+            array('2010-01-01', '2010-03-01', 'M', '2m'),
 
             array('2010-01-01', '2010-01-01', 'D', '0j'),
 
             // FIXME [OP 2016-09-11] This fails
-            // array('2010-01-01', '2010-01-02', 'D', '2j'),
+            array('2010-01-01', '2010-01-02', 'D', '2j'),
 
             // FIXME [OP 2016-09-11] This fails
-            // array('2010-01-01', '2010-01-03', 'D', '3j'),
+            array('2010-01-01', '2010-01-03', 'D', '3j'),
         );
     }
 
@@ -275,12 +275,12 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('P1M', 'M', '1m'),
             array('P1M3D', 'M', '1m'),
             array('P2M', 'M', '2m'),
-            // array('P1M13D', 'M', '2m'), [OP 2016-09-11] Fails
+            array('P1M13D', 'M', '2m'), // FIXME [OP 2016-09-11] Fails
 
             array('PT6H', 'D', '0j'),
-            // array('P1D', 'D', '1j'), [OP 2016-09-11] Fails
-            // array('P1DT23H', 'D', '1j'), [OP 2016-09-11] Fails
-            // array('P2D', 'D', '2j'), [OP 2016-09-11] Fails
+            array('P1D', 'D', '1j'),  // FIXME [OP 2016-09-11] Fails
+            array('P1DT23H', 'D', '1j'), //FIXME [OP 2016-09-11] Fails
+            array('P2D', 'D', '2j'), // FIXME [OP 2016-09-11] Fails
         );
     }
 

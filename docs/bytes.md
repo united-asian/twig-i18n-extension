@@ -21,7 +21,7 @@ where `format` can take the following values:
 Examples
 --------
 
-markup  |  rendered as
-------  |  -----------
-1048'\|'bytes()  | 1Kb
-1048'\|'bytes('h') | 1Kb
+| markup  |  rendered as |
+| ------  |  ----------- | 
+1048'\|'bytes()  | 1Kb |
+1048'\|'bytes('h') | 1Kb |

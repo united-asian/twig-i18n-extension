@@ -14,7 +14,7 @@ where `format` can take the following values:
 * `b`: display value in bytes (b)
 * `K`: display value in kilobytes (Kb)
 * `M`: display value in megabytes (Mb)
-* `G': display valuesin gigabytes (Gb)
+* `G`: display valuesin gigabytes (Gb)
 * `T`: Display value in terbytes (Tb)
 * `P`: Display vaue in petabytes (Pb)
 
@@ -23,5 +23,5 @@ Examples
 
 markup  |  rendered as
 ------  |  -----------
-1048\|bytes()  | 1Kb
-1048\|bytes('h')  | 1Kb
+`1048|bytes()`  | 1Kb
+`1048|bytes('h')`  | 1Kb

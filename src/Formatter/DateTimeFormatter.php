@@ -60,7 +60,7 @@ class DateTimeFormatter extends AbstractFormatter
         }
 
         if (!$formatter) {
-            return self::ERROR;
+            return static::ERROR;
         }
 
         return $formatter->format($this->sanitizeDateForIntl($datetime));
@@ -85,7 +85,7 @@ class DateTimeFormatter extends AbstractFormatter
         }
 
         if (!$formatter) {
-            return self::ERROR;
+            return static::ERROR;
         }
 
         return $formatter->format($this->sanitizeDateForIntl($date));

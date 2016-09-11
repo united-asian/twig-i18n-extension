@@ -23,5 +23,5 @@ Examples
 
 markup  |  rendered as
 ------  |  -----------
-1048|bytes()  | 1Kb
-1048|bytes('h')  | 1Kb
+1048\|bytes()  | 1Kb
+1048\|bytes('h')  | 1Kb

@@ -1,0 +1,34 @@
+{
+	"duration": {
+		"year": {
+			"short": "[0,1]%count%y|]1,Inf]%count%y",
+			"medium": "[0,1]%count% yr|]1,Inf]%count% yrs",
+			"full": "[0,1]%count% year|]1,Inf]%count% years"
+		},
+		"month": {
+			"short": "[0,1]%count%m|]1,Inf]%count%m",
+			"medium": "[0,1]%count% mo|]1,Inf]%count% mos",
+			"full": "[0,1]%count% month|]1,Inf]%count% months"
+		},
+		"day": {
+			"short": "[0,1]%count%d|]1,Inf]%count%d",
+			"medium": "[0,1]%count% day|]1,Inf]%count% days",
+			"full": "[0,1]%count% day|]1,Inf]%count% days"
+		},
+		"hour": {
+			"short": "[0,1]%count%h|]1,Inf]%count%h",
+			"medium": "[0,1]%count% hr|]1,Inf]%count% hrs",
+			"full": "[0,1]%count% hour|]1,Inf]%count% hours"
+		},
+		"minute": {
+			"short": "[0,1]%count%m|]1,Inf]%count%m",
+			"medium": "[0,1]%count% min|]1,Inf]%count% mins",
+			"full": "[0,1]%count% minute|]1,Inf]%count% minutes"
+		},
+		"second": {
+			"short": "[0,1]%count%s|]1,Inf]%count%s",
+			"medium": "[0,1]%count% sec|]1,Inf]%count% secs",
+			"full": "[0,1]%count% second|]1,Inf]%count% seconds"
+		}
+	}
+}

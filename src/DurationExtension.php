@@ -6,10 +6,23 @@ use DateTime;
 use Locale;
 use Twig_Extension;
 use Twig_SimpleFilter;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\Translation\MessageSelector;
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\Loader\JsonFileLoader;
 
 class DurationExtension extends Twig_Extension
 {
+    const CATALOGUE = 'uam-18n';
+
+    const DATE = 'duration.date';
+    const RANGE = 'duration.range';
+    const FULL_YEAR = 'duration.year.full';
+    const MEDIUM_YEAR = 'duration.year.medium';
+    const SHORT_YEAR = 'duration.year.short';
+    const FULL_MONTH= 'duration.month.full';
+    const MEDIUM_MONTH = 'duration.month.medium';
+    const SHORT_MONTH = 'duration.month.short';
+
     protected $sequence = array('y', 'm', 'd', 'h', 'i', 's');
 
     protected $factor = array(
@@ -22,26 +35,33 @@ class DurationExtension extends Twig_Extension
         'is' => 60,
     );
 
+    protected static $units = array(
+        'y' => 'duration.year.short',
+        'yy' => 'duration.year.medium',
+        'yyy' => 'duration.year.full',
+        'm' => 'duration.month.short',
+        'mm' => 'duration.month.medium',
+        'mmm' => 'duration.month.full',
+        'd' => 'duration.day.short',
+        'dd' => 'duration.day.medium',
+        'ddd' => 'duration.day.full',
+        'h' => 'duration.hour.short',
+        'hh' => 'duration.hour.medium',
+        'hhh' => 'duration.hour.full',
+        'i' => 'duration.minute.short',
+        'ii' => 'duration.minute.medium',
+        'iii' => 'duration.minute.full',
+        's' => 'duration.second.short',
+        'ss' => 'duration.second.medium',
+        'sss' => 'duration.second.full',
+    );
+
     private $translator;
-
-    const DATE = 'duration.date';
-    const RANGE = 'duration.range';
-    const FULL_YEAR = 'duration.year.full';
-    const MEDIUM_YEAR = 'duration.year.medium';
-    const SHORT_YEAR = 'duration.year.short';
-    const FULL_MONTH= 'duration.month.full';
-    const MEDIUM_MONTH = 'duration.month.medium';
-    const SHORT_MONTH = 'duration.month.short';
-
-    public function __construct(TranslatorInterface $translator)
-    {
-        $this->translator = $translator;
-    }
 
     public function getFilters()
     {
         return array(
-            new Twig_SimpleFilter('duration', array($this, 'durationFilter'), array('is_safe' => array('html'))),
+            new Twig_SimpleFilter('duration', array($this, 'duration'), array('is_safe' => array('html'))),
         );
     }
 
@@ -50,7 +70,7 @@ class DurationExtension extends Twig_Extension
         return 'duration';
     }
 
-    public function durationFilter($from, $to, $format='YYY-MMM-DDD-HHH-III-SSS', $locale = null)
+    public function duration($from, $to, $format='YYY-MMM-DDD-HHH-III-SSS', $locale = null)
     {
         $from_date = new DateTime($from);
 
@@ -62,185 +82,45 @@ class DurationExtension extends Twig_Extension
 
         $result = '';
 
-        $formats = explode('-', $format);
+        $formats = explode('-', strtolower($format));
 
-        for ($i = 0; $i < count($formats); $i++) {
-            $value = $formats[$i];
+        $result = array();
 
-            $duration = $this->convertToLowerUnit($formats, $duration, ($i - 1) < 0 ? null: $formats[$i - 1], $value);
+        $regexes = array(
+            '/^[y]{1,3}/' => '%y',
+            '/^[m]{1,3}/' => '%m',
+            '/^[d]{1,3}/' => '%d',
+            '/^[h]{1,3}/' => '%h',
+            '/^[i]{1,3}/' => '%i',
+            '/^[sS]{1,3}/' => '%s',
+        );
 
-            if (preg_match('/[yY]{1,3}/', $value, $matches)) {
-                if (ctype_lower($value) && $duration->format('%y') == 0) {
-                    continue;
-                }
+        $n = count($formats);
 
-                $result .= $duration->format('%y');
+        foreach ($formats as $i => $format) {
+            $duration = $this->convertToLowerUnit($formats, $duration, ($i - 1) < 0 ? null: $formats[$i - 1], $format);
 
-                switch (strlen($value)) {
-                    case 1 :
-                        $unit = 'duration.year.short';
+            foreach ($regexes as $regex => $date_format) {
+                if (preg_match($regex, $format, $matches)) {
+                    $value = $duration->format($date_format);
 
-                        break;
-                    case 2 :
-                        $unit = ' duration.year.medium';
+                    if (0 == $value) {
+//                        continue;
+                    }
 
-                        break;
-                    default :
-                        $unit = ' duration.year.full';
-                }
+                    $unit = $this->getUnit($format);
 
-                $result .= $this->getTranslator()->trans(
-                     $unit,
-                    array(),
-                    'uam-i18n',
-                    $locale
-                );
-            }
+                    $result[] = $this->trans($unit, $value, $locale);
 
-            if (preg_match('/[mM]{1,3}/', $value, $matches)) {
-                if (ctype_lower($value) && $duration->format('%m') == 0) {
-                    continue;
-                }
-
-                $result .= ' '.$duration->format('%m');
-
-                switch (strlen($value)) {
-                    case 1 :
-                        $unit = 'duration.month.short';
-
-                        break;
-                    case 2 :
-                        $unit = ' duration.month.medium';
-
-                        break;
-                    default :
-                        $unit = ' duration.month.full';
-                }
-
-                $result .= $this->getTranslator()->trans(
-                    $unit,
-                    array(),
-                    'uam-i18n',
-                    $locale
-                );
-            }
-
-            if (preg_match('/[dD]{1,3}/', $value, $matches)) {
-                if (ctype_lower($value) && $duration->format('%d') == 0) {
-                    continue;
-                }
-
-                $result .= ' '.$duration->format('%d');
-
-                switch (strlen($value)) {
-                    case 1 :
-                        $unit = 'duration.day.short';
-
-                        break;
-                    case 2 :
-                        $unit = ' duration.day.medium';
-
-                        break;
-                    default :
-                        $unit = ' duration.day.full';
-                }
-
-                $result .= $this->getTranslator()->trans(
-                    $unit,
-                    array(),
-                    'uam-i18n',
-                    $locale
-                );
-            }
-
-            if (preg_match('/[hH]{1,3}/', $value, $matches)) {
-                if (ctype_lower($value) && $duration->format('%h') == 0) {
-                    continue;
-                }
-
-                $result .= ' '.$duration->format('%h');
-
-                switch (strlen($value)) {
-                    case 1 :
-                        $unit = ' duration.hour.short';
-
-                        break;
-                    case 2 :
-                        $unit = ' duration.hour.medium';
-
-                        break;
-                    default :
-                        $unit = ' duration.hour.full';
-                }
-
-                $result .= $this->getTranslator()->trans(
-                    $unit,
-                    array(),
-                    'uam-i18n',
-                    $locale
-                );
-            }
-
-            if (preg_match('/[iI]{1,3}/', $value, $matches)) {
-                if (ctype_lower($value) && $duration->format('%i') == 0) {
-                    continue;
-                }
-
-                $result .= ' '.$duration->format('%i');
-
-                switch (strlen($value)) {
-                    case 1 :
-                        $unit = 'duration.minute.short';
-                        break;
-                    case 2 :
-                        $unit = ' duration.minute.medium';
-
-                        break;
-                    default :
-                        $unit = ' duration.minute.full';
-                }
-
-                $result .= $this->getTranslator()->trans(
-                    $unit,
-                    array(),
-                    'uam-i18n',
-                    $locale
-                );
-            }
-
-            if (preg_match('/[sS]{1,3}/', $value, $matches)) {
-                if (ctype_lower($value) && $duration->format('%s') == 0) {
-                    continue;
-                }
-
-                $result .= ' '.$duration->format('%s');
-
-                switch (strlen($value)) {
-                    case 1 :
-                        $unit = 'duration.second.short';
-
-                        break;
-                    case 2 :
-                        $unit = ' duration.second.medium';
-
-                        break;
-                    default :
-                        $unit = ' duration.second.full';
-                }
-
-                $result .= $this->getTranslator()->trans(
-                    $unit,
-                    array(),
-                    'uam-i18n',
-                    $locale
-                );
+                    break;
+               }
             }
         }
 
-        return $result;
+        return implode(' ' , $result);
     }
 
-    //TODO convert Month to days.
+    // TODO convert Month to days.
     protected function convertToLowerUnit($formats, $duration, $higher_format, $lower_format)
     {
         $upper_unit = $higher_format == null ? '' : strtolower(substr($higher_format, 0, 1));
@@ -280,8 +160,40 @@ class DurationExtension extends Twig_Extension
         return $factor;
     }
 
+    protected function getUnit($format)
+    {
+        return static::$units[$format];
+    }
+
+    protected function trans($message, $value, $locale)
+    {
+        $translator = $this->getTranslator();
+
+        return $translator->transChoice($message, $value, array('%count%' => $value), static::CATALOGUE, $locale);
+    }
+
     protected function getTranslator()
     {
+        if (!$this->translator) {
+            $this->translator = new Translator('en', new MessageSelector());
+
+            $this->translator->addLoader('json', new JsonFileLoader());
+
+            $this->translator->addResource(
+                'json',
+                dirname(__FILE__).'/uam-i18n.en.json',
+                'en',
+                static::CATALOGUE
+            );
+
+            $this->translator->addResource(
+                'json',
+                dirname(__FILE__).'/uam-i18n.fr.json',
+                'fr',
+                static::CATALOGUE
+            );
+        }
+
         return $this->translator;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace UAM\Twig\Extension\I18n\test\Formatter;
+namespace UAM\Twig\Extension\I18n\Test\Formatter;
 
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\Intl\Locale\Locale;

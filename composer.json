@@ -23,7 +23,7 @@
     "autoload": {
         "psr-4": {
             "UAM\\Twig\\Extension\\I18n\\": "src/",
-            "UAM\\Twig\\Extension\\I18n\\Test\\": "test/"
+            "UAM\\Twig\\Extension\\I18n\\Test\\": "tests/"
         }
     },
     "extra": {

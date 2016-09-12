@@ -5,7 +5,6 @@ namespace UAM\Twig\Extension\I18n\Test\Formatter;
 use Faker\Factory;
 use NumberFormatter as IntlNumberFormatter;
 use UAM\Twig\Extension\I18n\Formatter\NumberFormatter;
-use UAM\Twig\Extension\I18n\Test\Formatter\AbstractFormatterTestCase;
 
 class NumberFormatterTest extends AbstractFormatterTestCase
 {
@@ -70,17 +69,17 @@ class NumberFormatterTest extends AbstractFormatterTestCase
     }
 
     /**
-     * @dataProvider dataProvider()
+     * @dataProvider bytesProvider()
      */
     public function testByteFilter($number, $format, $expected, $locale = null)
     {
         $this->assertEquals(
-           $this->getFormatter()->formatBytes($number, $format, $locale),
-           $expected
+            $expected,
+            $this->getFormatter()->formatBytes($number, $format, $locale)
         );
     }
 
-    public function dataProvider()
+    public function bytesProvider()
     {
         return array(
             array(1048576, 'b', '1048576b'),

@@ -10,13 +10,13 @@ use NumberFormatter as IntlNumberFormatter;
  */
 class NumberFormatter extends AbstractFormatter
 {
-    protected $storage_size_units = array(
+    protected $bytes_units = array(
         'b' => 0,
-        'Kb' => 1,
-        'Mb' => 2,
-        'Gb' => 3,
-        'Tb' => 4,
-        'Pb' => 5,
+        'k' => 1,
+        'm' => 2,
+        'g' => 3,
+        't' => 4,
+        'p' => 5,
     );
 
     public function formatNumber($number, $locale = null)
@@ -84,33 +84,48 @@ class NumberFormatter extends AbstractFormatter
         return $formatter->format($number);
     }
 
-    public function formatBytes($bytes, $format, $locale)
+    public function formatBytes($bytes, $format = null, $locale)
     {
-        $readable = 'h';
-        $this->storage_size_units[$readable] = 'readable';
-        $formats = array_keys($this->storage_size_units);
+        $format = strtolower($format);
 
-        if (!array_key_exists($format, $this->storage_size_units)) {
-            throw new Exception(" you have to specify a legal Byte value or 'h' for automatic. Legal options are: h, ".implode(', ', $formats));
+        if (!preg_match('/^(?:b|([kmgtp])b?)$/', $format, $matches)) {
+            $format = 'h';
+        } else {
+            if (isset($matches[1])) {
+                $format = $matches[1];
+            }
+        }
+        var_dump($format);
+
+
+
+        if (!$bytes) {
+            return '0b';
         }
 
-        if ($bytes == null) {
-            return '0'.$formats[0];
+        if ($format == 'h') {
+            $format = $this->getFormat($bytes);
         }
 
-        if ($format === null || $format == $readable) {
-            $pow = floor(log($bytes) / log(1024));
-            $format = array_search($pow, $this->storage_size_units);
-        }
-
-        $formatted_value = floor($bytes / pow(1024, ($this->storage_size_units[$format])));
+        $formatted_value = $this->formattedValue($bytes, $format);
 
         if ($formatted_value < 1) {
-            $pow = floor(log($bytes) / log(1024));
-            $format = array_search($pow, $this->storage_size_units);
-            $formatted_value = floor($bytes / pow(1024, ($this->storage_size_units[$format])));
+            $format = $this->getFormat($bytes);
+            $formatted_value = $this->formattedValue($bytes, $format);
         }
 
-        return $formatted_value.$format;
+        return $formatted_value . $format;
+    }
+
+    protected function getFormat($bytes)
+    {
+        $pow = floor(log($bytes) / log(1024));
+
+        return array_search($pow, $this->bytes_units);
+    }
+
+    protected function formattedValue($bytes, $format)
+    {
+        return floor($bytes / pow(1024, ($this->bytes_units[$format])));
     }
 }

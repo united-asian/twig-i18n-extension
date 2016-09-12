@@ -111,6 +111,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // showing only days
             array('2011-5-6','2012-5-6', 'DDD', '366 days'),
+            array('2011-5-6', '2012-5-6', 'DDD', ' 366 days'),
 
             // showing only seconds
             array('2011-5-6 12:15:00', '2015-12-8 02:05:30', 'SSS', '144856230 seconds'),
@@ -144,6 +145,8 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             // month and day of start and end date is same
             array('2014-12-10', '2015-12-10', "YYY-MMM-DDD", '1 year 0 month 0 day'),
 
+            array('2014-12-10', '2015-12-10', 'YYY-MMM-DDD', '1 years 0 months 0 days'),
+
             // 4. start date is greater than end date
 
             // year of start date is less than end date
@@ -175,6 +178,8 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // both start and end date is null
             array(null, null, "YYY-MMM-DDD", '0 year 0 month 0 day'),
+
+            array(null, null, 'YYY-MMM-DDD', '0 years 0 months 0 days'),
 
             // 6. using various formats and orders
 

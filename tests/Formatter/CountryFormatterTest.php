@@ -1,6 +1,6 @@
 <?php
 
-namespace  UAM\Twig\Extension\I18n\test\Formatter;
+namespace  UAM\Twig\Extension\I18n\Test\Formatter;
 
 use Locale;
 use Faker\Factory;
@@ -15,9 +15,11 @@ class CountryFormatterTest extends AbstractFormatterTestCase
      */
     public function testFormatCountry($country, $locale)
     {
+        $expected = Intl::getRegionBundle()->getCountryName(strtoupper($country), $locale);
+
         $this->assertEquals(
             $this->getFormatter()->formatCountry($country, $locale),
-            Intl::getRegionBundle()->getCountryName(strtoupper($country), $locale)
+            $expected ? $expected : $country
         );
     }
 
@@ -26,9 +28,11 @@ class CountryFormatterTest extends AbstractFormatterTestCase
      */
     public function testFormatCountryWithDefaultLocale($country, $locale)
     {
+        $expected = Intl::getRegionBundle()->getCountryName(strtoupper($country), Locale::getDefault());
+
         $this->assertEquals(
             $this->getFormatter()->formatCountry($country),
-            Intl::getRegionBundle()->getCountryName(strtoupper($country), Locale::getDefault())
+            $expected ? $expected : $country
         );
     }
 
@@ -38,10 +42,10 @@ class CountryFormatterTest extends AbstractFormatterTestCase
 
         $countries = array();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $countries[] = array(
                 $faker->countryCode(),
-                $faker->locale()
+                $faker->locale(),
             );
         }
 

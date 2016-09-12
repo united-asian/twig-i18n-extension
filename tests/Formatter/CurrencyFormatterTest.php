@@ -1,6 +1,6 @@
 <?php
 
-namespace UAM\Twig\Extension\I18n\test\Formatter;
+namespace UAM\Twig\Extension\I18n\Test\Formatter;
 
 use Faker\Factory;
 use NumberFormatter as IntlNumberFormatter;
@@ -41,7 +41,7 @@ class CurrencyFormatterTest extends AbstractFormatterTestCase
 
         $data = array();
 
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 100; ++$i) {
             $data[] = array(
                 $faker->randomNumber(),
                 $faker->currencyCode(),

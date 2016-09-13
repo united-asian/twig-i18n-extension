@@ -108,7 +108,7 @@ class NumberFormatter extends AbstractFormatter
         }
 
         if (!$bytes) {
-            return '0'.$this->trans('B', $locale);
+            return '0'.$this->trans('bytes_unit.bytes', $locale);
         }
 
         $index = $this->getIndex($bytes, $format);

@@ -222,6 +222,18 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('6/13', '2011-6-13', 'YYY-MMM-DDD', '5 years 0 month 0 day'),
             array('5/13/2016', '6/13', 'YYY-MMM-DDD', '0 year 1 month 0 day'),
             array('3/6', '5/7', 'YYY-MMM-DDD', '0 year 2 months 1 day'),
+
+            //special cases
+            array('2010-01-03 00:00:00', '2010-01-05 23:59:59', 'Y-M-D-H-I-S', '0y 0m 2d 23h 59m 59s'),
+            array('2010-01-03 00:00:00', '2010-01-06 00:00:00', 'Y-M-D', '0y 0m 3d'),
+            array('2010-01-03 00:00:00', '2010-01-06 00:00:01', 'Y-M-D-S', '0y 0m 3d 1s'),
+            array('2010-01-03 01:00:00', '2010-01-03 02:00:00', 'Y-M-D-H', '0y 0m 0d 1h'),
+            array('2010-01-01 03:00:00', '2010-01-01 03:00:01', 'Y-M-D-H-I-S', '0y 0m 0d 0h 0m 1s'),
+            array('2010-01-03', '2010-01-05', 'y-m-d', '0y 0m 2d'),
+            array('2010-01-01', '2010-01-31', 'y-m-d', '0y 0m 30d'),
+            array('2015-01-01', '2015-12-31', 'y-m-d', '0y 11m 29d'),
+            array('2016-01-01', '2016-12-31', 'y-m-d', '0y 11m 29d'),
+            array('2010-12-01', '2011-01-01', 'y-m-d', '0y 1m 0d'),
         );
     }
 
@@ -367,8 +379,8 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('PT3M4S', 'I', '3m'),
 
             array('P1Y2M25D', 'Y-M', '1y 3m'),
-            array('P1Y2M2H', 'Y-M', '1y 2m'),
-            array('P5M5H20S', 'M-H', '5m 5h'),
+            array('P1Y2M2D', 'Y-M', '1y 2m'),
+            array('P5MT5H2M20S', 'M-H', '5m 5h'),
         );
     }
 

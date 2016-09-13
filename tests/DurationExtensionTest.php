@@ -250,6 +250,9 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             // FIXME [OP 2016-09-12] This fails
             array('2015-01-01', '2015-12-31', 'D', '365d'),
 
+            // FIXME [OP 2016-09-13] This fails
+            array('2015-01-01 00:00:00', '2015-12-31 23:59:59', 'D', '365d'),
+
             // FIXME [OP 2016-09-12] This fails
             array('2016-01-01', '2016-12-31', 'D', '366d'),
 

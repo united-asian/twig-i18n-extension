@@ -6,8 +6,6 @@ use DateInterval;
 use DateTime;
 use PHPUnit_Framework_TestCase;
 use Faker\Factory;
-use Symfony\Component\Translation\TranslatorInterface;
-use Symfony\Component\Yaml\Yaml;
 use UAM\Twig\Extension\I18n\DurationExtension;
 
 class DurationExtensionTest extends PHPUnit_Framework_TestCase
@@ -17,9 +15,22 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     protected $faker;
 
     /**
-     * @dataProvider enData
+     * @dataProvider dataEn
      */
     public function testDurationEn($from, $to, $format, $expected)
+    {
+        $locale = 'en';
+
+        $actual = $this->getExtension()
+            ->duration($from, $to, $format, $locale);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @dataProvider fakerDataEn
+     */
+    public function testFakerDataEn($from, $to, $format, $expected)
     {
         $locale = 'en';
 
@@ -56,7 +67,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     }
 
     // data provider for 'en' locale
-    public function enData()
+    public function dataEn()
     {
         return array(
             array('2010-01-01', '2010-01-01', 'Y', '0y'),
@@ -111,7 +122,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // showing only days
             array('2011-5-6','2012-5-6', 'DDD', '366 days'),
-            array('2011-5-6', '2012-5-6', 'DDD', ' 366 days'),
+            array('2011-5-6', '2012-5-6', 'DDD', '366 days'),
 
             // showing only seconds
             array('2011-5-6 12:15:00', '2015-12-8 02:05:30', 'SSS', '144856230 seconds'),
@@ -145,7 +156,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             // month and day of start and end date is same
             array('2014-12-10', '2015-12-10', "YYY-MMM-DDD", '1 year 0 month 0 day'),
 
-            array('2014-12-10', '2015-12-10', 'YYY-MMM-DDD', '1 years 0 months 0 days'),
+            array('2014-12-10', '2015-12-10', 'YYY-MMM-DDD', '1 year 0 month 0 day'),
 
             // 4. start date is greater than end date
 
@@ -179,7 +190,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             // both start and end date is null
             array(null, null, "YYY-MMM-DDD", '0 year 0 month 0 day'),
 
-            array(null, null, 'YYY-MMM-DDD', '0 years 0 months 0 days'),
+            array(null, null, 'YYY-MMM-DDD', '0 year 0 month 0 day'),
 
             // 6. using various formats and orders
 
@@ -240,6 +251,31 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         return $data;
     }
 
+    public function fakerDataEn()
+    {
+        $faker = $this->getFaker();
+
+        $data = array();
+
+        foreach ($this->getIntervalsDataEn() as $intervals) {
+
+            $from = $faker->dateTime();
+
+            $to = clone($from);
+            $interval = new DateInterval($intervals[0]);
+            $to->add($interval);
+
+            $data[] = array(
+                $from->format('Y-m-d h:i:s'),
+                $to->format('Y-m-d h:i:s'),
+                $intervals[1],
+                $intervals[2]
+            );
+        }
+
+        return $data;
+    }
+
     public function dataFr()
     {
         return array(
@@ -248,13 +284,13 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2010-01-01', '2012-01-01', 'Y', '2a'),
 
             // FIXME [OP 2016-09-12] This fails
-            array('2015-01-01', '2015-12-31', 'D', '365d'),
+            array('2015-01-01', '2015-12-31', 'D', '365j'),
 
             // FIXME [OP 2016-09-13] This fails
-            array('2015-01-01 00:00:00', '2015-12-31 23:59:59', 'D', '365d'),
+            array('2015-01-01 00:00:00', '2015-12-31 23:59:59', 'D', '365j'),
 
             // FIXME [OP 2016-09-12] This fails
-            array('2016-01-01', '2016-12-31', 'D', '366d'),
+            array('2016-01-01', '2016-12-31', 'D', '366j'),
 
             array('2010-01-01', '2010-01-02', 'M', '0m'),
             array('2010-01-01', '2010-02-01', 'M', '1m'),
@@ -295,6 +331,44 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('P1D', 'D', '1j'),  // FIXME [OP 2016-09-11] Fails
             array('P1DT23H', 'D', '1j'), //FIXME [OP 2016-09-11] Fails
             array('P2D', 'D', '2j'), // FIXME [OP 2016-09-11] Fails
+        );
+    }
+
+    protected function getIntervalsDataEn()
+    {
+        return array(
+            array('P1D', 'Y', '0y'),
+            array('P1Y', 'Y', '1y'),
+            array('P1Y1M', 'Y', '1y'),
+            array('P1Y2M10D', 'Y', '1y'),
+            array('P1Y1D', 'Y', '1y'),
+            array('P2Y', 'Y', '2y'),
+            array('P2Y5M', 'Y', '2y'),
+            array('P2Y3M8D', 'Y', '2y'),
+            array('P2Y3D', 'Y', '2y'),
+
+            array('P1D', 'M', '0m'),
+            array('P1M', 'M', '1m'),
+            array('P1M3D', 'M', '1m'),
+            array('P1M18D', 'M', '2m'),
+
+            array('PT6H', 'D', '0d'),
+            array('P1D', 'D', '1d'),
+            array('P1DT23H', 'D', '1d'),
+            array('P2D', 'D', '2d'),
+
+            array('PT2M', 'H', '0h'),
+            array('PT6H', 'H', '6h'),
+            array('PT1H2M', 'H', '1h'),
+
+            array('PT2S', 'I', '0m'),
+            array('PT2M', 'I', '2m'),
+            array('PT10M55S', 'I', '11m'),
+            array('PT3M4S', 'I', '3m'),
+
+            array('P1Y2M25D', 'Y-M', '1y 3m'),
+            array('P1Y2M2H', 'Y-M', '1y 2m'),
+            array('P5M5H20S', 'M-H', '5m 5h'),
         );
     }
 

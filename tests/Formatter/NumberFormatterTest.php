@@ -1,6 +1,6 @@
 <?php
 
-namespace UAM\Twig\Extension\I18n\test\Formatter;
+namespace UAM\Twig\Extension\I18n\Test\Formatter;
 
 use Faker\Factory;
 use NumberFormatter as IntlNumberFormatter;
@@ -75,11 +75,11 @@ class NumberFormatterTest extends AbstractFormatterTestCase
 
         $data = array();
 
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; ++$i) {
             $data[] = array(
                 mt_rand(0, 1) * pow(10, $i),
                 $faker->locale(),
-                $faker->numberBetween(0, 10)
+                $faker->numberBetween(0, 10),
             );
         }
 

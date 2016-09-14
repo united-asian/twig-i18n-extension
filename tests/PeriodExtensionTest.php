@@ -39,7 +39,7 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
     public function trans($id, array $parameters = array(), $domain = null, $locale = null)
     {
         if ($id == PeriodExtension::DATE) {
-             return $parameters['%to%'];
+            return $parameters['%to%'];
         }
 
         return $parameters['%from%'].' - '.$parameters['%to%'];
@@ -76,8 +76,8 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
             array('2016-09-02', '2016-09-02', 'd', 'M', 'yy', '2 9 16'),
 
             //start date is after end date
-            array('2017-05-02', '2015-03-10', 'dd', 'MMMM', 'yyyy','02 May 2017 - 10 March 2015'),
-            array('2016-04-20', '016-04-10', 'd', 'MMM', 'yyyy','20 - 10 Apr 2016'),
+            array('2017-05-02', '2015-03-10', 'dd', 'MMMM', 'yyyy', '02 May 2017 - 10 March 2015'),
+            array('2016-04-20', '016-04-10', 'd', 'MMM', 'yyyy', '20 - 10 Apr 2016'),
             array('2016-05-05', '2016-04-10', 'd', 'M', 'yyyy', '5 5 - 10 4 2016'),
 
             //tests for now
@@ -112,13 +112,13 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
         $to_day = $to->format('d');
 
         if ($from_year != $to_year) {
-            $expected = $from->format('d F Y') . ' - ' . $to->format('d F Y');
+            $expected = $from->format('d F Y').' - '.$to->format('d F Y');
         } else {
             if ($from_month != $to_month) {
-                $expected = $from->format('d F') . ' - ' . $to->format('d F Y');
+                $expected = $from->format('d F').' - '.$to->format('d F Y');
             } else {
                 if ($from_day != $to_day) {
-                    $expected = $from->format('d') . ' - ' . $to->format('d F Y');
+                    $expected = $from->format('d').' - '.$to->format('d F Y');
                 } else {
                     $expected = $to->format('d F Y');
                 }

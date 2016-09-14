@@ -1,6 +1,6 @@
 <?php
 
-namespace  UAM\Twig\Extension\I18n\test\Formatter;
+namespace  UAM\Twig\Extension\I18n\Test\Formatter;
 
 use Locale;
 use Faker\Factory;
@@ -42,10 +42,10 @@ class CountryFormatterTest extends AbstractFormatterTestCase
 
         $countries = array();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $countries[] = array(
                 $faker->countryCode(),
-                $faker->locale()
+                $faker->locale(),
             );
         }
 

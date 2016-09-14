@@ -1,6 +1,6 @@
 <?php
 
-namespace  UAM\Twig\Extension\I18n\test\Formatter;
+namespace  UAM\Twig\Extension\I18n\Test\Formatter;
 
 use Exception;
 use Locale;
@@ -39,10 +39,10 @@ class LanguageFormatterTest extends AbstractFormatterTestCase
 
         $countries = array();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 10; ++$i) {
             $countries[] = array(
                 $faker->locale(),
-                $faker->locale()
+                $faker->locale(),
             );
         }
 

@@ -15,7 +15,7 @@
 
     <testsuites>
         <testsuite name="UAMTwigI18nExtension Test Suite">
-            <directory>test</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

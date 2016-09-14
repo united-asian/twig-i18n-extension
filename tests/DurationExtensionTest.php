@@ -66,6 +66,19 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $actual);
     }
 
+    /**
+     * @dataProvider intervalDayData
+     */
+    public function testDateIntervalDays($from, $to, $format, $expected)
+    {
+        $locale = 'en';
+
+        $actual = $this->getExtension()
+            ->getDateInterval($from, $to, $format, $locale);
+
+        $this->assertEquals($expected, $actual);
+    }
+
     // data provider for 'en' locale
     public function dataEn()
     {
@@ -317,6 +330,24 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // FIXME [OP 2016-09-11] This fails
             array('2010-01-01', '2010-01-03', 'D', '3j'),
+        );
+    }
+
+    public function intervalDayData()
+    {
+        return array(
+            array('2015-1-1', '2015-12-31', 'D', '365d'),
+            array('2016-1-1', '2016-12-31', 'D', '366d'),
+            array('2016-1-2', '2016-12-30', 'D', '364d'),
+            array('2016-3-1', '2016-6-1', 'D', '92d'),
+            array('2016-1-1', '2024-1-1', 'D', '2923d'),
+            array('2016-1-1', '2024-3-1', 'D', '2981d'),
+            array('2016-1-1', '2020-1-1', 'D', '1461d'),
+            array('2011-1-1', '2015-1-1', 'D', '1460d'),
+            array('2009-3-1', '2009-3-31', 'D', '31d'),
+            array('2015-1-1', '2015-3-1', 'D', '59d'),
+            array('2015-2-25', '2015-3-1', 'D', '4d'),
+            array('2016-3-25', '2016-4-1', 'D', '7d'),
         );
     }
 

@@ -27,42 +27,38 @@ class ByteFormatter extends AbstractFormatter
 
         $locale = $this->getLocale($locale);
 
-        $unit = $this->getUnit();
+        $units = $this->getUnits();
 
         if (!$bytes) {
             return static::ZERO.$this->trans('B', $locale);
         }
 
         if (!preg_match('/^(?:B|([KMGTP])B?)$/', $format, $matches)) {
-            $format = $this->getAppropriateFormat($bytes, $unit);
+            $format = 'h';
         } else {
             if (isset($matches[1])) {
                 $format = $matches[1];
             }
         }
 
-        $converted_value = $this->getConvertedValue($bytes, $format, $unit);
+        if ($format == 'h') {
+            $pow = floor((log($bytes, 1024)));
+            $format = array_search($pow, $units);
+        }
+
+        $converted_value = floor($bytes / pow(1024, $units[$format]));
 
         if ($converted_value < 1) {
-            $format = $this->getAppropriateFormat($bytes, $unit);
-            $converted_value = $this->getConvertedValue($bytes, $format, $unit);
+            $pow = floor((log($bytes, 1024)));
+            $format = array_search($pow, $this->getUnits());
+
+            $converted_value = floor($bytes / pow(1024, $this->getUnits()[$format]));
         }
 
         return $converted_value.$this->trans($format, $locale);
     }
 
-    protected function getAppropriateFormat($bytes, $unit)
-    {
-        $pow = floor((log($bytes, 1024)));
-
-        return array_search($pow, $unit);
-    }
-    protected function getConvertedValue($bytes, $format, $units)
-    {
-        return floor($bytes / pow(1024, $units[$format]));
-    }
-
-    protected function getUnit()
+    protected function getUnits()
     {
         return $this->units;
     }

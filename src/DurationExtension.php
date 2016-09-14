@@ -120,6 +120,11 @@ class DurationExtension extends Twig_Extension
         return implode(' ' , $result);
     }
 
+    public function getDateInterval($from, $to, $format, $locale = null)
+    {
+
+    }
+
     // TODO convert Month to days.
     protected function convertToLowerUnit($formats, $duration, $higher_format, $lower_format)
     {

@@ -109,11 +109,11 @@ class NumberFormatter extends AbstractFormatter
             }
         }
 
-        $converted_value = $this->getConvertedValue($bytes, $format);
+        $converted_value = $this->getConvertedBytesValue($bytes, $format);
 
         if ($converted_value < 1) {
             $format = $this->getAppropriateBytesUnit($bytes);
-            $converted_value = $this->getConvertedValue($bytes, $format);
+            $converted_value = $this->getConvertedBytesValue($bytes, $format);
         }
 
         return $converted_value.$this->trans($format, $locale);
@@ -125,7 +125,7 @@ class NumberFormatter extends AbstractFormatter
 
         return array_search($pow, $this->bytes_units);
     }
-    protected function getConvertedValue($bytes, $format)
+    protected function getConvertedBytesValue($bytes, $format)
     {
         return floor($bytes / pow(1024, $this->bytes_units[$format]));
     }

@@ -9,6 +9,7 @@ class ByteFormatter extends AbstractFormatter
 {
     const CATALOGUE = 'uam-18n';
     const ZERO = '0';
+    const DEFAULT_FORMAT = 'h';
 
     private $translator;
 
@@ -21,7 +22,7 @@ class ByteFormatter extends AbstractFormatter
         'P' => 5,
     );
 
-    public function formatBytes($bytes, $format = 'h', $locale = null)
+    public function formatBytes($bytes, $format = self::DEFAULT_FORMAT, $locale = null)
     {
         $format = strtoupper($format);
 
@@ -34,14 +35,14 @@ class ByteFormatter extends AbstractFormatter
         }
 
         if (!preg_match('/^(?:B|([KMGTP])B?)$/', $format, $matches)) {
-            $format = 'h';
+            $format = self::DEFAULT_FORMAT;
         } else {
             if (isset($matches[1])) {
                 $format = $matches[1];
             }
         }
 
-        if ($format == 'h') {
+        if ($format == self::DEFAULT_FORMAT) {
             $pow = floor((log($bytes, 1024)));
             $format = array_search($pow, $units);
         }
@@ -49,10 +50,7 @@ class ByteFormatter extends AbstractFormatter
         $converted_value = floor($bytes / pow(1024, $units[$format]));
 
         if ($converted_value < 1) {
-            $pow = floor((log($bytes, 1024)));
-            $format = array_search($pow, $units);
-
-            $converted_value = floor($bytes / pow(1024, $units[$format]));
+            return $this->formatBytes($bytes, self::DEFAULT_FORMAT, $locale);
         }
 
         return $converted_value.$this->trans($format, $locale);

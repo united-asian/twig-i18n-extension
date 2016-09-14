@@ -33,7 +33,6 @@ class I18nExtension extends Twig_Extension
             new Twig_SimpleFilter('currency', array($this, 'formatCurrency'), array('is_safe' => array('html'))),
             new Twig_SimpleFilter('country', array($this, 'formatCountry'), array('is_safe' => array('html'))),
             new Twig_SimpleFilter('language', array($this, 'formatLanguage'), array('is_safe' => array('html'))),
-            new Twig_SimpleFilter('bytes', array($this, 'formatBytes'), array('is_safe' => array('html'))),
         );
     }
 
@@ -101,12 +100,6 @@ class I18nExtension extends Twig_Extension
     {
         return $this->getLanguageFormatter()
             ->formatLanguage($language, $locale);
-    }
-
-    public function formatBytes($bytes, $unit, $locale = null)
-    {
-        return $this->getNumberFormatter()
-            ->formatBytes($bytes, $unit, $locale);
     }
 
     /**

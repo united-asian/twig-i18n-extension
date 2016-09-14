@@ -102,7 +102,7 @@ class NumberFormatter extends AbstractFormatter
         }
 
         if (!preg_match('/^(?:B|([KMGTP])B?)$/', $format, $matches)) {
-            $format = $this->getAppropriateBytesUnit($bytes);
+            $format = $this->getAppropriateBytesFormat($bytes);
         } else {
             if (isset($matches[1])) {
                 $format = $matches[1];
@@ -112,14 +112,14 @@ class NumberFormatter extends AbstractFormatter
         $converted_value = $this->getConvertedBytesValue($bytes, $format);
 
         if ($converted_value < 1) {
-            $format = $this->getAppropriateBytesUnit($bytes);
+            $format = $this->getAppropriateBytesFormat($bytes);
             $converted_value = $this->getConvertedBytesValue($bytes, $format);
         }
 
         return $converted_value.$this->trans($format, $locale);
     }
 
-    protected function getAppropriateBytesUnit($bytes)
+    protected function getAppropriateBytesFormat($bytes)
     {
         $pow = floor((log($bytes, 1024)));
 

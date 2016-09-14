@@ -2,6 +2,7 @@
 
 namespace UAM\Twig\Extension\I18n;
 
+use DateInterval;
 use DateTime;
 use Locale;
 use Twig_Extension;
@@ -120,15 +121,30 @@ class DurationExtension extends Twig_Extension
         return implode(' ' , $result);
     }
 
+    // TODO[DA 2016-09-14] assume small date as a start date
     public function getDateInterval($from, $to, $locale = null)
     {
+        $parsed = date_parse($from);
+
+        if (!is_int($parsed['hour'])) {
+            $from .= ' 00:00:00';
+        }
+
         $start_date = new DateTime($from);
 
-        $end_date = new DateTime($to);
+        $parsed = date_parse($to);
 
-        $interval_day = $start_date->diff($end_date)->days;
+        if (!is_int($parsed['hour'])) {
+            $to .= ' 23:59:59';
+            $end_date = new DateTime($to);
+            $end_date->add(new DateInterval('PT1S'));
+        } else {
+            $end_date = new DateTime($to);
+        }
 
-        return $interval_day;
+        $interval = $start_date->diff($end_date)->format('%ad');
+
+        return $interval;
     }
 
     // TODO convert Month to days.

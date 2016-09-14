@@ -50,9 +50,9 @@ class ByteFormatter extends AbstractFormatter
 
         if ($converted_value < 1) {
             $pow = floor((log($bytes, 1024)));
-            $format = array_search($pow, $this->getUnits());
+            $format = array_search($pow, $units);
 
-            $converted_value = floor($bytes / pow(1024, $this->getUnits()[$format]));
+            $converted_value = floor($bytes / pow(1024, $units[$format]));
         }
 
         return $converted_value.$this->trans($format, $locale);

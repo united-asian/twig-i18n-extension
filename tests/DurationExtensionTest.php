@@ -74,7 +74,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         $locale = 'en';
 
         $actual = $this->getExtension()
-            ->getDateInterval($from, $to, $format, $locale);
+            ->getDateInterval($from, $to, $locale);
 
         $this->assertEquals($expected, $actual);
     }
@@ -348,6 +348,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2015-1-1', '2015-3-1', 'D', '59d'),
             array('2015-2-25', '2015-3-1', 'D', '4d'),
             array('2016-3-25', '2016-4-1', 'D', '7d'),
+            array('2010-1-3', '2010-1-5', 'D', '3d'),
         );
     }
 

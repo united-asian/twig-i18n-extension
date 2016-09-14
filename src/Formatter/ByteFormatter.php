@@ -28,8 +28,6 @@ class ByteFormatter extends AbstractFormatter
 
         $locale = $this->getLocale($locale);
 
-        $units = $this->getUnits();
-
         if (!$bytes) {
             return static::ZERO.$this->trans('B', $locale);
         }
@@ -41,6 +39,8 @@ class ByteFormatter extends AbstractFormatter
                 $format = $matches[1];
             }
         }
+
+        $units = $this->getUnits();
 
         if ($format == self::DEFAULT_FORMAT) {
             $pow = floor((log($bytes, 1024)));

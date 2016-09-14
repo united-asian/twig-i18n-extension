@@ -1,10 +1,8 @@
 {
-    "bytes_unit": {
-	    "bytes": "o",
-		"megabytes": "Mo",
-		"kilobytes": "Ko",
-		"gigabytes": "Go",
-		"terabytes": "To",
-		"petabytes": "Po"
-  }
+  	"B": "o",
+  	"K": "Ko",
+  	"M": "Mo",
+  	"G": "Go",
+  	"T": "To",
+  	"P": "Po"
 }

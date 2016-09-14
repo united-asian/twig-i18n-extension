@@ -1,10 +1,8 @@
 {
-	"bytes_unit": {
-		"bytes": "B",
-		"megabytes": "MB",
-		"kilobytes": "KB",
-		"gigabytes": "GB",
-		"terabytes": "TB",
-		"petabytes": "PB"
-	}
+	"B": "B",
+  	"K": "KB",
+  	"M": "MB",
+  	"G": "GB",
+  	"T": "TB",
+  	"P": "PB"
 }

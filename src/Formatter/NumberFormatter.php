@@ -13,17 +13,17 @@ use Symfony\Component\Translation\Translator;
 class NumberFormatter extends AbstractFormatter
 {
     const CATALOGUE = 'uam-18n';
+    const ZERO = '0';
 
-    protected $units;
     private $translator;
 
     protected $bytes_units = array(
-        'B' => 'bytes_unit.bytes',
-        'K' => 'bytes_unit.kilobytes',
-        'M' => 'bytes_unit.megabytes',
-        'G' => 'bytes_unit.gigabytes',
-        'T' => 'bytes_unit.terabytes',
-        'P' => 'bytes_unit.petabytes',
+        'B' => 0,
+        'K' => 1,
+        'M' => 2,
+        'G' => 3,
+        'T' => 4,
+        'P' => 5,
     );
 
     public function formatNumber($number, $locale = null)
@@ -91,60 +91,43 @@ class NumberFormatter extends AbstractFormatter
         return $formatter->format($number);
     }
 
-    public function formatBytes($bytes, $format, $locale = null)
+    public function formatBytes($bytes, $format = 'h', $locale = null)
     {
         $format = strtoupper($format);
 
         $locale = $this->getLocale($locale);
 
-        $this->units = array_keys($this->bytes_units);
+        if (!$bytes) {
+            return static::ZERO.$this->trans('B', $locale);
+        }
 
         if (!preg_match('/^(?:B|([KMGTP])B?)$/', $format, $matches)) {
-            $format = 'h';
+            $format = $this->getAppropriateBytesUnit($bytes);
         } else {
             if (isset($matches[1])) {
                 $format = $matches[1];
             }
         }
 
-        if (!$bytes) {
-            return '0'.$this->trans('bytes_unit.bytes', $locale);
+        $converted_value = $this->getConvertedValue($bytes, $format);
+
+        if ($converted_value < 1) {
+            $format = $this->getAppropriateBytesUnit($bytes);
+            $converted_value = $this->getConvertedValue($bytes, $format);
         }
 
-        $index = $this->getIndex($bytes, $format);
-        $formatted_value = $this->getFormattedValue($bytes, $index);
-
-        if ($formatted_value < 1) {
-            $format = 'h';
-            $index = $this->getIndex($bytes, $format);
-            $formatted_value = $this->getFormattedValue($bytes, $index);
-        }
-
-        return $formatted_value.$this->getFormat($index, $locale);
+        return $converted_value.$this->trans($format, $locale);
     }
 
-    protected function getIndex($bytes, $format)
+    protected function getAppropriateBytesUnit($bytes)
     {
-        if ($format == 'h') {
-            $index = floor((log($bytes, 1024)));
-        } else {
-            $index = array_search($format, $this->units);
-        }
+        $pow = floor((log($bytes, 1024)));
 
-        return $index;
+        return array_search($pow, $this->bytes_units);
     }
-
-    protected function getFormat($index, $locale)
+    protected function getConvertedValue($bytes, $format)
     {
-        $format = $this->units[$index];
-        $bytes_unit = $this->bytes_units[$format];
-
-        return $this->trans($bytes_unit, $locale);
-    }
-
-    protected function getFormattedValue($bytes, $index)
-    {
-        return floor($bytes / pow(1024, $index));
+        return floor($bytes / pow(1024, $this->bytes_units[$format]));
     }
 
     protected function trans($format, $locale)

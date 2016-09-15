@@ -52,7 +52,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2016-01-01', '2016-12-31', 366, 1, 0, 0),
             array('2016-01-02', '2016-12-30', 364, 0, 11, 29),
             array('2009-03-01', '2009-03-31', 31, 0, 1, 0),
-
         );
     }
 

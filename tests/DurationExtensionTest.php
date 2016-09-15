@@ -69,14 +69,14 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider intervalDayData
      */
-    public function testDateIntervalDays($from, $to, $format, $expected)
+    public function testDateIntervalDays($from, $to, $expected)
     {
         $locale = 'en';
 
-        $actual = $this->getExtension()
-            ->getDateInterval($from, $to, $locale);
+        $interval = $this->getExtension()
+            ->getDateInterval($from, $to);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expected, $interval->days);
     }
 
     // data provider for 'en' locale
@@ -336,19 +336,20 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     public function intervalDayData()
     {
         return array(
-            array('2015-1-1', '2015-12-31', 'D', '365d'),
-            array('2016-1-1', '2016-12-31', 'D', '366d'),
-            array('2016-1-2', '2016-12-30', 'D', '364d'),
-            array('2016-3-1', '2016-6-1', 'D', '93d'),
-            array('2016-1-1', '2024-1-1', 'D', '2923d'),
-            array('2016-1-1', '2024-3-1', 'D', '2983d'),
-            array('2016-1-1', '2020-1-1', 'D', '1462d'),
-            array('2011-1-1', '2015-1-1', 'D', '1462d'),
-            array('2009-3-1', '2009-3-31', 'D', '31d'),
-            array('2015-1-1', '2015-3-1', 'D', '60d'),
-            array('2015-2-25', '2015-3-1', 'D', '5d'),
-            array('2016-3-25', '2016-4-1', 'D', '8d'),
-            array('2010-1-3', '2010-1-5', 'D', '3d'),
+            array('2015-1-1', '2015-12-31', '365'),
+            array('2016-1-1', '2016-12-31', '366'),
+            array('2016-1-2', '2016-12-30', '364'),
+            array('2016-3-1', '2016-6-1', '93'),
+            array('2016-1-1', '2024-1-1', '2923'),
+            array('2016-1-1', '2024-3-1', '2983'),
+            array('2016-1-1', '2020-1-1', '1462'),
+            array('2011-1-1', '2015-1-1', '1462'),
+            array('2009-3-1', '2009-3-31', '31'),
+            array('2015-1-1', '2015-3-1', '60'),
+            array('2015-2-25', '2015-3-1', '5'),
+            array('2016-3-25', '2016-4-1', '8'),
+            array('2016-3-25', '2016-4-1', '8'),
+            array('2010-1-3', '2010-1-5', '3'),
         );
     }
 

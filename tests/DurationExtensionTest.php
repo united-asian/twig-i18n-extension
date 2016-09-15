@@ -15,6 +15,32 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     protected $faker;
 
     /**
+     * @dataProvider intervalDaysData
+     */
+    public function testDateIntervalDays($from, $to, $expected)
+    {
+        $locale = 'en';
+
+        $interval = $this->getExtension()
+            ->getDateInterval($from, $to);
+
+        $this->assertEquals($expected, $interval->days);
+    }
+
+    /**
+     * @dataProvider intervalMonthsData
+     */
+    public function testDateIntervalMonths($from, $to, $expected)
+    {
+        $locale = 'en';
+
+        $interval = $this->getExtension()
+            ->getDateInterval($from, $to);
+
+        $this->assertEquals($expected, $interval->m);
+    }
+
+    /**
      * @dataProvider dataEn
      */
     public function testDurationEn($from, $to, $format, $expected)
@@ -64,19 +90,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             ->duration($from, $to, $format, $locale);
 
         $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @dataProvider intervalDayData
-     */
-    public function testDateIntervalDays($from, $to, $expected)
-    {
-        $locale = 'en';
-
-        $interval = $this->getExtension()
-            ->getDateInterval($from, $to);
-
-        $this->assertEquals($expected, $interval->days);
     }
 
     // data provider for 'en' locale
@@ -333,10 +346,9 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function intervalDayData()
+    public function intervalDaysData()
     {
         return array(
-            
             // time not specified
             array('2015-1-1', '2015-12-31', 365),
             array('2016-1-1', '2016-12-31', 366),
@@ -351,13 +363,29 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2015-2-25', '2015-3-1', 5),
             array('2016-3-25', '2016-4-1', 8),
             array('2010-1-3', '2010-1-5', 3),
-            
+
             // time is specified
             array('2015-1-1 00:00:00', '2015-1-2 2:20:00', 1),
             array('2010-1-3 2:00:00', '2010-1-5', 2),
             array('2016-3-25', '2016-4-1 23:59:59', 7),
             array('2015-2-25', '2015-3-1', 5),
             array('2016-1-1 3:01:05', '2024-3-1 4:02:15', 2982),
+        );
+    }
+
+    public function intervalMonthsData()
+    {
+        return array(
+            // time not specified
+            array('2015-01-01', '2015-01-31', 1),
+            array('2015-01-01', '2015-02-28', 2),
+            array('2016-01-01', '2016-02-28', 1),
+            array('2016-01-01', '2016-02-29', 2),
+            array('2015-01-01', '2015-03-28', 2),
+            array('2015-01-01', '2015-03-31', 3),
+            array('2016-01-01', '2016-03-28', 2),
+            array('2016-01-01', '2016-03-31', 3),
+            array('2016-01-01', '2016-12-31', 12),
         );
     }
 

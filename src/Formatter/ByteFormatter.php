@@ -10,6 +10,7 @@ class ByteFormatter extends AbstractFormatter
     const CATALOGUE = 'uam-18n';
     const ZERO = '0';
     const DEFAULT_FORMAT = 'h';
+    const ERROR = 'NaN';
 
     private $translator;
 
@@ -24,11 +25,15 @@ class ByteFormatter extends AbstractFormatter
 
     public function formatBytes($bytes, $format = self::DEFAULT_FORMAT, $locale = null)
     {
+        if (!is_numeric($bytes)) {
+            return static::ERROR;
+        }
+
         $format = strtoupper($format);
 
         $locale = $this->getLocale($locale);
 
-        if (!$bytes) {
+        if ($bytes < 1) {
             return static::ZERO.$this->trans('B', $locale);
         }
 

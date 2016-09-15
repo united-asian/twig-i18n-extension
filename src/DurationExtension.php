@@ -121,8 +121,16 @@ class DurationExtension extends Twig_Extension
         return implode(' ' , $result);
     }
 
+    public function getDateInterval($from, $to)
+    {
+        $raw = $this->getRawDateInterval($from, $to);
+
+        // FIXME [OP 2016-09-15] Adjust the interval as appropriate
+        $interval = $raw;
+    }
+
     // TODO[DA 2016-09-14] assume small date as a start date
-    public function getDateInterval($from, $to, $locale = null)
+    protected function getRawDateInterval($from, $to)
     {
         $parsed = date_parse($from);
 

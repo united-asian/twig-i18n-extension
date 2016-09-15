@@ -1,13 +1,13 @@
 {
-	"bytes": {
-	    "unit": {
-		    "b": "B",
-			"k": "KB",
-			"m": "MB",
-			"g": "GB",
-			"t": "TB",
-			"p": "PB"
-		},
-	    "error": "NaN"
-	}
+    "bytes": {
+        "unit": {
+            "b": "B",
+            "k": "KB",
+            "m": "MB",
+            "g": "GB",
+            "t": "TB",
+            "p": "PB"
+        },
+        "error": "NaN"
+    }
 }

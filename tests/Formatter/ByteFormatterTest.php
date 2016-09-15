@@ -75,24 +75,41 @@ class ByteFormatterTest extends AbstractFormatterTestCase
             array(9002199254340800, 'PB', '7PB'),
             array(9002199254340800, 'pB', '7PB'),
 
-            //when formatted bytes is less than 1 then automatically convert into nearest human readable
+            //when bytes is in decimal form
+            array(4058367.987, 'Mb', '3MB'),
+            array(78678.879, 'K','76KB'),
+
+            //when bytes is less than 1
+            array(0, 'M', '0B'),
+            array(0.98, 'KB', '0B'),
+            array(-3067, 'M', '0B'),
+
+            //when converted bytes value is less than 1 then automatically convert into nearest human readable
             array(2048, 'M', '2KB'),
 
             //when format is h then automatically convert into nearest human readable
             array(2048, 'h', '2KB'),
-            array(2048, 'H', '2KB'),
+            array(2089, 'H', '2KB'),
 
-            //when bytes is null
-            array('', 'KB', '0B'),
+            //when format is other than specified format
+            array(1048, 'kp', '1KB'),
+            array(98762, 'AB', '96KB'),
+            array(43762, 'O', '42KB'),
 
-            //when format is other than specified format then
-            array(2048, 'A', '2KB'),
+            //when bytes is not numeric
+            array(null, 'GB', 'NaN'),
+            array('', 'GB', 'NaN'),
+            array('gh', 'T', 'NaN'),
 
-            //when bytes and format is null
-            array('', '', '0B'),
-            array('', null, '0B'),
-            array(null, 'h', '0B'),
-            array(null, null, '0B'),
+            //when format is null or empty
+            array(6893223, '', '6MB'),
+            array(98234, null, '95KB'),
+
+            //when bytes and format both null or empty
+            array('', '', 'NaN'),
+            array(null, null, 'NaN'),
+            array('', null, 'NaN'),
+            array(null, '', 'NaN'),
         );
     }
 
@@ -144,24 +161,42 @@ class ByteFormatterTest extends AbstractFormatterTestCase
             array(9002199254340800, 'PB', '7Po'),
             array(9002199254340800, 'pB', '7Po'),
 
-            //when formatted bytes is less than 1 then automatically convert into nearest human readable
+            //when bytes is in decimal form
+            array(4058367.987, 'Mb', '3Mo'),
+            array(78678.879, 'Kb', '76Ko'),
+
+            //when bytes is less than 1
+            array(0,'M', '0o'),
+            array(0.98, 'KB', '0o'),
+            array(-3067, 'M', '0o'),
+
+            //when converted bytes value is less than 1 then automatically convert into nearest human readable
             array(2048, 'M', '2Ko'),
+            array(54783,'TB','53Ko'),
 
             //when format is h then automatically convert into nearest human readable
             array(2048, 'h', '2Ko'),
-            array(2048, 'H', '2Ko'),
-
-            //when bytes is null
-            array('', 'KB', '0o'),
+            array(2089, 'H', '2Ko'),
 
             //when format is other than specified format
-            array(2048, 'A', '2Ko'),
+            array(1048, 'kp', '1Ko'),
+            array(98762, 'AB', '96Ko'),
+            array(43762, 'O', '42Ko'),
 
-            //when bytes and format is null
-            array('', '', '0o'),
-            array('', null, '0o'),
-            array(null, 'h', '0o'),
-            array(null, null, '0o'),
+            //when bytes is not numeric
+            array(null, 'GB', 'NaN'),
+            array('', 'GB', 'NaN'),
+            array('gh', 'T', 'NaN'),
+
+            //when format is null or empty
+            array(6893223, '', '6Mo'),
+            array(98234, null, '95Ko'),
+
+            //when bytes and format both null or empty
+            array('', '', 'NaN'),
+            array(null, null, 'NaN'),
+            array('', null, 'NaN'),
+            array(null, '', 'NaN'),
         );
     }
 

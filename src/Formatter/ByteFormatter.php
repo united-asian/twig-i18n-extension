@@ -10,6 +10,7 @@ class ByteFormatter extends AbstractFormatter
     const CATALOGUE = 'uam-18n';
     const ZERO = '0';
     const DEFAULT_FORMAT = 'h';
+    const ERROR = 'bytes.error';
 
     private $translator;
 
@@ -24,12 +25,16 @@ class ByteFormatter extends AbstractFormatter
 
     public function formatBytes($bytes, $format = self::DEFAULT_FORMAT, $locale = null)
     {
+        if (!is_numeric($bytes)) {
+            return $this->trans(static::ERROR, $locale);
+        }
+
         $format = strtoupper($format);
 
         $locale = $this->getLocale($locale);
 
-        if (!$bytes) {
-            return static::ZERO.$this->trans('B', $locale);
+        if ($bytes < 1) {
+            return static::ZERO.$this->trans('bytes.unit.b', $locale);
         }
 
         if (!preg_match('/^(?:B|([KMGTP])B?)$/', $format, $matches)) {
@@ -53,7 +58,7 @@ class ByteFormatter extends AbstractFormatter
             return $this->formatBytes($bytes, self::DEFAULT_FORMAT, $locale);
         }
 
-        return $converted_value.$this->trans($format, $locale);
+        return $converted_value.$this->trans('bytes.unit'.'.'.strtolower($format), $locale);
     }
 
     protected function getUnits()
@@ -77,14 +82,14 @@ class ByteFormatter extends AbstractFormatter
 
             $this->translator->addResource(
                 'json',
-                dirname(__FILE__).'/uam-i18n.en.json',
+                dirname(__FILE__).'/../uam-i18n.en.json',
                 'en',
                 static::CATALOGUE
             );
 
             $this->translator->addResource(
                 'json',
-                dirname(__FILE__).'/uam-i18n.fr.json',
+                dirname(__FILE__).'/../uam-i18n.fr.json',
                 'fr',
                 static::CATALOGUE
             );

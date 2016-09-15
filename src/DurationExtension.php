@@ -73,13 +73,11 @@ class DurationExtension extends Twig_Extension
 
     public function duration($from, $to, $format='YYY-MMM-DDD-HHH-III-SSS', $locale = null)
     {
-        $from_date = new DateTime($from);
-
-        $to_date = new DateTime($to);
+        $interval = self::getDateInterval($from, $to);
 
         $locale = $locale !== null ? $locale : Locale::getDefault();
 
-        $duration = $from_date->diff($to_date);
+        $duration = $interval;
 
         $result = '';
 
@@ -132,9 +130,14 @@ class DurationExtension extends Twig_Extension
         return $interval;
     }
 
-    // TODO[DA 2016-09-14] assume small date as a start date
     protected function getRawDateInterval($from, $to)
     {
+        if (strtotime($from) > strtotime($to)) {
+            $temp_date = $from;
+            $from = $to;
+            $to = $temp_date;
+        }
+
         $parsed = date_parse($from);
 
         if (!is_int($parsed['hour'])) {

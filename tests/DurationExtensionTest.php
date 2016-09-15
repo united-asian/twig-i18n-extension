@@ -27,17 +27,48 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $interval->days);
     }
 
-    /**
-     * @dataProvider intervalMonthsData
-     */
-    public function testDateIntervalMonths($from, $to, $expected)
+    public function intervalData()
     {
-        $locale = 'en';
+        return array(
+            // array($from, $to, $days, $y, $m, $d)
+            array('2015-01-01', '2015-01-31', 31, 0, 1, 0),
+            array('2015-01-01', '2015-02-28', 59, 0, 2, 0),
+            array('2016-01-01', '2016-02-28', 59, 0, 1, 28),
+            array('2016-01-01', '2016-02-29', 60, 0, 2, 0),
+            array('2015-01-02', '2015-02-02', 32, 0, 1, 0),
+            array('2015-01-15', '2015-02-15', 32, 0, 1, 0),
+            array('2015-01-28', '2015-02-28', 32, 0, 1, 0),
+            array('2016-01-28', '2016-02-28', 32, 0, 1, 0),
+            array('2016-01-28', '2016-02-29', 33, 0, 1, 1),
+            array('2016-01-29', '2016-02-29', 32, 0, 1, 0),
+            array('2016-01-30', '2016-02-29', 31, 0, 1, 0),
+            array('2016-01-31', '2016-02-29', 30, 0, 1, 0),
 
+            array('2015-01-01', '2015-03-28', 87, 0, 2, 28),
+            array('2015-01-01', '2015-03-31', 90, 0, 3, 0),
+            array('2016-01-01', '2016-03-28', 88, 0, 2, 28),
+            array('2016-01-01', '2016-03-31', 91, 0, 3, 0),
+            array('2015-01-01', '2015-12-31', 365, 1, 0, 0),
+            array('2016-01-01', '2016-12-31', 366, 1, 0, 0),
+            array('2016-01-02', '2016-12-30', 364, 0, 11, 29),
+            array('2009-03-01', '2009-03-31', 31, 0, 1, 0),
+
+        );
+    }
+
+    /**
+     * @dataProvider intervalData
+     */
+    public function testDateInterval($from, $to, $days, $y, $m, $d)
+    {
         $interval = $this->getExtension()
             ->getDateInterval($from, $to);
 
-        $this->assertEquals($expected, $interval->m);
+        $this->assertEquals($days, $interval->days);
+
+        $this->assertEquals($y, $interval->y);
+        $this->assertEquals($m, $interval->m);
+        $this->assertEquals($d, $interval->d);
     }
 
     /**
@@ -370,22 +401,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2016-3-25', '2016-4-1 23:59:59', 7),
             array('2015-2-25', '2015-3-1', 5),
             array('2016-1-1 3:01:05', '2024-3-1 4:02:15', 2982),
-        );
-    }
-
-    public function intervalMonthsData()
-    {
-        return array(
-            // time not specified
-            array('2015-01-01', '2015-01-31', 1),
-            array('2015-01-01', '2015-02-28', 2),
-            array('2016-01-01', '2016-02-28', 1),
-            array('2016-01-01', '2016-02-29', 2),
-            array('2015-01-01', '2015-03-28', 2),
-            array('2015-01-01', '2015-03-31', 3),
-            array('2016-01-01', '2016-03-28', 2),
-            array('2016-01-01', '2016-03-31', 3),
-            array('2016-01-01', '2016-12-31', 12),
         );
     }
 

@@ -124,6 +124,7 @@ class DurationExtension extends Twig_Extension
         $raw = $this->getRawDateInterval($from, $to);
 
 
+
         // FIXME [OP 2016-09-15] Adjust the interval as appropriate
         $interval = $raw;
 

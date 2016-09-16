@@ -17,41 +17,72 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider intervalDaysData
      */
-    public function testDateIntervalDays($from, $to, $expected)
+    /*public function testDateIntervalDays($from, $to, $expected)
     {
         $interval = $this->getExtension()
             ->getDateInterval($from, $to);
 
         $this->assertEquals($expected, $interval->days);
+    }*/
+
+    public function intervalMonthsData()
+    {
+        return array(
+            array('2015-01-01', '2015-01-31', 1),
+            array('2015-01-01', '2015-02-28', 2),
+            array('2016-1-1', '2016-2-28', 1),
+            array('2016-01-01', '2016-02-29', 2),
+            array('2015-01-01', '2015-12-31', 12),
+            array('2016-01-02', '2016-12-30', 11),
+            array('2009-03-01', '2009-03-31', 1),
+            array('2015-03-01', '2016-02-28', 11),
+            array('2015-03-01', '2016-02-29', 12),
+            array('2016-02-01', '2017-01-31', 12),
+            array('2016-03-01', '2017-02-28', 12),
+            array('2016-02-01', '2016-02-29', 1),
+        );
     }
+
+    /**
+     * @dataProvider intervalMonthsData
+     */
+    public function testDateIntervalMonths($from, $to, $expected)
+    {
+        $interval = $this->getExtension()
+            ->getDateInterval($from, $to);
+
+        $this->assertEquals($expected, $interval->m);
+    }
+
+
 
     public function intervalData()
     {
         return array(
              //array($from, $to, $days, $y, $m, $d)
             array('2015-01-01', '2015-01-31', 31, 0, 1, 0),
-            array('2015-01-01', '2015-02-28', 59, 0, 2, 0),// this gets fail
+            array('2015-01-01', '2015-02-28', 59, 0, 2, 0),
             array('2016-01-01', '2016-02-28', 59, 0, 1, 28),
-            array('2016-01-01', '2016-02-29', 60, 0, 2, 0),// this gets fail
-            array('2015-01-02', '2015-02-02', 32, 0, 1, 0),//this gets fail
-            array('2015-01-15', '2015-02-15', 32, 0, 1, 0),//this gets fail
-            array('2015-01-28', '2015-02-28', 32, 0, 1, 0),// this gets fail
-            array('2016-01-28', '2016-02-28', 32, 0, 1, 0),// this gets fail
+            array('2016-01-01', '2016-02-29', 60, 0, 2, 0),
+            array('2015-01-02', '2015-02-02', 32, 0, 1, 0),
+            array('2015-01-15', '2015-02-15', 32, 0, 1, 0),
+            array('2015-01-28', '2015-02-28', 32, 0, 1, 0),
+            array('2016-01-28', '2016-02-28', 32, 0, 1, 0),
             array('2016-01-28', '2016-02-29', 33, 0, 1, 1),
-            array('2016-01-29', '2016-02-29', 32, 0, 1, 0),// this gets fail
+            array('2016-01-29', '2016-02-29', 32, 0, 1, 0),
             array('2016-01-30', '2016-02-29', 31, 0, 1, 0),
-            array('2016-01-31', '2016-02-29', 30, 0, 1, 0),// this gets fail
+            array('2016-01-31', '2016-02-29', 30, 0, 1, 0),
 
-            array('2015-01-01', '2015-03-28', 87, 0, 2, 28),// this gets fail
+            array('2015-01-01', '2015-03-28', 87, 0, 2, 28),
             array('2015-01-01', '2015-03-31', 90, 0, 3, 0),
-            array('2016-01-01', '2016-03-28', 88, 0, 2, 28),// this gets fail
+            array('2016-01-01', '2016-03-28', 88, 0, 2, 28),
             array('2016-01-01', '2016-03-31', 91, 0, 3, 0),
             array('2009-03-01', '2009-03-31', 31, 0, 1, 0),
 
             array('2015-01-01', '2015-12-31', 365, 1, 0, 0),
             array('2016-01-01', '2016-12-31', 366, 1, 0, 0),
             array('2016-01-02', '2016-12-30', 364, 0, 11, 29),
-            array('2009-03-01', '2009-03-31', 31, 0, 1, 0),// this gets fail
+            array('2009-03-01', '2009-03-31', 31, 0, 1, 0),
             array('2015-03-01', '2016-02-28', 365, 1, 0, 0),
             array('2015-03-01', '2016-02-29', 366, 1, 0, 1),
             array('2016-02-01', '2017-01-31', 366, 1, 0, 0),
@@ -151,7 +182,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2015-2-10', '2015-2-15', 'Y-M-D', '0y 0m 6d'),
 
             // rounding at months
-            array('2015-2-10', '2015-12-10', 'Y-M', '0y 10m'),
+            array('2015-2-10', '2016-3-10', 'M', '13m'),
 
             // rounding at years
             array('2015-2-10', '2017-4-10', 'Y', '2y'),

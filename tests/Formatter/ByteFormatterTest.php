@@ -43,6 +43,7 @@ class ByteFormatterTest extends AbstractFormatterTestCase
             //when format is k, kb, Kb, KB, kB
             array(9 * 1024, 'k', '9KB'),
             array(9 * 1024 + 512, 'k', '9KB'),
+            array((9 * 1024  * 1024) + 512, 'k', (9 * 1024).'KB'),
             array(9 * 1024, 'kb', '9KB'),
             array(9 * 1024, 'Kb', '9KB'),
             array(9 * 1024, 'KB', '9KB'),

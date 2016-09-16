@@ -54,7 +54,29 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $interval->m);
     }
 
+   public function intervalYearsData()
+   {
+       return array(
+           array('2015-01-01', '2015-12-31', 1),
+           array('2015-03-01', '2016-02-28', 0),
+           array('2014-03-01', '2015-02-28', 1),
+           array('2015-03-01', '2016-02-29', 1),
+           array('2014-03-01', '2015-02-28', 1),
+           array('2013-03-01', '2015-02-28', 2),
+           array('2013-10-01', '2015-11-30', 2),
+       );
+   }
 
+    /**
+     * @dataProvider intervalYearsData
+     */
+    public function testDateIntervalYear($from, $to, $expected)
+    {
+        $interval = $this->getExtension()
+            ->getDateInterval($from, $to);
+
+        $this->assertEquals($expected, $interval->y);
+    }
 
     public function intervalData()
     {

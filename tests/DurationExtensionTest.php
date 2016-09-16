@@ -103,7 +103,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             ->getDateInterval($from, $to);
 
         $this->assertEquals($expected, $interval->years);
-    }*/
+    }
 
     public function intervalHoursData()
     {
@@ -125,6 +125,50 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             ->getDateInterval($from, $to);
 
         $this->assertEquals($expected, $interval->hours);
+    }
+
+    public function intervalMinutesData()
+    {
+        return array(
+            array('2010-01-01', '2010-12-31', 44640),
+            array('2015-02-01', '2015-02-28', 40320),
+            array('2016-02-01', '2016-02-29', 41760),
+            array('2015-03-01', '2016-02-29', 527040),
+            array('2014-03-01 ', '2015-02-28', 525600),
+        );
+    }
+
+    /**
+     * @dataProvider intervalMinutesData
+     */
+    public function testDateIntervalMinutes($from, $to, $expected)
+    {
+        $interval = $this->getExtension()
+            ->getDateInterval($from, $to);
+
+        $this->assertEquals($expected, $interval->minutes);
+    }
+
+    public function intervalSecondsData()
+    {
+        return array(
+            array('2010-01-01', '2010-12-31', 2678400),
+            array('2015-02-01', '2015-02-28', 2419200),
+            array('2016-02-01', '2016-02-29', 2505600),
+            array('2015-03-01', '2016-02-29', 31622400),
+            array('2014-03-01 ', '2015-02-28', 31536000),
+        );
+    }
+
+    /**
+     * @dataProvider intervalSecondsData
+     */
+    public function testDateIntervalSeconds($from, $to, $expected)
+    {
+        $interval = $this->getExtension()
+            ->getDateInterval($from, $to);
+
+        $this->assertEquals($expected, $interval->seconds);
     }
 
     public function intervalData()

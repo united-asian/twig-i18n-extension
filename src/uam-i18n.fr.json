@@ -30,5 +30,16 @@
 			"medium": "[0,1]%count% sec.|]1,Inf]%count% sec.",
 			"full": "[0,1]%count% seconde|]1,Inf]%count% secondes"
 		}
-	}
+	},
+    "bytes": {
+        "unit": {
+            "b": "o",
+            "k": "Ko",
+            "m": "Mo",
+            "g": "Go",
+            "t": "To",
+            "p": "Po"
+        },
+        "error": "NaN"
+    }
 }

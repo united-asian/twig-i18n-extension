@@ -17,13 +17,13 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider intervalDaysData
      */
-    /*public function testDateIntervalDays($from, $to, $expected)
+    public function testDateIntervalDays($from, $to, $expected)
     {
         $interval = $this->getExtension()
             ->getDateInterval($from, $to);
 
         $this->assertEquals($expected, $interval->days);
-    }*/
+    }
 
     public function intervalMonthsData()
     {

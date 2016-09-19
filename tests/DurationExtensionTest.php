@@ -192,6 +192,9 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             // showing years and months
             array('2016-01-01', '2016-02-29', 'Y-M', '0y 2m'),
 
+            // showing years and days
+            array('2010-01-01', '2011-02-02', 'Y-D', '1y 32d'),
+
             // showing only months
             array('2015-2-10', '2017-3-12', 'MMM', '25 months'),
 
@@ -298,7 +301,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('5/13/2016', '6/13', 'Y-M-D', '0y 1m 1d'),
             array('3/6', '5/7', 'Y-M-D', '0y 2m 2d'),
 
-           //special cases
+           // special cases
             array('2010-01-03 00:00:00', '2010-01-05 23:59:59', 'Y-M-D-H-I-S', '0y 0m 2d 23h 59m 59s'),
             array('2010-01-03 00:00:00', '2010-01-06 00:00:00', 'Y-M-D', '0y 0m 3d'),
             array('2010-01-03 00:00:00', '2010-01-06 00:00:01', 'Y-M-D-S', '0y 0m 3d 1s'),
@@ -350,10 +353,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2016-01-01', '2016-12-31', 'D', '366j'),
             array('2010-01-01', '2010-01-02', 'M', '0m'),
             array('2010-01-01', '2010-02-01', 'M', '1m'),
-
-            // FIXME [OP 2016-09-11] This fails
             array('2010-01-01', '2010-03-01', 'M', '2m'),
-
             array('2010-01-01', '2010-01-01', 'D', '1j'),
             array('2010-01-01', '2010-01-02', 'D', '2j'),
             array('2010-01-01', '2010-01-03', 'D', '3j'),

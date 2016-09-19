@@ -28,6 +28,7 @@ class DurationExtension extends Twig_Extension
 
     protected $factor = array(
         'ym' => 12,
+        'md' => 30,
         'dh' => 24,
         'di' => 1440,
         'ds' => 86400,

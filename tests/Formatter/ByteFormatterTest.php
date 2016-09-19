@@ -46,10 +46,10 @@ class ByteFormatterTest extends AbstractFormatterTestCase
 
             //when format is b
             array(600, 'b', '600B'),
-            array(1024, 'b', '1024B'),
-            array(1024 * 1024, 'b', (1024 * 1024).'B'),
-            array(1024 * 1024 * 1024, 'b', (1024 * 1024 * 1024).'B'),
-            array(1024 * 1024 * 1024 * 1024, 'b', (1024 * 1024 * 1024 * 1024).'B'),
+            array(1000, 'b', '1000B'),
+            array(1000 * 1000, 'b', (1000 * 1000).'B'),
+            array(1000 * 1000 * 1000, 'b', (1000 * 1000 * 1000).'B'),
+            array(1000 * 1000 * 1000 * 1000, 'b', (1000 * 1000 * 1000 * 1000).'B'),
 
             //when format is K, Kb, KB
             array(9 * 1024, 'K', '9KB'),
@@ -64,9 +64,6 @@ class ByteFormatterTest extends AbstractFormatterTestCase
             //when format is M, MB, Mb
             array(12 * 1024 * 1024, 'M', '12MB'),
             array(12 * 1024 * 1024 * 1024, 'M', (1024 * 12).'MB'),
-            array(12897484, 'Mb', '12MB'),
-            array(12897484, 'MB', '12MB'),
-            array(12897484, 'M', '12MB'),
 
             //when format is m, mb, mB
             array(14 * 1000, 'm', '0MB'),
@@ -116,7 +113,7 @@ class ByteFormatterTest extends AbstractFormatterTestCase
 
             //when converted bytes value is less than 1 then
             array(603, 'M', '0MB'),
-            array(1 * 1024, 'g', '0GB'),
+            array(1 * 1000, 'g', '0GB'),
             array(2 * 1024, 'P', '0PB'),
 
             //when format is h then
@@ -169,10 +166,10 @@ class ByteFormatterTest extends AbstractFormatterTestCase
 
             //when format is b
             array(600, 'b', '600o'),
-            array(1024, 'b', '1024o'),
-            array(1024 * 1024, 'b', (1024 * 1024).'o'),
-            array(1024 * 1024 * 1024, 'b', (1024 * 1024 * 1024).'o'),
-            array(1024 * 1024 * 1024 * 1024, 'b', (1024 * 1024 * 1024 * 1024).'o'),
+            array(1000, 'b', '1000o'),
+            array(1000 * 1000, 'b', (1000 * 1000).'o'),
+            array(1000 * 1000 * 1000, 'b', (1000 * 1000 * 1000).'o'),
+            array(1000 * 1000 * 1000 * 1000, 'b', (1000 * 1000 * 1000 * 1000).'o'),
 
             //when format is K, Kb, KB
             array(9 * 1024, 'K', '9Ko'),
@@ -187,9 +184,6 @@ class ByteFormatterTest extends AbstractFormatterTestCase
             //when format is M, MB, Mb
             array(12 * 1024 * 1024, 'M', '12Mo'),
             array(12 * 1024 * 1024 * 1024, 'M', (1024 * 12).'Mo'),
-            array(12897484, 'Mb', '12Mo'),
-            array(12897484, 'MB', '12Mo'),
-            array(12897484, 'M', '12Mo'),
 
             //when format is m, mb, mB
             array(14 * 1000, 'm', '0Mo'),
@@ -239,7 +233,7 @@ class ByteFormatterTest extends AbstractFormatterTestCase
 
             //when converted bytes value is less than 1 then
             array(603, 'M', '0Mo'),
-            array(1 * 1024, 'g', '0Go'),
+            array(1 * 1000, 'g', '0Go'),
             array(2 * 1024, 'P', '0Po'),
 
             //when format is h then
@@ -258,7 +252,7 @@ class ByteFormatterTest extends AbstractFormatterTestCase
 
             //when format is other than specified format
             array(1 * 1000, 'Kp', '1Ko'),
-            array(96 * 1000 * 1000, 'AB', '96Mo'),
+            array(96 * 1000 * 1000, 'aB', '96Mo'),
             array((4 * 1000 * 1000 * 1000) + 123, 'O', '4Go'),
 
             //when format is null or empty

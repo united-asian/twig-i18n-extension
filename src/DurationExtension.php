@@ -121,48 +121,47 @@ class DurationExtension extends Twig_Extension
 
     public function getDateInterval($from, $to, $format)
     {
-        $raw = $this->getRawDateInterval($from, $to);
-        $interval = $raw;
+        $interval = $this->getRawDateInterval($from, $to);
 
         $formats = explode('-', strtolower($format));
 
-        $last_key = end($formats);
+        $last_unit = end($formats);
 
-        if ($last_key == 'y') {
-            $months = $interval->m;
+        if ($last_unit == 'y') {
+            $month_interval = $interval->m;
 
-            if ($months == 11) {
+            if ($month_interval == 11) {
                 $interval->y++;
             }
         }
-        if ($last_key == 'm') {
-            $days = $interval->d;
+        if ($last_unit == 'm') {
+            $day_interval = $interval->d;
 
-            if ($days > 15) {
+            if ($day_interval > 15) {
                 $interval->m++;
             }
         }
 
-        if ($last_key == 'd') {
-            $hours = $interval->h;
+        if ($last_unit == 'd') {
+            $hour_interval = $interval->h;
 
-            if ($hours > 12) {
+            if ($hour_interval > 12) {
                 $interval->d++;
             }
         }
 
-        if ($last_key == 'h') {
-            $minutes = $interval->i;
+        if ($last_unit == 'h') {
+            $minute_interval = $interval->i;
 
-            if ($minutes > 30) {
+            if ($minute_interval > 30) {
                 $interval->h++;
             }
         }
 
-        if ($last_key == 'i') {
-            $seconds = $interval->s;
+        if ($last_unit == 'i') {
+            $second_interval = $interval->s;
 
-            if ($seconds > 30) {
+            if ($second_interval > 30) {
                 $interval->i++;
             }
         }

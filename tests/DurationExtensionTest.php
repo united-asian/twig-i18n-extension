@@ -14,17 +14,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
     protected $faker;
 
-    /**
-     * @dataProvider intervalDaysData
-     */
-    public function testDateIntervalDays($from, $to, $expected)
-    {
-        $interval = $this->getExtension()
-            ->getDateInterval($from, $to);
-
-        $this->assertEquals($expected, $interval->days);
-    }
-
     public function intervalDaysData()
     {
         return array(
@@ -51,53 +40,73 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function intervalData()
+    public function intervalDataYears()
     {
         return array(
              //array($from, $to, $days, $y, $m, $d)
-            array('2015-01-01', '2015-01-31', 31, 0, 1, 0),
-            array('2015-01-01', '2015-02-28', 59, 0, 2, 0),
-            array('2016-01-01', '2016-02-28', 59, 0, 1, 28),
-            array('2016-01-01', '2016-02-29', 60, 0, 2, 0),
-            array('2015-01-02', '2015-02-02', 32, 0, 1, 0),
-            array('2015-01-15', '2015-02-15', 32, 0, 1, 0),
-            array('2015-01-28', '2015-02-28', 32, 0, 1, 0),
-            array('2016-01-28', '2016-02-28', 32, 0, 1, 0),
-            array('2016-01-28', '2016-02-29', 33, 0, 1, 1),
-            array('2016-01-29', '2016-02-29', 32, 0, 1, 0),
-            array('2016-01-30', '2016-02-29', 31, 0, 1, 0),
-            array('2016-01-31', '2016-02-29', 30, 0, 1, 0),
+            array('2015-01-01', '2015-01-31', 'Y', 0),
+            array('2015-01-02', '2015-02-02', 'Y', 0),
+            array('2015-01-15', '2015-02-15', 'Y', 0),
+            array('2015-01-01', '2015-12-31', 'Y', 1),
+            array('2016-01-02', '2016-12-30', 'Y', 1),
+            array('2014-01-03', '2014-12-02', 'Y', 1),
+            array('2009-03-01', '2009-03-31', 'Y', 0),
+            array('2015-03-01', '2016-02-28', 'Y', 1),
+        );
+    }
 
-            array('2015-01-01', '2015-03-28', 87, 0, 2, 28),
-            array('2015-01-01', '2015-03-31', 90, 0, 3, 0),
-            array('2016-01-01', '2016-03-28', 88, 0, 2, 28),
-            array('2016-01-01', '2016-03-31', 91, 0, 3, 0),
-            array('2009-03-01', '2009-03-31', 31, 0, 1, 0),
+    public function intervalDataMonths()
+    {
+        return array(
+            //array($from, $to, $format, $m)
+            array('2015-01-01', '2015-01-31', 'Y-M', 1),
+            array('2015-01-01', '2015-02-28', 'Y-M', 2),
+            array('2016-01-01', '2016-02-29', 'Y-M', 2),
+            array('2015-01-02', '2015-02-02', 'Y-M', 1),
+            array('2016-01-28', '2016-02-28', 'Y-M', 1),
+            array('2016-01-01', '2016-03-28', 'Y-M', 3),
+            array('2016-01-01', '2016-03-31', 'Y-M', 3),
+            array('2009-03-01', '2009-03-31', 'Y-M', 1),
 
-            array('2015-01-01', '2015-12-31', 365, 1, 0, 0),
-            array('2016-01-01', '2016-12-31', 366, 1, 0, 0),
-            array('2016-01-02', '2016-12-30', 364, 0, 11, 29),
-            array('2009-03-01', '2009-03-31', 31, 0, 1, 0),
-            array('2015-03-01', '2016-02-28', 365, 1, 0, 0),
-            array('2015-03-01', '2016-02-29', 366, 1, 0, 1),
-            array('2016-02-01', '2017-01-31', 366, 1, 0, 0),
-            array('2016-03-01', '2017-02-28', 365, 1, 0, 0),
+            array('2015-01-01', '2015-12-31', 'Y-M', 0),
+            array('2016-01-01', '2016-12-31', 'Y-M', 0),
+            array('2016-01-02', '2016-12-30', 'Y-M', 12),
+            array('2009-03-01', '2009-03-31', 'Y-M', 1),
+            array('2015-03-01', '2016-02-28', 'Y-M', 0),
         );
     }
 
     /**
-     * @dataProvider intervalData
+     * @dataProvider intervalDaysData
      */
-    public function testDateInterval($from, $to, $days, $y, $m, $d)
+    public function testDateIntervalDays($from, $to, $expected)
     {
         $interval = $this->getExtension()
-            ->getDateInterval($from, $to);
+            ->getRawDateInterval($from, $to);
 
-        $this->assertEquals($days, $interval->days);
+        $this->assertEquals($expected, $interval->days);
+    }
+
+    /**
+     * @dataProvider intervalDataYears
+     */
+    public function testDateIntervalYears($from, $to, $format, $y)
+    {
+        $interval = $this->getExtension()
+            ->getDateInterval($from, $to, $format);
 
         $this->assertEquals($y, $interval->y);
+    }
+
+    /**
+     * @dataProvider intervalDataMonths
+     */
+    public function testDateIntervalMonths($from, $to, $format, $m)
+    {
+        $interval = $this->getExtension()
+            ->getDateInterval($from, $to, $format);
+
         $this->assertEquals($m, $interval->m);
-        $this->assertEquals($d, $interval->d);
     }
 
     /**
@@ -149,16 +158,9 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             array('2010-01-01', '2010-01-02', 'M', '0m'),
             array('2010-01-01', '2010-02-01', 'M', '1m'),
-
-            // FIXME [OP 2016-09-11] This fails
-            // array('2010-01-01', '2010-03-01', 'M', '2m'),
-
+            array('2010-01-01', '2010-03-01', 'M', '2m'),
             array('2010-01-01', '2010-01-01', 'D', '1d'),
-
-            // FIXME [OP 2016-09-11] This fails
             array('2010-01-01', '2010-01-02', 'D', '2d'),
-
-            // FIXME [OP 2016-09-11] This fails
             array('2010-01-01', '2010-01-03', 'D', '3d'),
             array('2011-5-6', '2015-12-8', 'Y-M-D', '4y 7m 3d'),
 
@@ -187,6 +189,9 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             // showing only years
             array('2015-2-10', '2017-3-12', 'YYY', '2 years'),
 
+            // showing years and months
+            array('2016-01-01', '2016-02-29', 'Y-M', '0y 2m'),
+
             // showing only months
             array('2015-2-10', '2017-3-12', 'MMM', '25 months'),
 
@@ -196,9 +201,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // showing only seconds
             array('2011-5-6 12:15:00', '2015-12-8 02:05:30', 'S', '144856230s'),
-
-            // showing years and days
-            array('2011-5-6 12:15:00', '2015-12-8 02:05:30', 'Y-D', '4y 8d'),
 
             // showing months and seconds
             array('2011-5-6 12:15:00', '2015-12-8 02:05:30', 'M-S', '55m 136230s'),
@@ -244,17 +246,17 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             // when start date is null
             array(
                 null,
-                $this->getCurrentDate()->add(new DateInterval('P2Y1M1D'))->format('Y-m-d H:i:s'),
+                $this->getCurrentDate()->add(new DateInterval('P2Y1M1D'))->format('Y-m-d'),
                 'Y-M-D',
-                '2y 1m 1d',
+                '2y 1m 2d',
             ),
 
             // when end date is null
             array(
-                $this->getCurrentDate()->add(new DateInterval('P4Y1M1D'))->format('Y-m-d H:i:s'),
+                $this->getCurrentDate()->add(new DateInterval('P4Y1M1D'))->format('Y-m-d'),
                 null,
                 'Y-M-D',
-                '4y 1m 1d',
+                '4y 1m 2d',
             ),
 
             // both start and end date is null
@@ -306,7 +308,9 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2010-01-01', '2010-01-31', 'y-m-d', '0y 1m 0d'),
             array('2015-01-01', '2015-12-31', 'y-m-d', '1y 0m 0d'),
             array('2016-01-01', '2016-12-31', 'y-m-d', '1y 0m 0d'),
-            array('2010-2-01', '2010-3-01', 'y-m-d', '0y 1m 1d'),
+            array('2010-2-01', '2010-3-01', 'y-m-d', '0y 0m 29d'),
+            array('2010-01-01', '2010-12-20', 'y', '1y'),
+            array('2010-01-01', '2010-03-25', 'm', '3m'),
         );
     }
 
@@ -343,7 +347,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2010-01-01', '2011-01-01', 'Y', '1a'),
             array('2010-01-01', '2012-01-01', 'Y', '2a'),
             array('2015-01-01', '2015-12-31', 'D', '365j'),
-            array('2015-01-01', '2015-12-31', 'D', '364j'),
             array('2016-01-01', '2016-12-31', 'D', '366j'),
             array('2010-01-01', '2010-01-02', 'M', '0m'),
             array('2010-01-01', '2010-02-01', 'M', '1m'),

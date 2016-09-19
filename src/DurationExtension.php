@@ -73,7 +73,7 @@ class DurationExtension extends Twig_Extension
 
     public function duration($from, $to, $format='YYY-MMM-DDD-HHH-III-SSS', $locale = null)
     {
-        $interval = self::getDateInterval($from, $to);
+        $interval = self::getDateInterval($from, $to, $format);
 
         $locale = $locale !== null ? $locale : Locale::getDefault();
 
@@ -112,24 +112,65 @@ class DurationExtension extends Twig_Extension
                     $result[] = $this->trans($unit, $value, $locale);
 
                     break;
-               }
+                }
             }
         }
 
         return implode(' ' , $result);
     }
 
-    public function getDateInterval($from, $to)
+    public function getDateInterval($from, $to, $format)
     {
         $raw = $this->getRawDateInterval($from, $to);
-
-        // FIXME [OP 2016-09-15] Adjust the interval as appropriate
         $interval = $raw;
+
+        $formats = explode('-', strtolower($format));
+
+        $last_key = end($formats);
+
+        if ($last_key == 'y') {
+            $months = $interval->m;
+
+            if ($months == 11) {
+                $interval->y++;
+            }
+        }
+        if ($last_key == 'm') {
+            $days = $interval->d;
+
+            if ($days > 15) {
+                $interval->m++;
+            }
+        }
+
+        if ($last_key == 'd') {
+            $hours = $interval->h;
+
+            if ($hours > 12) {
+                $interval->d++;
+            }
+        }
+
+        if ($last_key == 'h') {
+            $minutes = $interval->i;
+
+            if ($minutes > 30) {
+                $interval->h++;
+            }
+        }
+
+        if ($last_key == 'i') {
+            $seconds = $interval->s;
+
+            if ($seconds > 30) {
+                $interval->i++;
+            }
+        }
 
         return $interval;
     }
 
-    protected function getRawDateInterval($from, $to)
+    public function getRawDateInterval($from, $to)
     {
         if (strtotime($from) > strtotime($to)) {
             $temp_date = $from;

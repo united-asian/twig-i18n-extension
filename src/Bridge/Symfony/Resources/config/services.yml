@@ -15,3 +15,8 @@ services:
         arguments: ["@translator"]
         tags:
             - { name: twig.extension }
+
+    twig.byte.extension:
+            class: UAM\Twig\Extension\I18n\ByteExtension
+            tags:
+                - { name: twig.extension }

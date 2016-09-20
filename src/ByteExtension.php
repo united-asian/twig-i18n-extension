@@ -10,14 +10,14 @@ class ByteExtension extends Twig_Extension
 {
     protected $byte_formatter;
 
-    public function getFilter()
+    public function getFilters()
     {
         return array(
             new Twig_SimpleFilter('bytes', array($this, 'formatBytes'), array('is_safe' => array('html'))),
         );
     }
 
-    public function formatBytes($bytes, $unit, $locale = null)
+    public function formatBytes($bytes, $unit = null, $locale = null)
     {
         return $this->getByteFormatter()
             ->formatBytes($bytes, $unit, $locale);

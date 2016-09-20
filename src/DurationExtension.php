@@ -14,20 +14,23 @@ use Symfony\Component\Translation\Loader\JsonFileLoader;
 class DurationExtension extends Twig_Extension
 {
     const CATALOGUE = 'uam-18n';
-
-    const DATE = 'duration.date';
-    const RANGE = 'duration.range';
-    const FULL_YEAR = 'duration.year.full';
-    const MEDIUM_YEAR = 'duration.year.medium';
-    const SHORT_YEAR = 'duration.year.short';
-    const FULL_MONTH= 'duration.month.full';
-    const MEDIUM_MONTH = 'duration.month.medium';
-    const SHORT_MONTH = 'duration.month.short';
+    const YEAR = 'y';
+    const MONTH = 'm';
+    const DAY = 'd';
+    const HOUR = 'h';
+    const MINUTE = 'i';
+    const SECOND = 's';
+    const ROUND_VALUE_MONTH = 6;
+    const ROUND_VALUE_DAY = 15;
+    const ROUND_VALUE_HOUR = 12;
+    const ROUND_VALUE_MINUTE = 30;
+    const ROUND_VALUE_SECOND = 30;
 
     protected $sequence = array('y', 'm', 'd', 'h', 'i', 's');
 
     protected $factor = array(
         'ym' => 12,
+        'md' => 30,
         'dh' => 24,
         'di' => 1440,
         'ds' => 86400,
@@ -73,13 +76,11 @@ class DurationExtension extends Twig_Extension
 
     public function duration($from, $to, $format='YYY-MMM-DDD-HHH-III-SSS', $locale = null)
     {
-        $from_date = new DateTime($from);
-
-        $to_date = new DateTime($to);
+        $interval = self::getDateInterval($from, $to, $format);
 
         $locale = $locale !== null ? $locale : Locale::getDefault();
 
-        $duration = $from_date->diff($to_date);
+        $duration = $interval;
 
         $result = '';
 
@@ -114,24 +115,74 @@ class DurationExtension extends Twig_Extension
                     $result[] = $this->trans($unit, $value, $locale);
 
                     break;
-               }
+                }
             }
         }
 
-        return implode(' ' , $result);
+        return implode(' ', $result);
     }
 
-    public function getDateInterval($from, $to)
+    public function getDateInterval($from, $to, $format)
     {
-        $raw = $this->getRawDateInterval($from, $to);
+        $interval = $this->getRawDateInterval($from, $to);
 
-        // FIXME [OP 2016-09-15] Adjust the interval as appropriate
-        $interval = $raw;
+        $month_interval = $interval->m;
+        $day_interval = $interval->d;
+        $hour_interval = $interval->h;
+        $minute_interval = $interval->i;
+        $second_interval = $interval->s;
+
+        $formats = explode('-', strtolower($format));
+
+        $last_unit = end($formats);
+
+        switch ($last_unit) {
+            case self::YEAR :
+
+                if ($month_interval > self::ROUND_VALUE_MONTH) {
+                    $interval->y++;
+                }
+
+            break;
+            case self::MONTH :
+
+                if ($day_interval > self::ROUND_VALUE_DAY) {
+                    $interval->m++;
+                }
+
+            break;
+            case self::DAY :
+
+                if ($hour_interval > self::ROUND_VALUE_HOUR) {
+                    $interval->d++;
+                }
+
+            break;
+            case self::HOUR :
+
+                if ($minute_interval > self::ROUND_VALUE_MINUTE) {
+                    $interval->h++;
+                }
+
+            break;
+            case self::MINUTE :
+
+                if ($second_interval > self::ROUND_VALUE_SECOND) {
+                    $interval->i++;
+                }
+        }
+
+        return $interval;
     }
 
-    // TODO[DA 2016-09-14] assume small date as a start date
     protected function getRawDateInterval($from, $to)
     {
+        if (strtotime($from) > strtotime($to)) {
+            $temp_date = $from;
+            $from = $to;
+            $to = $temp_date;
+        }
+
         $parsed = date_parse($from);
 
         if (!is_int($parsed['hour'])) {
@@ -150,12 +201,11 @@ class DurationExtension extends Twig_Extension
             $end_date = new DateTime($to);
         }
 
-        $interval = $start_date->diff($end_date)->format('%ad');
+        $interval = $start_date->diff($end_date);
 
         return $interval;
     }
 
-    // TODO convert Month to days.
     protected function convertToLowerUnit($formats, $duration, $higher_format, $lower_format)
     {
         $upper_unit = $higher_format == null ? '' : strtolower(substr($higher_format, 0, 1));

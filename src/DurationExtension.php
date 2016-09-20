@@ -14,15 +14,17 @@ use Symfony\Component\Translation\Loader\JsonFileLoader;
 class DurationExtension extends Twig_Extension
 {
     const CATALOGUE = 'uam-18n';
-
-    const DATE = 'duration.date';
-    const RANGE = 'duration.range';
-    const FULL_YEAR = 'duration.year.full';
-    const MEDIUM_YEAR = 'duration.year.medium';
-    const SHORT_YEAR = 'duration.year.short';
-    const FULL_MONTH= 'duration.month.full';
-    const MEDIUM_MONTH = 'duration.month.medium';
-    const SHORT_MONTH = 'duration.month.short';
+    const YEAR = 'y';
+    const MONTH = 'm';
+    const DAY = 'd';
+    const HOUR = 'h';
+    const MINUTE = 'i';
+    const SECOND = 's';
+    const ROUND_VALUE_MONTH = 6;
+    const ROUND_VALUE_DAY = 15;
+    const ROUND_VALUE_HOUR = 12;
+    const ROUND_VALUE_MINUTE = 30;
+    const ROUND_VALUE_SECOND = 30;
 
     protected $sequence = array('y', 'm', 'd', 'h', 'i', 's');
 
@@ -117,60 +119,65 @@ class DurationExtension extends Twig_Extension
             }
         }
 
-        return implode(' ' , $result);
+        return implode(' ', $result);
     }
 
     public function getDateInterval($from, $to, $format)
     {
         $interval = $this->getRawDateInterval($from, $to);
 
+        $month_interval = $interval->m;
+        $day_interval = $interval->d;
+        $hour_interval = $interval->h;
+        $minute_interval = $interval->i;
+        $second_interval = $interval->s;
+
         $formats = explode('-', strtolower($format));
 
         $last_unit = end($formats);
 
-        if ($last_unit == 'y') {
-            $month_interval = $interval->m;
+        switch ($last_unit) {
+            case self::YEAR :
 
-            if ($month_interval == 11) {
-                $interval->y++;
-            }
-        }
-        if ($last_unit == 'm') {
-            $day_interval = $interval->d;
+                if ($month_interval > self::ROUND_VALUE_MONTH) {
+                    $interval->y++;
+                }
 
-            if ($day_interval > 15) {
-                $interval->m++;
-            }
-        }
+            break;
+            case self::MONTH :
 
-        if ($last_unit == 'd') {
-            $hour_interval = $interval->h;
+                if ($day_interval > self::ROUND_VALUE_DAY) {
+                    $interval->m++;
+                }
 
-            if ($hour_interval > 12) {
-                $interval->d++;
-            }
-        }
+            break;
+            case self::DAY :
 
-        if ($last_unit == 'h') {
-            $minute_interval = $interval->i;
+                if ($hour_interval > self::ROUND_VALUE_HOUR) {
+                    $interval->d++;
+                }
 
-            if ($minute_interval > 30) {
-                $interval->h++;
-            }
-        }
+            break;
+            case self::HOUR :
 
-        if ($last_unit == 'i') {
-            $second_interval = $interval->s;
+                if ($minute_interval > self::ROUND_VALUE_MINUTE) {
+                    $interval->h++;
+                }
 
-            if ($second_interval > 30) {
-                $interval->i++;
-            }
+            break;
+            case self::MINUTE :
+
+                if ($second_interval > self::ROUND_VALUE_SECOND) {
+                    $interval->m++;
+                }
+
+            break;
         }
 
         return $interval;
     }
 
-    public function getRawDateInterval($from, $to)
+    protected function getRawDateInterval($from, $to)
     {
         if (strtotime($from) > strtotime($to)) {
             $temp_date = $from;
@@ -201,7 +208,6 @@ class DurationExtension extends Twig_Extension
         return $interval;
     }
 
-    // TODO convert Month to days.
     protected function convertToLowerUnit($formats, $duration, $higher_format, $lower_format)
     {
         $upper_unit = $higher_format == null ? '' : strtolower(substr($higher_format, 0, 1));

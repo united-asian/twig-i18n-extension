@@ -18,25 +18,25 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     {
         return array(
             // time not specified
-            array('2015-1-1', '2015-12-31', 365),
-            array('2016-1-1', '2016-12-31', 365+1),
-            array('2016-1-2', '2016-12-30', 364),
-            array('2016-3-1', '2016-6-1', 31+30+31+1),
-            array('2016-1-1', '2024-1-1', 365*8+2+1),
-            array('2016-1-1', '2020-1-1', 365*4+2),
-            array('2011-1-1', '2015-1-1', 365*4+1+1),
-            array('2009-3-1', '2009-3-31', 31),
-            array('2015-1-1', '2015-3-1', 31+28+1),
-            array('2015-2-25', '2015-3-1', 5),
-            array('2016-3-25', '2016-4-1', 8),
-            array('2010-1-3', '2010-1-5', 3),
+            array('2015-1-1', '2015-12-31', 'D', 365),
+            array('2016-1-1', '2016-12-31', 'D', 365+1),
+            array('2016-1-2', '2016-12-30', 'D', 364),
+            array('2016-3-1', '2016-6-1', 'D', 31+30+31+1),
+            array('2016-1-1', '2024-1-1', 'D', 365*8+2+1),
+            array('2016-1-1', '2020-1-1', 'D', 365*4+2),
+            array('2011-1-1', '2015-1-1', 'D', 365*4+1+1),
+            array('2009-3-1', '2009-3-31', 'D', 31),
+            array('2015-1-1', '2015-3-1', 'D', 31+28+1),
+            array('2015-2-25', '2015-3-1', 'D', 5),
+            array('2016-3-25', '2016-4-1', 'D', 8),
+            array('2010-1-3', '2010-1-5', 'D', 3),
 
             // time is specified
-            array('2015-1-1 00:00:00', '2015-1-2 2:20:00', 1),
-            array('2010-1-3 2:00:00', '2010-1-5', 2),
-            array('2016-3-25', '2016-4-1 23:59:59', 7),
-            array('2015-2-25', '2015-3-1', 5),
-            array('2016-1-1 3:01:05', '2024-3-1 4:02:15', 365*8+31+28+3),
+            array('2015-1-1 00:00:00', '2015-1-2 2:20:00', 'D', 1),
+            array('2010-1-3 2:00:00', '2010-1-5', 'D', 2),
+            array('2016-3-25', '2016-4-1 23:59:59', 'D', 7),
+            array('2015-2-25', '2015-3-1', 'D', 5),
+            array('2016-1-1 3:01:05', '2024-3-1 4:02:15', 'D', 365*8+31+28+3),
         );
     }
 
@@ -79,10 +79,10 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider intervalDaysData
      */
-    public function testDateIntervalDays($from, $to, $expected)
+    public function testDateIntervalDays($from, $to, $format, $expected)
     {
         $interval = $this->getExtension()
-            ->getRawDateInterval($from, $to);
+            ->getDateInterval($from, $to, $format);
 
         $this->assertEquals($expected, $interval->days);
     }

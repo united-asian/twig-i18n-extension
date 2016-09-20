@@ -100,7 +100,6 @@ class DurationExtension extends Twig_Extension
         $n = count($formats);
 
         foreach ($formats as $i => $format) {
-            $duration = $this->convertToLowerUnit($formats, $duration, ($i - 1) < 0 ? null: $formats[$i - 1], $format);
 
             foreach ($regexes as $regex => $date_format) {
                 if (preg_match($regex, $format, $matches)) {

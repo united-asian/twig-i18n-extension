@@ -128,6 +128,10 @@ class DurationExtension extends Twig_Extension
 
         $formats = explode('-', strtolower($format));
 
+        foreach ($formats as $i => $format) {
+            $interval = $this->convertToLowerUnit($formats, $interval, ($i - 1) < 0 ? null : $formats[$i - 1], $format);
+        }
+
         $last_unit = end($formats);
 
         switch ($last_unit) {
@@ -168,7 +172,7 @@ class DurationExtension extends Twig_Extension
         return $interval;
     }
 
-    protected function getRawDateInterval($from, $to)
+    public function getRawDateInterval($from, $to)
     {
         if (strtotime($from) > strtotime($to)) {
             $temp_date = $from;

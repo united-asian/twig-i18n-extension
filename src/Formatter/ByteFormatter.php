@@ -10,34 +10,58 @@ class ByteFormatter extends AbstractFormatter
     const CATALOGUE = 'uam-18n';
     const ZERO = '0';
     const DEFAULT_FORMAT = 'h';
-    const ERROR = 'NaN';
+    const ERROR = 'bytes.error';
 
     private $translator;
 
     protected $units = array(
-        'B' => 0,
-        'K' => 1,
-        'M' => 2,
-        'G' => 3,
-        'T' => 4,
-        'P' => 5,
+        'B' => 1,
+        'K' => 1024,
+        'M' => 1048576,  //1024 * 1024
+        'G' => 1073741824,  //1024 * 1024 * 1024
+        'T' => 1099511627776,   //1024 * 1024 * 1024 * 1024
+        'P' => 1125899906842624,    //1024 * 1024 * 1024 * 1024 * 1024,
+        'b' => 1,
+        'k' => 1000,
+        'm' => 1000000, //1000 * 1000,
+        'g' => 1000000000,  //1000 * 1000 * 1000,
+        't' => 1000000000000,   //1000 * 1000 * 1000 * 1000,
+        'p' => 1000000000000000,    //1000 * 1000 * 1000 * 1000 * 1000,
     );
 
     public function formatBytes($bytes, $format = self::DEFAULT_FORMAT, $locale = null)
     {
         if (!is_numeric($bytes)) {
-            return static::ERROR;
+            return $this->trans(static::ERROR, $locale);
         }
-
-        $format = strtoupper($format);
 
         $locale = $this->getLocale($locale);
 
         if ($bytes < 1) {
-            return static::ZERO.$this->trans('B', $locale);
+            return static::ZERO.$this->trans('bytes.unit.b', $locale);
         }
 
-        if (!preg_match('/^(?:B|([KMGTP])B?)$/', $format, $matches)) {
+        $units = $this->getUnits();
+
+        $format = $this->getFormat($bytes, $format);
+
+        if (ctype_upper($format)) {
+            $converted_value = floor($bytes / $units[$format]);
+        } else {
+            $converted_value = floor($bytes / $units[$format]);
+        }
+
+        return $converted_value.$this->trans('bytes.unit'.'.'.strtolower($format), $locale);
+    }
+
+    protected function getUnits()
+    {
+        return $this->units;
+    }
+
+    protected function getFormat($bytes, $format)
+    {
+        if (!preg_match('/^(?:[BbH]|([KMGTPkmgtp])[Bb]?)$/', $format, $matches)) {
             $format = self::DEFAULT_FORMAT;
         } else {
             if (isset($matches[1])) {
@@ -47,23 +71,25 @@ class ByteFormatter extends AbstractFormatter
 
         $units = $this->getUnits();
 
-        if ($format == self::DEFAULT_FORMAT) {
-            $pow = floor((log($bytes, 1024)));
-            $format = array_search($pow, $units);
+        $base = $this->getBase($format);
+
+        if ($format == self::DEFAULT_FORMAT || $format == 'H') {
+            $pow = floor((log($bytes, $base)));
+            $format = array_search(pow($base, $pow), $units);
         }
 
-        $converted_value = floor($bytes / pow(1024, $units[$format]));
-
-        if ($converted_value < 1) {
-            return $this->formatBytes($bytes, self::DEFAULT_FORMAT, $locale);
-        }
-
-        return $converted_value.$this->trans($format, $locale);
+        return $format;
     }
 
-    protected function getUnits()
+    protected function getBase($format)
     {
-        return $this->units;
+        if ($format == self::DEFAULT_FORMAT) {
+            $base = 1000;
+        } else {
+            $base = 1024;
+        }
+
+        return $base;
     }
 
     protected function trans($format, $locale)
@@ -82,14 +108,14 @@ class ByteFormatter extends AbstractFormatter
 
             $this->translator->addResource(
                 'json',
-                dirname(__FILE__).'/uam-i18n.en.json',
+                dirname(__FILE__).'/../uam-i18n.en.json',
                 'en',
                 static::CATALOGUE
             );
 
             $this->translator->addResource(
                 'json',
-                dirname(__FILE__).'/uam-i18n.fr.json',
+                dirname(__FILE__).'/../uam-i18n.fr.json',
                 'fr',
                 static::CATALOGUE
             );

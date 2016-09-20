@@ -126,48 +126,41 @@ class DurationExtension extends Twig_Extension
     {
         $interval = $this->getRawDateInterval($from, $to);
 
-        $month_interval = $interval->m;
-        $day_interval = $interval->d;
-        $hour_interval = $interval->h;
-        $minute_interval = $interval->i;
-        $second_interval = $interval->s;
-
         $formats = explode('-', strtolower($format));
 
         $last_unit = end($formats);
 
         switch ($last_unit) {
             case self::YEAR :
-
-                if ($month_interval > self::ROUND_VALUE_MONTH) {
+                if ($interval->m > self::ROUND_VALUE_MONTH) {
                     $interval->y++;
                 }
 
-            break;
-            case self::MONTH :
+                break;
 
-                if ($day_interval > self::ROUND_VALUE_DAY) {
+            case self::MONTH :
+                if ($interval->d > self::ROUND_VALUE_DAY) {
                     $interval->m++;
                 }
 
-            break;
-            case self::DAY :
+                break;
 
-                if ($hour_interval > self::ROUND_VALUE_HOUR) {
+            case self::DAY :
+                if ($interval->h > self::ROUND_VALUE_HOUR) {
                     $interval->d++;
                 }
 
-            break;
-            case self::HOUR :
+                break;
 
-                if ($minute_interval > self::ROUND_VALUE_MINUTE) {
+            case self::HOUR :
+                if ($interval->i > self::ROUND_VALUE_MINUTE) {
                     $interval->h++;
                 }
 
-            break;
-            case self::MINUTE :
+                break;
 
-                if ($second_interval > self::ROUND_VALUE_SECOND) {
+            case self::MINUTE :
+                if ($interval->s > self::ROUND_VALUE_SECOND) {
                     $interval->i++;
                 }
         }

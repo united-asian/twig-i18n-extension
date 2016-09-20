@@ -168,10 +168,8 @@ class DurationExtension extends Twig_Extension
             case self::MINUTE :
 
                 if ($second_interval > self::ROUND_VALUE_SECOND) {
-                    $interval->m++;
+                    $interval->i++;
                 }
-
-            break;
         }
 
         return $interval;

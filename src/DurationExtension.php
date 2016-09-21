@@ -26,11 +26,8 @@ class DurationExtension extends Twig_Extension
     const ROUND_VALUE_MINUTE = 30;
     const ROUND_VALUE_SECOND = 30;
 
-    protected $sequence = array('y', 'm', 'd', 'h', 'i', 's');
-
     protected $factor = array(
         'ym' => 12,
-        'md' => 30,
         'dh' => 24,
         'di' => 1440,
         'ds' => 86400,
@@ -128,7 +125,7 @@ class DurationExtension extends Twig_Extension
         $formats = explode('-', strtolower($format));
 
         foreach ($formats as $i => $format) {
-            $interval = $this->convertToLowerUnit($formats, $interval, ($i - 1) < 0 ? null : $formats[$i - 1], $format);
+            $interval = $this->convertToLowerUnit($from, $to, $formats, $interval, ($i - 1) < 0 ? null : $formats[$i - 1], $format);
         }
 
         $last_unit = end($formats);
@@ -173,37 +170,17 @@ class DurationExtension extends Twig_Extension
 
     public function getRawDateInterval($from, $to)
     {
-        if (strtotime($from) > strtotime($to)) {
-            $temp_date = $from;
-            $from = $to;
-            $to = $temp_date;
-        }
-
-        $parsed = date_parse($from);
-
-        if (!is_int($parsed['hour'])) {
-            $from .= ' 00:00:00';
-        }
-
-        $start_date = new DateTime($from);
-
-        $parsed = date_parse($to);
-
-        if (!is_int($parsed['hour'])) {
-            $to .= ' 23:59:59';
-            $end_date = new DateTime($to);
-            $end_date->add(new DateInterval('PT1S'));
-        } else {
-            $end_date = new DateTime($to);
-        }
+        list($start_date, $end_date) = $this->getProcessedDates($from, $to);
 
         $interval = $start_date->diff($end_date);
 
         return $interval;
     }
 
-    protected function convertToLowerUnit($formats, $duration, $higher_format, $lower_format)
+    protected function convertToLowerUnit($from, $to, $formats, $duration, $higher_format, $lower_format)
     {
+        $sequence = array('y', 'm', 'd', 'h', 'i', 's');
+
         $upper_unit = $higher_format == null ? '' : strtolower(substr($higher_format, 0, 1));
         $lower_unit = strtolower(substr($lower_format, 0, 1));
 
@@ -211,8 +188,8 @@ class DurationExtension extends Twig_Extension
             return $duration;
         }
 
-        $u_index = $upper_unit == '' ? 0 : ((int)array_search($upper_unit, $this->sequence) + 1);
-        $l_index = (int)array_search($lower_unit, $this->sequence) - 1;
+        $u_index = $upper_unit == '' ? 0 : ((int)array_search($upper_unit, $sequence) + 1);
+        $l_index = (int)array_search($lower_unit, $sequence) - 1;
 
         if ($higher_format == null && $l_index >= 1) {
             $total_days = $duration->format('%a');
@@ -223,8 +200,8 @@ class DurationExtension extends Twig_Extension
         }
 
         for ($i = $u_index; $i <= $l_index; $i++) {
-            $duration->{$lower_unit} += $duration->{$this->sequence[$i]} * $this->getFactor($duration, $formats, $this->sequence[$i], $lower_unit);
-            $duration->{$this->sequence[$i]} = 0;
+            $duration->{$lower_unit} += $duration->{$sequence[$i]} * $this->getFactor($duration, $formats, $sequence[$i], $lower_unit);
+            $duration->{$sequence[$i]} = 0;
         }
 
         return $duration;
@@ -276,5 +253,34 @@ class DurationExtension extends Twig_Extension
         }
 
         return $this->translator;
+    }
+
+    protected function getProcessedDates($from, $to)
+    {
+        if (strtotime($from) > strtotime($to)) {
+            $temp_date = $from;
+            $from = $to;
+            $to = $temp_date;
+        }
+
+        $parsed = date_parse($from);
+
+        if (!is_int($parsed['hour'])) {
+            $from .= ' 00:00:00';
+        }
+
+        $start_date = new DateTime($from);
+
+        $parsed = date_parse($to);
+
+        if (!is_int($parsed['hour'])) {
+            $to .= ' 23:59:59';
+            $end_date = new DateTime($to);
+            $end_date->add(new DateInterval('PT1S'));
+        } else {
+            $end_date = new DateTime($to);
+        }
+
+        return array($start_date, $end_date);
     }
 }

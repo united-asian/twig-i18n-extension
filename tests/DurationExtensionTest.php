@@ -264,7 +264,13 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2016-01-01', '2016-02-29', 'Y-M', '0y 2m'),
 
             // showing years and days
-            array('2010-01-01', '2011-02-02', 'Y-D', '1y 32d'),
+            array('2010-01-01', '2011-02-02', 'Y-D', '1y 33d'),
+            array('2015-01-01', '2016-03-01', 'Y-D', '1y 61d'),
+            array('2014-01-01', '2015-03-01', 'Y-D', '1y 60d'),
+            array('2011-01-05', '2015-03-06', 'Y-D', '4y 61d'),
+            array('2013-05-07', '2014-01-01', 'Y-D', '0y 240d'),
+            array('2007-01-01', '2011-12-31', 'Y-D', '5y 0d'),
+            array('2007-01-01', '2011-12-30', 'Y-D', '4y 364d'),
 
             // showing only months
             array('2015-2-10', '2017-3-12', 'MMM', '25 months'),

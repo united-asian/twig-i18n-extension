@@ -144,6 +144,19 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * @dataProvider fakerDataEn
+     */
+    public function testFakerDataEn($from, $to, $format, $expected)
+    {
+        $locale = 'en';
+
+        $actual = $this->getExtension()
+            ->duration($from, $to, $format, $locale);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
      * @dataProvider dataFr
      */
     public function testDataFr($from, $to, $format, $expected)
@@ -327,7 +340,27 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2010-05-01', '2010-05-25', 'H', '600h'),
             array('2010-05-01', '2010-05-25', 'I', '36000m'),
             array('2010-05-01', '2010-05-25', 'S', '2160000s'),
-            array('2010-01-01', '2010-02-05', 'M-H', '1m 120h')
+            array('2010-01-01', '2010-02-05', 'M-H', '1m 120h'),
+            array('2010-01-01', '2010-01-31', 'M-D', '1m 0d'),
+            array('2010-02-01', '2010-02-28', 'M-D', '0m 28d'),
+            array('2010-02-01', '2010-02-28', 'M', '1m'),
+            array('2016-02-01', '2016-02-29', 'M-D', '0m 29d'),
+            array('2016-02-01', '2016-02-29', 'M', '1m'),
+            array('2016-02-01', '2016-02-02', 'H', '48h'),
+            array('2015-02-28', '2015-03-01', 'H', '48h'),
+            array('2016-02-28', '2016-03-01', 'H', '72h'),
+            array('2016-01-01 02:00:00', '2016-01-01 05:00:00', 'H', '3h'),
+            array('2016-01-01 02:00:00', '2016-01-01 05:25:00', 'H', '3h'),
+            array('2016-01-01 02:00:00', '2016-01-01 05:32:00', 'H', '4h'),
+            array('2016-01-01 02:00:00', '2016-01-01 05:32:00', 'H-S', '3h 1920s'),
+            array('2016-01-01 02:00:00', '2016-01-01 02:03:00', 'I', '3m'),
+            array('2016-01-01 02:00:00', '2016-01-01 02:03:25', 'I', '3m'),
+            array('2016-01-01 02:00:00', '2016-01-01 02:03:31', 'I', '4m'),
+            array('2015-02-28', '2015-03-01', 'I', '2880m'),
+            array('2016-02-28', '2016-03-01', 'I', '4320m'),
+            array('2015-02-28 23:59:59', '2015-03-01 00:00:00', 'S', '1s'),
+            array('2016-02-28 23:59:59', '2016-03-01 00:00:00', 'S', '86401s'),
+            array('2010-01-01 00:00:00', '2010-01-01 00:00:00', 'S', '0s'),
         );
     }
 
@@ -339,6 +372,31 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
         $data = array();
 
         foreach ($this->getIntervalsDataFr() as $intervals) {
+
+            $from = $faker->dateTime();
+
+            $to = clone($from);
+            $interval = new DateInterval($intervals[0]);
+            $to->add($interval);
+
+            $data[] = array(
+                $from->format('Y-m-d H:m:s'),
+                $to->format('Y-m-d H:m:s'),
+                $intervals[1],
+                $intervals[2]
+            );
+        }
+
+        return $data;
+    }
+
+    public function fakerDataEn()
+    {
+        $faker = $this->getFaker();
+
+        $data = array();
+
+        foreach ($this->getIntervalsDataEn() as $intervals) {
 
             $from = $faker->dateTime();
 
@@ -371,6 +429,9 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2010-01-01', '2010-01-01', 'D', '1j'),
             array('2010-01-01', '2010-01-02', 'D', '2j'),
             array('2010-01-01', '2010-01-03', 'D', '3j'),
+            array('2010-02-01', '2010-02-28', 'D', '28j'),
+            array('2010-02-28', '2010-03-01', 'D', '2j'),
+            array('2012-02-28', '2012-03-01', 'D', '3j'),
         );
     }
 
@@ -386,10 +447,15 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('P2Y5M', 'Y', '2a'),
             array('P2Y3M8D', 'Y', '2a'),
             array('P2Y3D', 'Y', '2a'),
+            array('P2Y6M', 'Y', '2a'),
+            array('P2Y10M', 'Y', '3a'),
 
             array('P1D', 'M', '0m'),
             array('P1M', 'M', '1m'),
             array('P1M3D', 'M', '1m'),
+            array('P1Y3M', 'M', '15m'),
+            array('P1Y3M17D', 'M', '16m'),
+            array('P1Y3M28D', 'M', '16m'),
             array('P2M', 'M', '2m'),
             array('P1M13D', 'M', '1m'),
 
@@ -397,6 +463,40 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('P1D', 'D', '1j'),
             array('P1DT23H', 'D', '2j'),
             array('P2D', 'D', '2j'),
+        );
+    }
+
+    protected function getIntervalsDataEn()
+    {
+        return array(
+            array('P1D', 'Y', '0y'),
+            array('P1Y', 'Y', '1y'),
+            array('P1Y1M', 'Y', '1y'),
+            array('P1Y2M10D', 'Y', '1y'),
+            array('P1Y1D', 'Y', '1y'),
+            array('P2Y', 'Y', '2y'),
+            array('P2Y5M', 'Y', '2y'),
+            array('P2Y3M8D', 'Y', '2y'),
+            array('P2Y3D', 'Y', '2y'),
+            array('P2Y6M', 'Y', '2y'),
+            array('P2Y10M', 'Y', '3y'),
+
+            array('P1D', 'M', '0m'),
+            array('P1M', 'M', '1m'),
+            array('P1M3D', 'M', '1m'),
+            array('P2M', 'M', '2m'),
+            array('P1Y3M', 'M', '15m'),
+            array('P1Y3M17D', 'M', '16m'),
+            array('P1Y3M28D', 'M', '16m'),
+            array('P1M13D', 'M', '1m'),
+            array('P1M17D', 'M', '2m'),
+            array('P1M15D', 'M', '1m'),
+
+            array('PT6H', 'D', '0d'),
+            array('PT13H', 'D', '1d'),
+            array('P1D', 'D', '1d'),
+            array('P1DT23H', 'D', '2d'),
+            array('P2D', 'D', '2d'),
         );
     }
 

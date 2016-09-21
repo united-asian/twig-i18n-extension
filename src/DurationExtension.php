@@ -191,6 +191,21 @@ class DurationExtension extends Twig_Extension
         $u_index = $upper_unit == '' ? 0 : ((int)array_search($upper_unit, $sequence) + 1);
         $l_index = (int)array_search($lower_unit, $sequence) - 1;
 
+        if ($upper_unit == 'y' && $lower_unit == 'd') {
+
+            list($start_date, $end_date) = $this->getProcessedDates($from, $to);
+
+            $duration_year = $duration->y;
+            $temp_start_date = $start_date->add(new DateInterval('P' . $duration_year . 'Y'));
+
+            $interval = $temp_start_date->diff($end_date);
+
+            $interval->y = $duration_year;
+            $interval->d = $interval->days;
+
+            return $interval;
+        }
+
         if ($higher_format == null && $l_index >= 1) {
             $total_days = $duration->format('%a');
 

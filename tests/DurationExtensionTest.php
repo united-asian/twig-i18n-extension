@@ -14,7 +14,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
     protected $faker;
 
-        public function intervalData()
+    public function intervalData()
     {
         return array(
             // array($from, $to, $days, $y, $m, $d)

@@ -17,7 +17,6 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
     public function intervalData()
     {
         return array(
-            // array($from, $to, $days, $y, $m, $d)
             array('2015-01-01', '2015-01-31', 31, 0, 1, 0),
             array('2015-01-01', '2015-02-28', 59, 0, 2, 0),
             array('2016-01-01', '2016-02-28', 59, 0, 1, 28),

@@ -18,7 +18,7 @@
     },
     "require-dev": {
     	"fzaninotto/faker": "^1.5",
-        "phpunit/phpunit": "^4.6 || ^5.4"
+        "phpunit/phpunit": "^4.6||^5.4"
     },
     "autoload": {
         "psr-4": {

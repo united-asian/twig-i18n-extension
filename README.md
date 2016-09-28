@@ -1,6 +1,8 @@
 UAM Twig I18n Extension
 =======================
 
+<img src="https://travis-ci.org/united-asian/twig-i18n-extension.svg?branch=master">
+
 The `uam/twig-i18n-extension` package provides a Twig extension for internationalizing dates, numbers, etc.
 
 Installation

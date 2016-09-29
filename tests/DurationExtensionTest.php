@@ -243,10 +243,10 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2015-2-10 12:10:00', '2015-2-10 12:20:00', 'Y-M-D-H-I', '0y 0m 0d 0h 10m'),
 
             // rounding at hours
-            array('2015-2-10 11:10:00', '2015-2-10 12:10:00', 'Y-M-D-H', '0y 0m 0d 1h'),
+            array('2015-2-10 11:10:00', '2015-2-10 12:10:00', 'y-m-d-H', '1h'),
 
             // rounding at days
-            array('2015-2-10', '2015-2-15', 'Y-M-D', '0y 0m 6d'),
+            array('2015-2-10', '2015-2-15', 'y-m-D', '6d'),
 
             // rounding at months
             array('2015-2-10', '2016-3-10', 'M', '13m'),
@@ -261,7 +261,7 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2015-2-10', '2017-3-12', 'YYY', '2 years'),
 
             // showing years and months
-            array('2016-01-01', '2016-02-29', 'Y-M', '0y 2m'),
+            array('2016-01-01', '2016-02-29', 'y-M', '2m'),
 
             // showing years and days
             array('2010-01-01', '2011-02-02', 'Y-D', '1y 33d'),
@@ -388,10 +388,10 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2016-10-2', '2014-5-3', 'Y-M-D', '2y 5m 0d'),
 
             // year is same but month of end date is less than start date
-            array('2016-10-2', '2016-5-3', 'Y-M-D', '0y 5m 0d'),
+            array('2016-10-2', '2016-5-3', 'y-m-d', '5m'),
 
             // year and month is same but day of end date is less than end date
-            array('2016-9-10', '2016-9-6', 'Y-M-D', '0y 0m 5d'),
+            array('2016-9-10', '2016-9-6', 'y-m-D', '5d'),
 
             // 5. test for null values
 

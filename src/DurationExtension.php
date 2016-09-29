@@ -15,6 +15,7 @@ class DurationExtension extends Twig_Extension
 {
     const CATALOGUE = 'uam-18n';
     const YEAR = 'y';
+    const YEAR_FULL = 'Y';
     const MONTH = 'm';
     const DAY = 'd';
     const HOUR = 'h';
@@ -81,16 +82,16 @@ class DurationExtension extends Twig_Extension
 
         $result = '';
 
-        $formats = explode('-', strtolower($format));
+        $formats = explode('-', $format);
 
         $result = array();
 
         $regexes = array(
-            '/^[y]{1,3}/' => '%y',
-            '/^[m]{1,3}/' => '%m',
-            '/^[d]{1,3}/' => '%d',
-            '/^[h]{1,3}/' => '%h',
-            '/^[i]{1,3}/' => '%i',
+            '/^[yY]{1,3}/' => '%y' ,
+            '/^[mM]{1,3}/' => '%m',
+            '/^[dD]{1,3}/' => '%d',
+            '/^[hH]{1,3}/' => '%h',
+            '/^[iI]{1,3}/' => '%i',
             '/^[sS]{1,3}/' => '%s',
         );
 
@@ -103,10 +104,13 @@ class DurationExtension extends Twig_Extension
                     $value = $duration->format($date_format);
 
                     if (0 == $value) {
-//                        continue;
+
+                        if ($format == ctype_lower($format)) {
+                            continue;
+                        }
                     }
 
-                    $unit = $this->getUnit($format);
+                    $unit = $this->getUnit(strtolower($format));
 
                     $result[] = $this->trans($unit, $value, $locale);
 

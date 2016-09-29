@@ -79,8 +79,6 @@ class DurationExtension extends Twig_Extension
 
         $duration = $interval;
 
-        $result = '';
-
         $formats = explode('-', $format);
 
         $result = array();
@@ -93,8 +91,6 @@ class DurationExtension extends Twig_Extension
             '/^[iI]{1,3}/' => '%i',
             '/^[sS]{1,3}/' => '%s',
         );
-
-        $n = count($formats);
 
         foreach ($formats as $i => $format) {
 

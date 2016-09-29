@@ -98,10 +98,8 @@ class DurationExtension extends Twig_Extension
                 if (preg_match($regex, $format, $matches)) {
                     $value = $duration->format($date_format);
 
-                    if ($value == 0) {
-                        if (ctype_lower($format)) {
-                            continue;
-                        }
+                    if ($value == 0 && ctype_lower($format)) {
+                        continue;
                     }
 
                     $unit = $this->getUnit(strtolower($format));

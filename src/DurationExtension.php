@@ -15,7 +15,6 @@ class DurationExtension extends Twig_Extension
 {
     const CATALOGUE = 'uam-18n';
     const YEAR = 'y';
-    const YEAR_FULL = 'Y';
     const MONTH = 'm';
     const DAY = 'd';
     const HOUR = 'h';
@@ -104,7 +103,6 @@ class DurationExtension extends Twig_Extension
                     $value = $duration->format($date_format);
 
                     if (0 == $value) {
-
                         if ($format == ctype_lower($format)) {
                             continue;
                         }

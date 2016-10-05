@@ -274,10 +274,13 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // showing only months
             array('2015-2-10', '2017-3-12', 'MMM', '25 months'),
+            array('2015-2-10', '2017-3-12', 'MM', '25 mos'),
+            array('2015-2-10', '2017-3-12', 'M', '25m'),
+
 
             //showing only months and days
             array('2015-2-10', '2015-4-15', 'M-D', '2m 6d'),
-            array('2016-2-10', '2016-4-15', 'M-D', '2m 6d'),
+            array('2016-2-10', '2016-4-15', 'MM-DD', '2 mos 6 days'),
             array('2010-01-01', '2011-12-30', 'M-D', '23m 30d'),
             array('2007-01-01', '2011-12-31', 'M-D', '60m 0d'),
 
@@ -371,6 +374,8 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // all units of start and end date is same
             array('2015-2-10 12:10:15', '2015-2-10 12:10:15', 'Y-M-D-H-I-S', '0y 0m 0d 0h 0m 0s'),
+            array('2015-2-10 12:10:15', '2015-2-10 12:10:15', 'YY-MM-DD-HH-II-SS', '0 yr 0 mo 0 day 0 hr 0 min 0 sec'),
+            array('2015-2-10 12:10:15', '2015-2-10 12:10:15', 'YYY-MMM-DDD-HHH-III-SSS', '0 year 0 month 0 day 0 hour 0 minute 0 second'),
 
             // month and year of start and end date is same
             array('2015-4-6', '2015-4-27', 'Y-M-D', '0y 0m 22d'),
@@ -388,10 +393,10 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2016-10-2', '2014-5-3', 'Y-M-D', '2y 5m 0d'),
 
             // year is same but month of end date is less than start date
-            array('2016-10-2', '2016-5-3', 'Y-M-D', '0y 5m 0d'),
+            array('2016-10-2', '2016-5-3', 'y-m-d', '5m'),
 
             // year and month is same but day of end date is less than end date
-            array('2016-9-10', '2016-9-6', 'Y-M-D', '0y 0m 5d'),
+            array('2016-9-10', '2016-9-6', 'y-m-D', '5d'),
 
             // 5. test for null values
 
@@ -426,6 +431,8 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
 
             // order and format of start date and end date is different
             array('2016-10-2', '5/3/2014', 'Y-M-D', '2y 5m 0d'),
+            array('2016-10-2', '5/3/2014', 'YY-MM-DD', '2 yrs 5 mos 0 day'),
+            array('2016-10-2', '5/3/2014', 'YYY-MMM-DDD', '2 years 5 months 0 day'),
             array('2016/10/2', '3-5-2014', 'Y-M-D', '2y 5m 0d'),
 
             // 7. using different displaying formats
@@ -444,13 +451,23 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2011-5', '2015-12-8', 'Y-M-D', '4y 7m 8d'),
             array('2011-5-6', '2015-12', 'Y-M-D', '4y 6m 26d'),
             array('2011-5', '2015-12', 'Y-M-D', '4y 7m 1d'),
+            array('2011-5', '2015-12', 'YY-MM-DD', '4 yrs 7 mos 1 day'),
+            array('2011-5', '2015-12', 'YYY-MMM-DDD', '4 years 7 months 1 day'),
 
             // only month and day is provided
             array('6/13', '2011-6-13', 'Y-M-D', '5y 0m 1d'),
             array('5/13/2016', '6/13', 'Y-M-D', '0y 1m 1d'),
             array('3/6', '5/7', 'Y-M-D', '0y 2m 2d'),
 
-           // special cases
+            // support ignoring 0 values
+            array(null, null, "y-m-d", '1d'),
+            array('2015-2-10 12:10:15', '2015-2-10 12:10:15', 'y-m-d-h-i-s', ''),
+            array('2010-01-03 00:00:00', '2010-01-05 23:59:59', 'y-m-d-h-i-s', '2d 23h 59m 59s'),
+            array('2010-01-03 00:00:00', '2010-01-06 00:00:00', 'y-m-d', '3d'),
+            array('2010-01-03 00:00:00', '2010-01-06 00:00:01', 'y-m-d-s', '3d 1s'),
+            array('2010-01-03 01:00:00', '2010-01-03 02:00:00', 'y-m-d-h', '1h'),
+
+            // special cases
             array('2010-01-03 00:00:00', '2010-01-05 23:59:59', 'Y-M-D-H-I-S', '0y 0m 2d 23h 59m 59s'),
             array('2010-01-03 00:00:00', '2010-01-06 00:00:00', 'Y-M-D', '0y 0m 3d'),
             array('2010-01-03 00:00:00', '2010-01-06 00:00:01', 'Y-M-D-S', '0y 0m 3d 1s'),

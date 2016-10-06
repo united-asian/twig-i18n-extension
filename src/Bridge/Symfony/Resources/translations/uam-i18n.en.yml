@@ -1,6 +1,6 @@
 period:
-    date: %to%
-    range: %from% - %to%
+    date: "%to%"
+    range: "%from% - %to%"
 
 duration:
     year:

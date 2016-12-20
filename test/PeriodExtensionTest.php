@@ -2,6 +2,8 @@
 
 namespace UAM\Twig\Extension\I18n\test;
 
+use DateInterval;
+use DateTime;
 use PHPUnit_Framework_TestCase;
 use UAM\Twig\Extension\I18n\PeriodExtension;
 
@@ -77,6 +79,49 @@ class PeriodExtensionTest extends PHPUnit_Framework_TestCase
             array('2017-05-02', '2015-03-10', 'dd', 'MMMM', 'yyyy','02 May 2017 - 10 March 2015'),
             array('2016-04-20', '016-04-10', 'd', 'MMM', 'yyyy','20 - 10 Apr 2016'),
             array('2016-05-05', '2016-04-10', 'd', 'M', 'yyyy', '5 5 - 10 4 2016'),
+
+            //tests for now
+            $this->getTestDataForNow('P1Y'),
+            $this->getTestDataForNow('P1M'),
+            $this->getTestDataForNow('P1D'),
          );
+    }
+
+    protected function getTestDataForNow($addition)
+    {
+        $from = new DateTime();
+
+        $to = new DateTime();
+        $to->add(new DateInterval($addition));
+
+        $from_year = $from->format('Y');
+        $to_year = $to->format('Y');
+
+        $from_month = $from->format('F');
+        $to_month = $to->format('F');
+
+        $from_day = $from->format('d');
+        $to_day = $to->format('d');
+
+        if ($from_year != $to_year) {
+            $expected = $from->format('d F Y') . ' - ' . $to->format('d F Y');
+        } else {
+            if ($from_month != $to_month) {
+                $expected = $from->format('d F') . ' - ' . $to->format('d F Y');
+            } else {
+                if ($from_day != $to_day) {
+                    $expected = $from->format('d') . ' - ' . $to->format('d F Y');
+                }
+            }
+        }
+
+        return array(
+            'now',
+            $to->format('Y-m-d'),
+            'dd',
+            'MMMM',
+            'yyyy',
+            $expected,
+        );
     }
 }

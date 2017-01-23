@@ -455,8 +455,8 @@ class DurationExtensionTest extends PHPUnit_Framework_TestCase
             array('2011-5', '2015-12', 'YYY-MMM-DDD', '4 years 7 months 1 day'),
 
             // only month and day is provided
-            array('6/13', '2011-6-13', 'Y-M-D', '5y 0m 1d'),
-            array('5/13/2016', '6/13', 'Y-M-D', '0y 1m 1d'),
+            array('6/13', '2011-6-13', 'Y-M-D', '6y 0m 1d'),
+            array('5/13/2016', '6/13', 'Y-M-D', '1y 1m 1d'),
             array('3/6', '5/7', 'Y-M-D', '0y 2m 2d'),
 
             // support ignoring 0 values

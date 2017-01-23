@@ -50,7 +50,7 @@ class DateTimeFormatter extends AbstractFormatter
         }
 
         if ($this->isPattern($formatDate) || $this->isPattern($formatTime)) {
-            $formatter = IntlDateFormatter::create($locale, null, null, $datetime->getTimezone()->getName());
+            $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::NONE, IntlDateFormatter::NONE, $datetime->getTimezone()->getName());
             $formatter->setPattern($this->getFormat($format));
         } else {
             $formatDate = $this->getDateTimeFormat($formatDate, 'FULL');
@@ -76,7 +76,7 @@ class DateTimeFormatter extends AbstractFormatter
         }
 
         if ($this->isPattern($format)) {
-            $formatter = IntlDateFormatter::create($locale, null, null, $date->getTimezone()->getName());
+            $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::NONE, IntlDateFormatter::NONE, $date->getTimezone()->getName());
             $formatter->setPattern($this->getFormat($format));
         } else {
             $format = $this->getDateTimeFormat($format, 'FULL');
@@ -91,6 +91,26 @@ class DateTimeFormatter extends AbstractFormatter
         return $formatter->format($this->sanitizeDateForIntl($date));
     }
 
+    public function formatTime($time, $format = null, $timezone = null, $locale = null)
+    {
+        $time = $this->getDateTime($time, $timezone);
+        $locale = $this->getLocale($locale);
+
+        if ($this->isConstant($format)) {
+            return $time->format($this->getConstant($format));
+        }
+
+        if ($this->isPattern($format)) {
+            $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::NONE, IntlDateFormatter::NONE, $time->getTimezone()->getName());
+            $formatter->setPattern($this->getFormat($format));
+        } else {
+            $format = $this->getDateTimeFormat($format, 'SHORT');
+            $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::NONE, $format, $time->getTimezone()->getName());
+        }
+
+        return $formatter->format($this->sanitizeDateForIntl($time));
+    }
+
     public function formatDateRange(array $dates, $formatDay = null, $formatMonth = null, $formatYear = null, $timezone = null, $locale = null)
     {
         $start = $this->getDateTime($dates[0], $timezone);
@@ -98,7 +118,7 @@ class DateTimeFormatter extends AbstractFormatter
 
         $locale = $this->getLocale($locale);
 
-        $formatter = IntlDateFormatter::create($locale, null, null, $start->getTimezone()->getName());
+        $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::NONE, IntlDateFormatter::NONE, $start->getTimezone()->getName());
 
         if ($start->format('Y-m-d') == $end->format('Y-m-d')) {
             $formatter->setPattern(implode(' ', array($formatDay, $formatMonth, $formatYear)));
@@ -230,25 +250,5 @@ class DateTimeFormatter extends AbstractFormatter
         }
 
         return $date;
-    }
-
-    public function formatTime($time, $format = null, $timezone = null, $locale = null)
-    {
-        $time = $this->getDateTime($time, $timezone);
-        $locale = $this->getLocale($locale);
-
-        if ($this->isConstant($format)) {
-            return $time->format($this->getConstant($format));
-        }
-
-        if ($this->isPattern($format)) {
-            $formatter = IntlDateFormatter::create($locale, null, null, $time->getTimezone()->getName());
-            $formatter->setPattern($this->getFormat($format));
-        } else {
-            $format = $this->getDateTimeFormat($format, 'SHORT');
-            $formatter = IntlDateFormatter::create($locale, IntlDateFormatter::NONE, $format, $time->getTimezone()->getName());
-        }
-
-        return $formatter->format($this->sanitizeDateForIntl($time));
     }
 }

@@ -71,7 +71,7 @@ class DurationExtension extends Twig_Extension
         return 'duration';
     }
 
-    public function duration($from, $to, $format='YYY-MMM-DDD-HHH-III-SSS', $locale = null)
+    public function duration($from, $to, $format = 'YYY-MMM-DDD-HHH-III-SSS', $locale = null)
     {
         $interval = self::getDateInterval($from, $to, $format);
 
@@ -84,7 +84,7 @@ class DurationExtension extends Twig_Extension
         $result = array();
 
         $regexes = array(
-            '/^[yY]{1,3}/' => '%y' ,
+            '/^[yY]{1,3}/' => '%y',
             '/^[mM]{1,3}/' => '%m',
             '/^[dD]{1,3}/' => '%d',
             '/^[hH]{1,3}/' => '%h',
@@ -93,7 +93,6 @@ class DurationExtension extends Twig_Extension
         );
 
         foreach ($formats as $i => $format) {
-
             foreach ($regexes as $regex => $date_format) {
                 if (preg_match($regex, $format, $matches)) {
                     $value = $duration->format($date_format);
@@ -127,37 +126,37 @@ class DurationExtension extends Twig_Extension
         $last_unit = end($formats);
 
         switch ($last_unit) {
-            case self::YEAR :
+            case self::YEAR:
                 if ($interval->m > self::ROUND_VALUE_MONTH) {
-                    $interval->y++;
+                    ++$interval->y;
                 }
 
                 break;
 
-            case self::MONTH :
+            case self::MONTH:
                 if ($interval->d > self::ROUND_VALUE_DAY) {
-                    $interval->m++;
+                    ++$interval->m;
                 }
 
                 break;
 
-            case self::DAY :
+            case self::DAY:
                 if ($interval->h > self::ROUND_VALUE_HOUR) {
-                    $interval->d++;
+                    ++$interval->d;
                 }
 
                 break;
 
-            case self::HOUR :
+            case self::HOUR:
                 if ($interval->i > self::ROUND_VALUE_MINUTE) {
-                    $interval->h++;
+                    ++$interval->h;
                 }
 
                 break;
 
-            case self::MINUTE :
+            case self::MINUTE:
                 if ($interval->s > self::ROUND_VALUE_SECOND) {
-                    $interval->i++;
+                    ++$interval->i;
                 }
         }
 
@@ -184,15 +183,14 @@ class DurationExtension extends Twig_Extension
             return $duration;
         }
 
-        $u_index = $upper_unit == '' ? 0 : ((int)array_search($upper_unit, $sequence) + 1);
-        $l_index = (int)array_search($lower_unit, $sequence) - 1;
+        $u_index = $upper_unit == '' ? 0 : ((int) array_search($upper_unit, $sequence) + 1);
+        $l_index = (int) array_search($lower_unit, $sequence) - 1;
 
         if ($upper_unit == 'y' && $lower_unit == 'd') {
-
             list($start_date, $end_date) = $this->getProcessedDates($from, $to);
 
             $duration_year = $duration->y;
-            $temp_start_date = $start_date->add(new DateInterval('P' . $duration_year . 'Y'));
+            $temp_start_date = $start_date->add(new DateInterval('P'.$duration_year.'Y'));
 
             $interval = $temp_start_date->diff($end_date);
 
@@ -210,7 +208,7 @@ class DurationExtension extends Twig_Extension
             $duration->d = $total_days;
         }
 
-        for ($i = $u_index; $i <= $l_index; $i++) {
+        for ($i = $u_index; $i <= $l_index; ++$i) {
             $duration->{$lower_unit} += $duration->{$sequence[$i]} * $this->getFactor($duration, $formats, $sequence[$i], $lower_unit);
             $duration->{$sequence[$i]} = 0;
         }
